@@ -113,7 +113,8 @@
             this.cmb_taskType.Items.AddRange(new object[] {
             "Task",
             "Event",
-            "Notes"});
+            "Notes",
+            "Closed"});
             this.cmb_taskType.Location = new System.Drawing.Point(113, 342);
             this.cmb_taskType.Name = "cmb_taskType";
             this.cmb_taskType.Size = new System.Drawing.Size(304, 24);

@@ -12,7 +12,8 @@ namespace BulletJournal
         {
             tasks,
             events,
-            notes
+            notes,
+            closed
         }
 
         public static int GetTask(string task)
@@ -30,6 +31,10 @@ namespace BulletJournal
             if (task.ToUpper() == "NOTES")
             {
                 i = (int)TaskType.notes;
+            }
+            if (task.ToUpper() == "CLOSED")
+            {
+                i = (int)TaskType.closed;
             }
 
             return i;

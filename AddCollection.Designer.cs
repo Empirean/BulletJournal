@@ -70,7 +70,8 @@
             this.cmb_taskType.Items.AddRange(new object[] {
             "Task",
             "Event",
-            "Notes"});
+            "Notes",
+            "Closed"});
             this.cmb_taskType.Location = new System.Drawing.Point(196, 101);
             this.cmb_taskType.Name = "cmb_taskType";
             this.cmb_taskType.Size = new System.Drawing.Size(304, 24);
@@ -108,7 +109,7 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 

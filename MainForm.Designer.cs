@@ -40,7 +40,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tab_Future_Log = new System.Windows.Forms.TabPage();
             this.btn_addFutureLog = new System.Windows.Forms.Button();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGrid_futureLog = new System.Windows.Forms.DataGridView();
             this.tab_Collection = new System.Windows.Forms.TabPage();
             this.btn_addCollection = new System.Windows.Forms.Button();
             this.dataGrid_collection = new System.Windows.Forms.DataGridView();
@@ -57,7 +57,7 @@
             this.tab_Monthly_Task.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tab_Future_Log.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_futureLog)).BeginInit();
             this.tab_Collection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_collection)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -167,9 +167,13 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToOrderColumns = true;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(16, 17);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(700, 350);
@@ -178,7 +182,7 @@
             // tab_Future_Log
             // 
             this.tab_Future_Log.Controls.Add(this.btn_addFutureLog);
-            this.tab_Future_Log.Controls.Add(this.dataGridView2);
+            this.tab_Future_Log.Controls.Add(this.dataGrid_futureLog);
             this.tab_Future_Log.Location = new System.Drawing.Point(4, 25);
             this.tab_Future_Log.Name = "tab_Future_Log";
             this.tab_Future_Log.Padding = new System.Windows.Forms.Padding(3);
@@ -197,15 +201,19 @@
             this.btn_addFutureLog.UseVisualStyleBackColor = true;
             this.btn_addFutureLog.Click += new System.EventHandler(this.btn_addFutureLog_Click);
             // 
-            // dataGridView2
+            // dataGrid_futureLog
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(16, 17);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersWidth = 51;
-            this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(700, 350);
-            this.dataGridView2.TabIndex = 1;
+            this.dataGrid_futureLog.AllowUserToAddRows = false;
+            this.dataGrid_futureLog.AllowUserToDeleteRows = false;
+            this.dataGrid_futureLog.AllowUserToOrderColumns = true;
+            this.dataGrid_futureLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrid_futureLog.Location = new System.Drawing.Point(16, 17);
+            this.dataGrid_futureLog.Name = "dataGrid_futureLog";
+            this.dataGrid_futureLog.ReadOnly = true;
+            this.dataGrid_futureLog.RowHeadersWidth = 51;
+            this.dataGrid_futureLog.RowTemplate.Height = 24;
+            this.dataGrid_futureLog.Size = new System.Drawing.Size(700, 350);
+            this.dataGrid_futureLog.TabIndex = 1;
             // 
             // tab_Collection
             // 
@@ -251,7 +259,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(813, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(813, 28);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -304,7 +312,7 @@
             this.tab_Monthly_Task.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tab_Future_Log.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_futureLog)).EndInit();
             this.tab_Collection.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_collection)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -333,7 +341,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.Button btn_addFutureLog;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGrid_futureLog;
         private System.Windows.Forms.Button btn_addCollection;
         private System.Windows.Forms.DataGridView dataGrid_collection;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
