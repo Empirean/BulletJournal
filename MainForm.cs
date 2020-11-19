@@ -434,7 +434,7 @@ namespace BulletJournal
                                    " when TaskType = 0 then 'TASK' " + 
                                    " when TaskType = 1 then 'EVENT' " +
                                    " when TaskType = 2 then 'NOTES' " + 
-                                   " else 'CLOSE' end as [Type], " + 
+                                   " else 'CLOSED' end as [Type], " + 
                                    " TaskDescription as [Description], " +
                                    " TaskDateAdded as [Date (DD/MM/YYYY)] " +
                                    " from CollectionTable";
@@ -448,8 +448,8 @@ namespace BulletJournal
             dataGrid_collection.Columns[0].Visible = false;
             dataGrid_collection.Columns[0].Width = 1;
             dataGrid_collection.Columns["I"].Width = 20;
-            dataGrid_collection.Columns["Type"].Width = 50;
-            dataGrid_collection.Columns["Description"].Width = 305;
+            dataGrid_collection.Columns["Type"].Width = 70;
+            dataGrid_collection.Columns["Description"].Width = 285;
             dataGrid_collection.Columns["Date (DD/MM/YYYY)"].Width = 95;
 
         }
@@ -631,6 +631,22 @@ namespace BulletJournal
                 Populate_futureLog();
                 Populate_index();
             }
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (entryType == JournalTask.EntryType.collection)
+            {
+                using (AddCollection addCollection = new AddCollection(this, taskId))
+                {
+                    addCollection.ShowDialog();
+                }
+            }
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
