@@ -16,6 +16,14 @@ namespace BulletJournal
             closed
         }
 
+        public enum EntryType
+        {
+            daily,
+            monthly,
+            future,
+            collection
+        }
+
         public static int GetTask(string task)
         {
             int i = -1;

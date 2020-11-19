@@ -15,6 +15,8 @@ namespace BulletJournal
     public partial class MainForm : Form
     {
         DBTools dbTools;
+        int taskId;
+        JournalTask.EntryType entryType;
 
         public MainForm()
         {
@@ -478,7 +480,8 @@ namespace BulletJournal
         {
             if (e.Button == MouseButtons.Right)
             {
-                int i = ContextMenuHandler(dataGrid_collection, contextMenuStrip1, e);
+                taskId = ContextMenuHandler(dataGrid_collection, contextMenuStrip1, e);
+                entryType = JournalTask.EntryType.collection;
             }
         }
 
@@ -505,7 +508,22 @@ namespace BulletJournal
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (entryType == JournalTask.EntryType.collection)
+            {
+                string commandString = "delete from collectiontable " +
+                                       "where taskid = @taskId";
 
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                dbTools.GenericNonQueryAction(commandString, parameters);
+                Populate_collection();
+                Populate_index();
+            }
         }
+
     }
 }
