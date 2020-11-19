@@ -159,7 +159,7 @@ namespace BulletJournal
                                    "from monthlymain as m " +
                                    "inner join monthlydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from monthlymain " +
                                    "where taskdate >= @monthlytaskdate) " +
                                    "and taskdate <= @monthlytaskdateEnd " +
@@ -173,7 +173,7 @@ namespace BulletJournal
                                    "from monthlymain as m " +
                                    "inner join monthlydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from monthlymain " +
                                    "where taskdate >= @monthlytaskdate " +
                                    "and taskdate <= @monthlytaskdateEnd " +
@@ -188,7 +188,7 @@ namespace BulletJournal
                                    "from monthlymain as m " +
                                    "inner join monthlydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from monthlymain " +
                                    "where taskdate >= @monthlytaskdate " +
                                    "and taskdate <= @monthlytaskdateEnd " +
@@ -203,7 +203,7 @@ namespace BulletJournal
                                    "from monthlymain as m " +
                                    "inner join monthlydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from monthlymain " +
                                    "where taskdate >= @monthlytaskdate " +
                                    "and taskdate <= @monthlytaskdateEnd " +
@@ -218,7 +218,7 @@ namespace BulletJournal
                                    "from monthlymain as m " +
                                    "inner join monthlydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from monthlymain " +
                                    "where taskdate >= @monthlytaskdate " +
                                    "and taskdate <= @monthlytaskdateEnd " +
@@ -242,9 +242,9 @@ namespace BulletJournal
                                    "from futuremain as m " +
                                    "inner join futuredetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @futureTaskdate) " +
+                                   "where taskdate >= @futureTaskdate) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
                                    "0 as Count, " +
@@ -255,9 +255,9 @@ namespace BulletJournal
                                    "from futuremain as m " +
                                    "inner join futuredetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @futureTaskdate " +
+                                   "where taskdate >= @futureTaskdate " +
                                    "and d.tasktype = 0) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -269,9 +269,9 @@ namespace BulletJournal
                                    "from futuremain as m " +
                                    "inner join futuredetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @futureTaskdate " +
+                                   "where taskdate >= @futureTaskdate " +
                                    "and d.tasktype = 1) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -283,9 +283,9 @@ namespace BulletJournal
                                    "from futuremain as m " +
                                    "inner join futuredetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @futureTaskdate " +
+                                   "where taskdate >= @futureTaskdate " +
                                    "and d.tasktype = 2) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -297,9 +297,9 @@ namespace BulletJournal
                                    "from futuremain as m " +
                                    "inner join futuredetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @futureTaskdate " +
+                                   "where taskdate >= @futureTaskdate " +
                                    "and d.tasktype = 3) " +
                                    ") as Future " +
                                    "group by Future.Entry "; 
@@ -473,7 +473,11 @@ namespace BulletJournal
         private void dataGrid_dailyTask_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
 
-            // MessageBox.Show(dataGrid_dailyTask.SelectedRows[0].Cells[0].Value.ToString());
+            if (e.Button == MouseButtons.Right)
+            {
+                taskId = ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
+                entryType = JournalTask.EntryType.daily;
+            }
         }
 
         private void dataGrid_collection_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -506,6 +510,26 @@ namespace BulletJournal
             return (int) datagrid.SelectedRows[0].Cells[0].Value;
         }
 
+        
+
+        private void dataGrid_monthly_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                taskId = ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
+                entryType = JournalTask.EntryType.monthly;
+            }
+        }
+
+        private void dataGrid_futureLog_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                taskId = ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
+                entryType = JournalTask.EntryType.future;
+            }
+        }
+
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (entryType == JournalTask.EntryType.collection)
@@ -523,7 +547,90 @@ namespace BulletJournal
                 Populate_collection();
                 Populate_index();
             }
-        }
+            if (entryType == JournalTask.EntryType.daily)
+            {
 
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                string commandString = "delete from dailymain " +
+                                       "where taskid = @taskId";
+
+                dbTools.GenericNonQueryAction(commandString, parameters);
+
+                parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                commandString = "delete from dailydetail " +
+                                "where maintaskforeignkey = @taskId";
+
+                dbTools.GenericNonQueryAction(commandString, parameters);
+
+                Populate_dailyTask();
+                Populate_index();
+            }
+            if (entryType == JournalTask.EntryType.monthly)
+            {
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                string commandString = "delete from monthlymain " +
+                                       "where taskid = @taskId";
+
+                dbTools.GenericNonQueryAction(commandString, parameters);
+
+                parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                commandString = "delete from monthlydetail " +
+                                "where maintaskforeignkey = @taskId";
+
+                dbTools.GenericNonQueryAction(commandString, parameters);
+
+                Populate_monthly();
+                Populate_index();
+            }
+            if (entryType == JournalTask.EntryType.future)
+            {
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                string commandString = "delete from futuremain " +
+                                       "where taskid = @taskId";
+
+                dbTools.GenericNonQueryAction(commandString, parameters);
+
+                parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                commandString = "delete from futuredetail " +
+                                "where maintaskforeignkey = @taskId";
+
+                dbTools.GenericNonQueryAction(commandString, parameters);
+
+                Populate_futureLog();
+                Populate_index();
+            }
+        }
     }
 }

@@ -110,6 +110,7 @@
             this.dataGrid_index.AllowUserToOrderColumns = true;
             this.dataGrid_index.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_index.Location = new System.Drawing.Point(16, 17);
+            this.dataGrid_index.MultiSelect = false;
             this.dataGrid_index.Name = "dataGrid_index";
             this.dataGrid_index.ReadOnly = true;
             this.dataGrid_index.RowHeadersWidth = 51;
@@ -184,12 +185,15 @@
             this.dataGrid_monthly.AllowUserToOrderColumns = true;
             this.dataGrid_monthly.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_monthly.Location = new System.Drawing.Point(16, 17);
+            this.dataGrid_monthly.MultiSelect = false;
             this.dataGrid_monthly.Name = "dataGrid_monthly";
             this.dataGrid_monthly.ReadOnly = true;
             this.dataGrid_monthly.RowHeadersWidth = 51;
             this.dataGrid_monthly.RowTemplate.Height = 24;
+            this.dataGrid_monthly.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_monthly.Size = new System.Drawing.Size(700, 350);
             this.dataGrid_monthly.TabIndex = 0;
+            this.dataGrid_monthly.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_monthly_CellMouseUp);
             // 
             // tab_Future_Log
             // 
@@ -220,6 +224,7 @@
             this.dataGrid_futureLog.AllowUserToOrderColumns = true;
             this.dataGrid_futureLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_futureLog.Location = new System.Drawing.Point(16, 17);
+            this.dataGrid_futureLog.MultiSelect = false;
             this.dataGrid_futureLog.Name = "dataGrid_futureLog";
             this.dataGrid_futureLog.ReadOnly = true;
             this.dataGrid_futureLog.RowHeadersWidth = 51;
@@ -227,6 +232,7 @@
             this.dataGrid_futureLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_futureLog.Size = new System.Drawing.Size(700, 350);
             this.dataGrid_futureLog.TabIndex = 1;
+            this.dataGrid_futureLog.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_futureLog_CellMouseUp);
             // 
             // tab_Collection
             // 
@@ -318,7 +324,7 @@
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
