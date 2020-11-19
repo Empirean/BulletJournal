@@ -71,6 +71,7 @@ namespace BulletJournal
             int i = list_taskList.SelectedIndex;
             list_taskList.Items.RemoveAt(i);
             generalTasks.RemoveAt(i);
+            Clear();
         }
 
         private void btn_edit_Click(object sender, EventArgs e)
@@ -108,7 +109,8 @@ namespace BulletJournal
             txt_description.Text = "";
             cmb_taskType.SelectedIndex = 0;
             chk_important.Checked = false;
-
+            btn_edit.Text = "Edit";
+            txt_description.Focus();
         }
 
         private void list_taskList_MouseUp(object sender, MouseEventArgs e)

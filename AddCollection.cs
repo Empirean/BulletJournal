@@ -33,11 +33,12 @@ namespace BulletJournal
 
         }
 
-        private void ClearForm()
+        private void Clear()
         {
-            txt_taskDescription.Text = "";
+            txt_description.Text = "";
             cmb_taskType.Text = "";
             chk_important.Checked = false;
+            txt_description.Focus();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -45,17 +46,24 @@ namespace BulletJournal
             int i = JournalTask.GetTask(cmb_taskType.Text);
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_taskDescription.Text  },
-                new SqlParameter("tasktype", SqlDbType.Int) { Value = JournalTask.GetTask(cmb_taskType.Text)},
-                new SqlParameter("isImportant", SqlDbType.Bit) { Value = chk_important.Checked}
+                new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_description.Text  },
+                new SqlParameter("@tasktype", SqlDbType.Int) { Value = JournalTask.GetTask(cmb_taskType.Text)},
+                new SqlParameter("@isImportant", SqlDbType.Bit) { Value = chk_important.Checked},
+                new SqlParameter("@taskDateAdded", SqlDbType.Date) { Value = DateTime.Now}
             };
-            string command = "insert into collectiontable (taskdescription, tasktype, taskisimportant) " +
-                             "values (@desc, @tasktype, @isImportant)";
+            string command = "insert into collectiontable (taskdescription, tasktype, taskisimportant, taskDateAdded) " +
+                             "values (@desc, @tasktype, @isImportant, @taskDateAdded)";
 
             db.GenericNonQueryAction(command, parameters);
             main.Populate_collection();
-            ClearForm();
+            Clear();
 
         }
+
+        private void AddCollection_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

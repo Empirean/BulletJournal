@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.txt_taskDescription = new System.Windows.Forms.TextBox();
+            this.txt_description = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cmb_taskType = new System.Windows.Forms.ComboBox();
             this.chk_important = new System.Windows.Forms.CheckBox();
@@ -48,12 +48,12 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Collection Description:";
             // 
-            // txt_taskDescription
+            // txt_description
             // 
-            this.txt_taskDescription.Location = new System.Drawing.Point(196, 61);
-            this.txt_taskDescription.Name = "txt_taskDescription";
-            this.txt_taskDescription.Size = new System.Drawing.Size(304, 22);
-            this.txt_taskDescription.TabIndex = 1;
+            this.txt_description.Location = new System.Drawing.Point(196, 61);
+            this.txt_description.Name = "txt_description";
+            this.txt_description.Size = new System.Drawing.Size(304, 22);
+            this.txt_description.TabIndex = 1;
             // 
             // label2
             // 
@@ -109,7 +109,7 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -121,12 +121,13 @@
             this.Controls.Add(this.chk_important);
             this.Controls.Add(this.cmb_taskType);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txt_taskDescription);
+            this.Controls.Add(this.txt_description);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "AddCollection";
             this.Text = "<••> New Collection";
+            this.Load += new System.EventHandler(this.AddCollection_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -137,7 +138,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txt_taskDescription;
+        private System.Windows.Forms.TextBox txt_description;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmb_taskType;
         private System.Windows.Forms.CheckBox chk_important;

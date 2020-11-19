@@ -31,13 +31,13 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_index = new System.Windows.Forms.TabPage();
             this.button3 = new System.Windows.Forms.Button();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dataGrid_index = new System.Windows.Forms.DataGridView();
             this.tab_Daily_Task = new System.Windows.Forms.TabPage();
-            this.btn_add = new System.Windows.Forms.Button();
+            this.btn_addDailyTask = new System.Windows.Forms.Button();
             this.dataGrid_dailyTask = new System.Windows.Forms.DataGridView();
             this.tab_Monthly_Task = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.btn_addMonthlyTask = new System.Windows.Forms.Button();
+            this.dataGrid_monthly = new System.Windows.Forms.DataGridView();
             this.tab_Future_Log = new System.Windows.Forms.TabPage();
             this.btn_addFutureLog = new System.Windows.Forms.Button();
             this.dataGrid_futureLog = new System.Windows.Forms.DataGridView();
@@ -46,16 +46,15 @@
             this.dataGrid_collection = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.maintenanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_refresh = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tab_index.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_index)).BeginInit();
             this.tab_Daily_Task.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_dailyTask)).BeginInit();
             this.tab_Monthly_Task.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_monthly)).BeginInit();
             this.tab_Future_Log.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_futureLog)).BeginInit();
             this.tab_Collection.SuspendLayout();
@@ -80,7 +79,7 @@
             // tab_index
             // 
             this.tab_index.Controls.Add(this.button3);
-            this.tab_index.Controls.Add(this.dataGridView3);
+            this.tab_index.Controls.Add(this.dataGrid_index);
             this.tab_index.Location = new System.Drawing.Point(4, 25);
             this.tab_index.Name = "tab_index";
             this.tab_index.Padding = new System.Windows.Forms.Padding(3);
@@ -98,19 +97,23 @@
             this.button3.Text = "Add";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // dataGridView3
+            // dataGrid_index
             // 
-            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView3.Location = new System.Drawing.Point(16, 17);
-            this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.RowHeadersWidth = 51;
-            this.dataGridView3.RowTemplate.Height = 24;
-            this.dataGridView3.Size = new System.Drawing.Size(700, 350);
-            this.dataGridView3.TabIndex = 1;
+            this.dataGrid_index.AllowUserToAddRows = false;
+            this.dataGrid_index.AllowUserToDeleteRows = false;
+            this.dataGrid_index.AllowUserToOrderColumns = true;
+            this.dataGrid_index.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrid_index.Location = new System.Drawing.Point(16, 17);
+            this.dataGrid_index.Name = "dataGrid_index";
+            this.dataGrid_index.ReadOnly = true;
+            this.dataGrid_index.RowHeadersWidth = 51;
+            this.dataGrid_index.RowTemplate.Height = 24;
+            this.dataGrid_index.Size = new System.Drawing.Size(700, 350);
+            this.dataGrid_index.TabIndex = 1;
             // 
             // tab_Daily_Task
             // 
-            this.tab_Daily_Task.Controls.Add(this.btn_add);
+            this.tab_Daily_Task.Controls.Add(this.btn_addDailyTask);
             this.tab_Daily_Task.Controls.Add(this.dataGrid_dailyTask);
             this.tab_Daily_Task.Location = new System.Drawing.Point(4, 25);
             this.tab_Daily_Task.Name = "tab_Daily_Task";
@@ -119,15 +122,15 @@
             this.tab_Daily_Task.Text = "Daily Task";
             this.tab_Daily_Task.UseVisualStyleBackColor = true;
             // 
-            // btn_add
+            // btn_addDailyTask
             // 
-            this.btn_add.Location = new System.Drawing.Point(641, 371);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(75, 42);
-            this.btn_add.TabIndex = 2;
-            this.btn_add.Text = "Add";
-            this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            this.btn_addDailyTask.Location = new System.Drawing.Point(641, 371);
+            this.btn_addDailyTask.Name = "btn_addDailyTask";
+            this.btn_addDailyTask.Size = new System.Drawing.Size(75, 42);
+            this.btn_addDailyTask.TabIndex = 2;
+            this.btn_addDailyTask.Text = "Add";
+            this.btn_addDailyTask.UseVisualStyleBackColor = true;
+            this.btn_addDailyTask.Click += new System.EventHandler(this.btn_addDailyTask_Click);
             // 
             // dataGrid_dailyTask
             // 
@@ -147,8 +150,8 @@
             // 
             // tab_Monthly_Task
             // 
-            this.tab_Monthly_Task.Controls.Add(this.button1);
-            this.tab_Monthly_Task.Controls.Add(this.dataGridView1);
+            this.tab_Monthly_Task.Controls.Add(this.btn_addMonthlyTask);
+            this.tab_Monthly_Task.Controls.Add(this.dataGrid_monthly);
             this.tab_Monthly_Task.Location = new System.Drawing.Point(4, 25);
             this.tab_Monthly_Task.Name = "tab_Monthly_Task";
             this.tab_Monthly_Task.Size = new System.Drawing.Size(735, 421);
@@ -156,28 +159,29 @@
             this.tab_Monthly_Task.Text = "Monthly Task";
             this.tab_Monthly_Task.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btn_addMonthlyTask
             // 
-            this.button1.Location = new System.Drawing.Point(641, 371);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 42);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btn_addMonthlyTask.Location = new System.Drawing.Point(641, 371);
+            this.btn_addMonthlyTask.Name = "btn_addMonthlyTask";
+            this.btn_addMonthlyTask.Size = new System.Drawing.Size(75, 42);
+            this.btn_addMonthlyTask.TabIndex = 3;
+            this.btn_addMonthlyTask.Text = "Add";
+            this.btn_addMonthlyTask.UseVisualStyleBackColor = true;
+            this.btn_addMonthlyTask.Click += new System.EventHandler(this.btn_addMonthlyTask_Click);
             // 
-            // dataGridView1
+            // dataGrid_monthly
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(16, 17);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(700, 350);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGrid_monthly.AllowUserToAddRows = false;
+            this.dataGrid_monthly.AllowUserToDeleteRows = false;
+            this.dataGrid_monthly.AllowUserToOrderColumns = true;
+            this.dataGrid_monthly.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrid_monthly.Location = new System.Drawing.Point(16, 17);
+            this.dataGrid_monthly.Name = "dataGrid_monthly";
+            this.dataGrid_monthly.ReadOnly = true;
+            this.dataGrid_monthly.RowHeadersWidth = 51;
+            this.dataGrid_monthly.RowTemplate.Height = 24;
+            this.dataGrid_monthly.Size = new System.Drawing.Size(700, 350);
+            this.dataGrid_monthly.TabIndex = 0;
             // 
             // tab_Future_Log
             // 
@@ -234,7 +238,7 @@
             this.btn_addCollection.TabIndex = 5;
             this.btn_addCollection.Text = "Add";
             this.btn_addCollection.UseVisualStyleBackColor = true;
-            this.btn_addCollection.Click += new System.EventHandler(this.button4_Click);
+            this.btn_addCollection.Click += new System.EventHandler(this.btn_addCollection_Click);
             // 
             // dataGrid_collection
             // 
@@ -266,31 +270,23 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addEntryToolStripMenuItem,
-            this.maintenanceToolStripMenuItem,
+            this.btn_refresh,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "&File";
             // 
-            // addEntryToolStripMenuItem
+            // btn_refresh
             // 
-            this.addEntryToolStripMenuItem.Name = "addEntryToolStripMenuItem";
-            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
-            this.addEntryToolStripMenuItem.Text = "Refresh";
-            this.addEntryToolStripMenuItem.Click += new System.EventHandler(this.addEntryToolStripMenuItem_Click);
-            // 
-            // maintenanceToolStripMenuItem
-            // 
-            this.maintenanceToolStripMenuItem.Name = "maintenanceToolStripMenuItem";
-            this.maintenanceToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
-            this.maintenanceToolStripMenuItem.Text = "Maintenance";
-            this.maintenanceToolStripMenuItem.Click += new System.EventHandler(this.maintenanceToolStripMenuItem_Click);
+            this.btn_refresh.Name = "btn_refresh";
+            this.btn_refresh.Size = new System.Drawing.Size(224, 26);
+            this.btn_refresh.Text = "Refresh";
+            this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // MainForm
@@ -306,11 +302,11 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tab_index.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_index)).EndInit();
             this.tab_Daily_Task.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_dailyTask)).EndInit();
             this.tab_Monthly_Task.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_monthly)).EndInit();
             this.tab_Future_Log.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_futureLog)).EndInit();
             this.tab_Collection.ResumeLayout(false);
@@ -331,19 +327,18 @@
         private System.Windows.Forms.TabPage tab_Daily_Task;
         private System.Windows.Forms.TabPage tab_Collection;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addEntryToolStripMenuItem;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.ToolStripMenuItem maintenanceToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dataGrid_monthly;
         private System.Windows.Forms.DataGridView dataGrid_dailyTask;
-        private System.Windows.Forms.Button btn_add;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_addDailyTask;
+        private System.Windows.Forms.Button btn_addMonthlyTask;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DataGridView dataGrid_index;
         private System.Windows.Forms.Button btn_addFutureLog;
         private System.Windows.Forms.DataGridView dataGrid_futureLog;
         private System.Windows.Forms.Button btn_addCollection;
         private System.Windows.Forms.DataGridView dataGrid_collection;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem btn_refresh;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
