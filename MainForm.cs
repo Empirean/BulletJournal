@@ -63,7 +63,7 @@ namespace BulletJournal
 
         public void Populate_index()
         {
-            string commandString = "select Daily.Entry as Entry, " +
+            string commandString = "select Daily.Entry as Entry, " + //daily task
                                    "sum(Daily.Count) as Count, " +
                                    "sum(Daily.Tasks) as Tasks, " +
                                    "sum(Daily.Events) as Events, " +
@@ -139,7 +139,163 @@ namespace BulletJournal
                                    "where taskdate = @taskdate " +
                                    "and d.tasktype = 3) " +
                                    ") as Daily " +
-                                   "group by Daily.Entry";
+                                   "group by Daily.Entry " +
+                                   "union all " + // monthly tasks
+                                   "select Monthly.Entry as Entry, " +
+                                   "sum(Monthly.Count) as Count, " +
+                                   "sum(Monthly.Tasks) as Tasks, " +
+                                   "sum(Monthly.Events) as Events, " +
+                                   "sum(Monthly.Notes) as Notes, " +
+                                   "sum(Monthly.Closed) as Closed " +
+                                   "from ( " +
+                                   "select 'Monthly Tasks' as Entry, " +
+                                   "count(*) as Count, " +
+                                   "0 as Tasks," +
+                                   "0 as Events, " +
+                                   "0 as Notes, " +
+                                   "0 as Closed " +
+                                   "from monthlymain as m " +
+                                   "inner join monthlydetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from monthlymain " +
+                                   "where taskdate = @taskdate) " +
+                                   "union all " +
+                                   "select 'Monthly Tasks' as Entry, " +
+                                   "0 as Count, " +
+                                   "count(*) as Tasks, " +
+                                   "0 as Events, " +
+                                   "0 as Notes, " +
+                                   "0 as Closed " +
+                                   "from monthlymain as m " +
+                                   "inner join monthlydetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from monthlymain " +
+                                   "where taskdate = @taskdate " +
+                                   "and d.tasktype = 0) " +
+                                   "union all " +
+                                   "select 'Monthly Tasks' as Entry, " +
+                                   "0 as Count, " +
+                                   "0 as Tasks, " +
+                                   "count(*) as Events, " +
+                                   "0 as Notes, " +
+                                   "0 as Closed " +
+                                   "from monthlymain as m " +
+                                   "inner join monthlydetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from monthlymain " +
+                                   "where taskdate = @taskdate " +
+                                   "and d.tasktype = 1) " +
+                                   "union all " +
+                                   "select 'Monthly Tasks' as Entry, " +
+                                   "0 as Count, " +
+                                   "0 as Tasks, " +
+                                   "0 as Events, " +
+                                   "count(*) as Notes, " +
+                                   "0 as Closed " +
+                                   "from monthlymain as m " +
+                                   "inner join monthlydetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from monthlymain " +
+                                   "where taskdate = @taskdate " +
+                                   "and d.tasktype = 2) " +
+                                   "union all " +
+                                   "select 'Monthly Tasks' as Entry, " +
+                                   "0 as Count, " +
+                                   "0 as Tasks," +
+                                   "0 as Events, " +
+                                   "0 as Notes, " +
+                                   "count(*) as Closed " +
+                                   "from monthlymain as m " +
+                                   "inner join monthlydetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from monthlymain " +
+                                   "where taskdate = @taskdate " +
+                                   "and d.tasktype = 3) " +
+                                   ") as Monthly " +
+                                   "group by Monthly.Entry " +
+                                   "union all " + //futurelog
+                                   "select Future.Entry as Entry, " +
+                                   "sum(Future.Count) as Count, " +
+                                   "sum(Future.Tasks) as Tasks, " +
+                                   "sum(Future.Events) as Events, " +
+                                   "sum(Future.Notes) as Notes, " +
+                                   "sum(Future.Closed) as Closed " +
+                                   "from ( " +
+                                   "select 'Future Tasks' as Entry, " +
+                                   "count(*) as Count, " +
+                                   "0 as Tasks," +
+                                   "0 as Events, " +
+                                   "0 as Notes, " +
+                                   "0 as Closed " +
+                                   "from futuremain as m " +
+                                   "inner join futuredetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from futuremain " +
+                                   "where taskdate = @taskdate) " +
+                                   "union all " +
+                                   "select 'Future Tasks' as Entry, " +
+                                   "0 as Count, " +
+                                   "count(*) as Tasks, " +
+                                   "0 as Events, " +
+                                   "0 as Notes, " +
+                                   "0 as Closed " +
+                                   "from futuremain as m " +
+                                   "inner join futuredetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from futuremain " +
+                                   "where taskdate = @taskdate " +
+                                   "and d.tasktype = 0) " +
+                                   "union all " +
+                                   "select 'Future Tasks' as Entry, " +
+                                   "0 as Count, " +
+                                   "0 as Tasks, " +
+                                   "count(*) as Events, " +
+                                   "0 as Notes, " +
+                                   "0 as Closed " +
+                                   "from futuremain as m " +
+                                   "inner join futuredetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from futuremain " +
+                                   "where taskdate = @taskdate " +
+                                   "and d.tasktype = 1) " +
+                                   "union all " +
+                                   "select 'Future Tasks' as Entry, " +
+                                   "0 as Count, " +
+                                   "0 as Tasks, " +
+                                   "0 as Events, " +
+                                   "count(*) as Notes, " +
+                                   "0 as Closed " +
+                                   "from futuremain as m " +
+                                   "inner join futuredetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from futuremain " +
+                                   "where taskdate = @taskdate " +
+                                   "and d.tasktype = 2) " +
+                                   "union all " +
+                                   "select 'Future Tasks' as Entry, " +
+                                   "0 as Count, " +
+                                   "0 as Tasks," +
+                                   "0 as Events, " +
+                                   "0 as Notes, " +
+                                   "count(*) as Closed " +
+                                   "from futuremain as m " +
+                                   "inner join futuredetail as d " +
+                                   "on m.taskid = d.maintaskforeignkey " +
+                                   "where m.taskdate = (select taskdate " +
+                                   "from futuremain " +
+                                   "where taskdate = @taskdate " +
+                                   "and d.tasktype = 3) " +
+                                   ") as Future " +
+                                   "group by Future.Entry "; 
 
             SqlParameter[] parameters = new SqlParameter[]
             {

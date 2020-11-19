@@ -108,6 +108,7 @@
             this.dataGrid_index.ReadOnly = true;
             this.dataGrid_index.RowHeadersWidth = 51;
             this.dataGrid_index.RowTemplate.Height = 24;
+            this.dataGrid_index.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_index.Size = new System.Drawing.Size(700, 350);
             this.dataGrid_index.TabIndex = 1;
             // 
