@@ -43,6 +43,9 @@ namespace BulletJournal
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!(IsInputValid()))
+                return;
+
             int i = JournalTask.GetTask(cmb_taskType.Text);
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -56,13 +59,17 @@ namespace BulletJournal
 
             db.GenericNonQueryAction(command, parameters);
             main.Populate_collection();
+            main.Populate_index();
             Clear();
 
         }
 
-        private void AddCollection_Load(object sender, EventArgs e)
+        private bool IsInputValid()
         {
-
+            txt_description.Text = txt_description.Text.Trim();
+            if (txt_description.Text.Length > 0)
+                return true;
+            return false;
         }
 
     }

@@ -85,12 +85,6 @@
     <Compile Include="AddMonthlyTask.Designer.cs">
       <DependentUpon>AddMonthlyTask.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataEntry.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DataEntry.Designer.cs">
-      <DependentUpon>DataEntry.cs</DependentUpon>
-    </Compile>
     <Compile Include="DBTools.cs" />
     <Compile Include="GeneralTask.cs" />
     <Compile Include="JournalDatabaseDataSet.Designer.cs">
@@ -118,9 +112,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddMonthlyTask.resx">
       <DependentUpon>AddMonthlyTask.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DataEntry.resx">
-      <DependentUpon>DataEntry.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

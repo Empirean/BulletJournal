@@ -159,7 +159,8 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from monthlymain " +
-                                   "where taskdate = @taskdate) " +
+                                   "where taskdate >= @monthlytaskdate) " +
+                                   "and taskdate <= @monthlytaskdateEnd " +
                                    "union all " +
                                    "select 'Monthly Tasks' as Entry, " +
                                    "0 as Count, " +
@@ -172,7 +173,8 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from monthlymain " +
-                                   "where taskdate = @taskdate " +
+                                   "where taskdate >= @monthlytaskdate " +
+                                   "and taskdate <= @monthlytaskdateEnd " +
                                    "and d.tasktype = 0) " +
                                    "union all " +
                                    "select 'Monthly Tasks' as Entry, " +
@@ -186,7 +188,8 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from monthlymain " +
-                                   "where taskdate = @taskdate " +
+                                   "where taskdate >= @monthlytaskdate " +
+                                   "and taskdate <= @monthlytaskdateEnd " +
                                    "and d.tasktype = 1) " +
                                    "union all " +
                                    "select 'Monthly Tasks' as Entry, " +
@@ -200,7 +203,8 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from monthlymain " +
-                                   "where taskdate = @taskdate " +
+                                   "where taskdate >= @monthlytaskdate " +
+                                   "and taskdate <= @monthlytaskdateEnd " +
                                    "and d.tasktype = 2) " +
                                    "union all " +
                                    "select 'Monthly Tasks' as Entry, " +
@@ -214,7 +218,8 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from monthlymain " +
-                                   "where taskdate = @taskdate " +
+                                   "where taskdate >= @monthlytaskdate " +
+                                   "and taskdate <= @monthlytaskdateEnd " +
                                    "and d.tasktype = 3) " +
                                    ") as Monthly " +
                                    "group by Monthly.Entry " +
@@ -237,7 +242,7 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @taskdate) " +
+                                   "where taskdate = @futureTaskdate) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
                                    "0 as Count, " +
@@ -250,7 +255,7 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @taskdate " +
+                                   "where taskdate = @futureTaskdate " +
                                    "and d.tasktype = 0) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -264,7 +269,7 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @taskdate " +
+                                   "where taskdate = @futureTaskdate " +
                                    "and d.tasktype = 1) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -278,7 +283,7 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @taskdate " +
+                                   "where taskdate = @futureTaskdate " +
                                    "and d.tasktype = 2) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -292,14 +297,18 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate = (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate = @taskdate " +
+                                   "where taskdate = @futureTaskdate " +
                                    "and d.tasktype = 3) " +
                                    ") as Future " +
                                    "group by Future.Entry "; 
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = DateTime.Now }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = DateTime.Now },
+                new SqlParameter("@monthlytaskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) },
+                new SqlParameter("@monthlytaskdateEnd", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month,
+                                        DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)) },
+                new SqlParameter("@futureTaskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) },
             };
 
             dataGrid_index.DataSource = dbTools.GenericQueryAction(commandString, parameters);
@@ -315,7 +324,7 @@ namespace BulletJournal
         public void Populate_dailyTask()
         {
             string commandString = "select m.taskid, " +
-                                          "m.taskdate as [Date], " +
+                                          "m.taskdate as [Date (DD/MM/YYYY)], " +
                                           "case when d.taskisimportant = 1 " +
                                           "then '*' else '' end as [I], " +
                                           "case " +
@@ -338,17 +347,17 @@ namespace BulletJournal
             dataGrid_dailyTask.DataSource = dbTools.GenericQueryAction(commandString, parameters);
             dataGrid_dailyTask.Columns[0].Visible = false;
             dataGrid_dailyTask.Columns[0].Width = 1;
-            dataGrid_dailyTask.Columns["Date"].Width = 70;
+            dataGrid_dailyTask.Columns["Date (DD/MM/YYYY)"].Width = 95;
             dataGrid_dailyTask.Columns["I"].Width = 20;
-            dataGrid_dailyTask.Columns["Type"].Width = 50;
-            dataGrid_dailyTask.Columns["Description"].Width = 400;
+            dataGrid_dailyTask.Columns["Type"].Width = 70;
+            dataGrid_dailyTask.Columns["Description"].Width = 285;
         }
 
         public void Populate_futureLog()
         {
             string commandString = "select m.taskid, " +
-                                          "datename(month, m.taskdate) +" + " " +
-                                          "datename(year, m.taskdate)" +
+                                          "cast(datename(year, m.taskdate) as nvarchar(4)) + ' - ' + " +
+                                          "datename(month, m.taskdate)" +
                                           " as [Date], " +
                                           "case when d.taskisimportant = 1 " +
                                           "then '*' else '' end as [I], " +
@@ -374,15 +383,15 @@ namespace BulletJournal
             dataGrid_futureLog.Columns[0].Width = 1;
             dataGrid_futureLog.Columns["Date"].Width = 100;
             dataGrid_futureLog.Columns["I"].Width = 20;
-            dataGrid_futureLog.Columns["Type"].Width = 50;
-            dataGrid_futureLog.Columns["Description"].Width = 400;
+            dataGrid_futureLog.Columns["Type"].Width = 70;
+            dataGrid_futureLog.Columns["Description"].Width = 280;
         }
 
         public void Populate_monthly()
         {
             string commandString = "select m.taskid, " +
-                                          "datename(month, m.taskdate) +" + " " +
-                                          "datename(year, m.taskdate)" +
+                                          "cast(datename(year, m.taskdate) as nvarchar(4)) + ' - ' + " +
+                                          "datename(month, m.taskdate)" +
                                           " as [Date], " +
                                           "case when d.taskisimportant = 1 " +
                                           "then '*' else '' end as [I], " +
@@ -412,8 +421,8 @@ namespace BulletJournal
             dataGrid_monthly.Columns[0].Width = 1;
             dataGrid_monthly.Columns["Date"].Width = 100;
             dataGrid_monthly.Columns["I"].Width = 20;
-            dataGrid_monthly.Columns["Type"].Width = 50;
-            dataGrid_monthly.Columns["Description"].Width = 400;
+            dataGrid_monthly.Columns["Type"].Width = 70;
+            dataGrid_monthly.Columns["Description"].Width = 280;
         }
 
         public void Populate_collection()
@@ -425,7 +434,7 @@ namespace BulletJournal
                                    " when TaskType = 2 then 'NOTES' " + 
                                    " else 'CLOSE' end as [Type], " + 
                                    " TaskDescription as [Description], " +
-                                   " TaskDateAdded as [Date] " +
+                                   " TaskDateAdded as [Date (DD/MM/YYYY)] " +
                                    " from CollectionTable";
 
             SqlParameter[] parameters = new SqlParameter[]
@@ -438,7 +447,8 @@ namespace BulletJournal
             dataGrid_collection.Columns[0].Width = 1;
             dataGrid_collection.Columns["I"].Width = 20;
             dataGrid_collection.Columns["Type"].Width = 50;
-            dataGrid_collection.Columns["Description"].Width = 400;
+            dataGrid_collection.Columns["Description"].Width = 305;
+            dataGrid_collection.Columns["Date (DD/MM/YYYY)"].Width = 95;
 
         }
 
@@ -456,6 +466,46 @@ namespace BulletJournal
             {
                 addMonthlyTask.ShowDialog();
             }
+        }
+
+        private void dataGrid_dailyTask_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+
+            // MessageBox.Show(dataGrid_dailyTask.SelectedRows[0].Cells[0].Value.ToString());
+        }
+
+        private void dataGrid_collection_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                int i = ContextMenuHandler(dataGrid_collection, contextMenuStrip1, e);
+            }
+        }
+
+        private int ContextMenuHandler(DataGridView datagrid, ContextMenuStrip menu, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                datagrid.Rows[e.RowIndex].Selected = true;
+                Rectangle cellRectangle = datagrid.GetCellDisplayRectangle(
+                                                datagrid.Columns[e.ColumnIndex].Index,
+                                                datagrid.Rows[e.RowIndex].Index,
+                                                true);
+
+                Point menuSpawnLocation = new Point(cellRectangle.Left, cellRectangle.Top);
+                
+                menu.Show(datagrid, menuSpawnLocation);
+            }
+            catch (Exception)
+            {
+            }
+
+            return (int) datagrid.SelectedRows[0].Cells[0].Value;
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

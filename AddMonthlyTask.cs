@@ -143,6 +143,9 @@ namespace BulletJournal
 
         private void saveToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
+            if (list_taskList.Items.Count < 1)
+                return;
+
             string taskDate = "01/" + (cmb_taskMonth.SelectedIndex + 1).ToString("00") + "/" + cmb_taskYear.Text;
 
             string command = "insert into monthlymain (taskdate) output inserted.taskid values (@taskDate)";
@@ -176,6 +179,7 @@ namespace BulletJournal
             generalTasks.Clear();
 
             main.Populate_monthly();
+            main.Populate_index();
         }
 
         private void list_taskList_MouseUp(object sender, MouseEventArgs e)

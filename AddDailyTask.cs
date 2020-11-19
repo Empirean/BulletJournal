@@ -128,6 +128,9 @@ namespace BulletJournal
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (list_taskList.Items.Count < 1)
+                return;
+
             string command = "insert into dailymain (taskdate) output inserted.taskid values (@taskDate)";
 
             SqlParameter[] parameters = new SqlParameter[]
@@ -159,6 +162,7 @@ namespace BulletJournal
             generalTasks.Clear();
 
             main.Populate_dailyTask();
+            main.Populate_index();
         }
     }
 }
