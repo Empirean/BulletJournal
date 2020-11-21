@@ -1,6 +1,6 @@
 ﻿namespace BulletJournal
 {
-    partial class AddDailyTask
+    partial class DailyTask
     {
         /// <summary>
         /// Required designer variable.
@@ -162,7 +162,7 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -196,7 +196,7 @@
             this.btn_delete.UseVisualStyleBackColor = true;
             this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
             // 
-            // AddDailyTask
+            // DailyTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -216,7 +216,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "AddDailyTask";
+            this.Name = "DailyTask";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "<••> New Daily Task";
             this.Load += new System.EventHandler(this.AddDailyTask_Load);

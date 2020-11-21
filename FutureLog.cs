@@ -12,16 +12,17 @@ using System.Windows.Forms;
 
 namespace BulletJournal
 {
-    public partial class AddMonthlyTask : Form
+    public partial class FutureLog : Form
     {
-
         List<GeneralTask> generalTasks = new List<GeneralTask>();
         DBTools dbTools;
         MainForm main;
+
         int taskId;
         bool isEditMode = false;
 
-        public AddMonthlyTask(MainForm m, int id)
+
+        public FutureLog(MainForm m)
         {
             InitializeComponent();
 
@@ -29,41 +30,32 @@ namespace BulletJournal
             populateTaskYear();
             populateTaskMonth();
 
+            main = m;
+        }
+
+        public FutureLog(MainForm m, int id)
+        {
+            InitializeComponent();
+
+            dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            populateTaskYear();
+            populateTaskMonth();
+
+            
             main = m;
             taskId = id;
             isEditMode = true;
-            GetMonthlyData(taskId);
+            GetFutureData(id);
 
-            this.Text = "<••> Edit Monthly Task";
-
+            this.Text = "<••> Edit Future Log";
         }
 
-        public AddMonthlyTask(MainForm m)
+        private void AddFutureLog_Load(object sender, EventArgs e)
         {
-            InitializeComponent();
-
-            dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
-            populateTaskYear();
-            populateTaskMonth();
-
-            main = m;
-        }
-
-        private void btn_clear_Click(object sender, EventArgs e)
-        {
-            list_taskList.Items.Clear();
-            generalTasks.Clear();
-            Clear();
             
-        }
-
-        private void Clear()
-        {
-            txt_description.Text = "";
+            cmb_taskYear.SelectedIndex = 0;
+            cmb_taskMonth.SelectedIndex = DateTime.Now.Month - 1;
             cmb_taskType.SelectedIndex = 0;
-            chk_important.Checked = false;
-            btn_edit.Text = "Edit";
-            txt_description.Focus();
         }
 
         private void populateTaskYear()
@@ -82,21 +74,21 @@ namespace BulletJournal
             }
         }
 
-        private bool IsInputValid()
+        private void btn_clear_Click(object sender, EventArgs e)
         {
-            txt_description.Text = txt_description.Text.Trim();
-            if (txt_description.Text.Length > 0)
-                return true;
-            return false;
+            list_taskList.Items.Clear();
+            generalTasks.Clear();
+            Clear();
+
         }
 
-        private void AddMonthlyTask_Load(object sender, EventArgs e)
+        private void Clear()
         {
-            
-            cmb_taskYear.SelectedIndex = 0;
-            cmb_taskMonth.SelectedIndex = DateTime.Now.Month - 1;
+            txt_description.Text = "";
             cmb_taskType.SelectedIndex = 0;
-
+            chk_important.Checked = false;
+            btn_edit.Text = "Edit";
+            txt_description.Focus();
         }
 
         private void btn_add_Click(object sender, EventArgs e)
@@ -112,6 +104,23 @@ namespace BulletJournal
             generalTask.IsImportant = chk_important.Checked;
 
             generalTasks.Add(generalTask);
+
+            Clear();
+        }
+
+        private bool IsInputValid()
+        {
+            txt_description.Text = txt_description.Text.Trim();
+            if (txt_description.Text.Length > 0)
+                return true;
+            return false;
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            int i = list_taskList.SelectedIndex;
+            list_taskList.Items.RemoveAt(i);
+            generalTasks.RemoveAt(i);
 
             Clear();
         }
@@ -146,15 +155,7 @@ namespace BulletJournal
             }
         }
 
-        private void btn_delete_Click(object sender, EventArgs e)
-        {
-            int i = list_taskList.SelectedIndex;
-            list_taskList.Items.RemoveAt(i);
-            generalTasks.RemoveAt(i);
-            Clear();
-        }
-
-        private void saveToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (list_taskList.Items.Count < 1)
                 return;
@@ -163,8 +164,7 @@ namespace BulletJournal
 
             if (isEditMode)
             {
-                
-                string command = "update monthlymain " +
+                string command = "update futuremain " +
                                  "set taskdate = @taskDate " +
                                  "where taskid = @taskid";
 
@@ -176,7 +176,7 @@ namespace BulletJournal
 
                 dbTools.GenericNonQueryAction(command, parameters);
 
-                command = "delete from monthlydetail " +
+                command = "delete from futuredetail " +
                           "where maintaskforeignkey = @taskid";
 
                 parameters = new SqlParameter[]
@@ -186,7 +186,7 @@ namespace BulletJournal
 
                 dbTools.GenericNonQueryAction(command, parameters);
 
-                command = "insert into monthlydetail (tasktype, taskdescription, taskisimportant, maintaskforeignkey) values " +
+                command = "insert into futuredetail (tasktype, taskdescription, taskisimportant, maintaskforeignkey) values " +
                               "(@tasktype, @taskdescription, @taskisimportant, @foreignkey)";
 
                 foreach (GeneralTask taskItem in generalTasks)
@@ -205,17 +205,16 @@ namespace BulletJournal
             }
             else
             {
-
-                string command = "insert into monthlymain (taskdate) output inserted.taskid values (@taskDate)";
+                string command = "insert into futuremain (taskdate) output inserted.taskid values (@taskDate)";
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskDate", SqlDbType.Date) { Value = DateTime.Parse(taskDate)}
+                new SqlParameter("@taskDate", SqlDbType.Date) { Value = DateTime.Parse(taskDate)}
                 };
 
                 int insertedId = dbTools.GenericScalarAction(command, parameters);
 
-                command = "insert into monthlydetail (tasktype, taskdescription, taskisimportant, maintaskforeignkey) values " +
+                command = "insert into futuredetail (tasktype, taskdescription, taskisimportant, maintaskforeignkey) values " +
                               "(@tasktype, @taskdescription, @taskisimportant, @foreignkey)";
 
                 foreach (GeneralTask taskItem in generalTasks)
@@ -223,22 +222,21 @@ namespace BulletJournal
 
                     parameters = new SqlParameter[]
                     {
-                        new SqlParameter("@tasktype", SqlDbType.Int) { Value = taskItem.TaskType},
-                        new SqlParameter("@taskdescription", SqlDbType.NVarChar) { Value = taskItem.TaskDescription},
-                        new SqlParameter("@taskisimportant", SqlDbType.Bit) { Value = taskItem.IsImportant},
-                        new SqlParameter("@foreignkey", SqlDbType.Int) { Value = insertedId }
+                    new SqlParameter("@tasktype", SqlDbType.Int) { Value = taskItem.TaskType},
+                    new SqlParameter("@taskdescription", SqlDbType.NVarChar) { Value = taskItem.TaskDescription},
+                    new SqlParameter("@taskisimportant", SqlDbType.Bit) { Value = taskItem.IsImportant},
+                    new SqlParameter("@foreignkey", SqlDbType.Int) { Value = insertedId }
                     };
 
                     dbTools.GenericNonQueryAction(command, parameters);
                 }
             }
 
-
             Clear();
             list_taskList.Items.Clear();
             generalTasks.Clear();
 
-            main.Populate_monthly();
+            main.Populate_futureLog();
             main.Populate_index();
         }
 
@@ -247,10 +245,10 @@ namespace BulletJournal
             btn_edit.Text = "Edit";
         }
 
-        private void GetMonthlyData(int id)
+        private void GetFutureData(int id)
         {
             string commandString = "select taskdate " +
-                                   "from monthlymain " +
+                                   "from futuremain " +
                                    "where taskid = @taskId";
 
             SqlParameter[] parameters = new SqlParameter[]
@@ -264,7 +262,7 @@ namespace BulletJournal
             DataRow monthlyMainContent = monthlyMainTable.AsEnumerable().ToList()[0];
 
             cmb_taskMonth.SelectedIndex = monthlyMainContent.Field<DateTime>("taskdate").Month - 1;
-            
+
             int y = monthlyMainContent.Field<DateTime>("taskdate").Year;
 
             if (!(cmb_taskYear.Items.Contains(y.ToString())))
@@ -279,7 +277,7 @@ namespace BulletJournal
             commandString = "select taskdescription, " +
                                    "taskisimportant," +
                                    "tasktype " +
-                                   "from monthlydetail " +
+                                   "from futuredetail " +
                                    "where maintaskforeignkey = @taskId";
 
             parameters = new SqlParameter[]

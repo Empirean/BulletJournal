@@ -1,6 +1,6 @@
 ﻿namespace BulletJournal
 {
-    partial class AddMonthlyTask
+    partial class MonthlyTask
     {
         /// <summary>
         /// Required designer variable.
@@ -206,7 +206,7 @@
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click_1);
             // 
-            // AddMonthlyTask
+            // MonthlyTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -226,7 +226,7 @@
             this.Controls.Add(this.txt_description);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "AddMonthlyTask";
+            this.Name = "MonthlyTask";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "<••> New Monthly Task";
             this.Load += new System.EventHandler(this.AddMonthlyTask_Load);

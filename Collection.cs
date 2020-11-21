@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace BulletJournal
 {
-    public partial class AddCollection : Form
+    public partial class Collections : Form
     {
         DBTools dbTools;
         MainForm main;
@@ -19,7 +19,7 @@ namespace BulletJournal
 
         bool isEditMode = false;
 
-        public AddCollection(MainForm m, int id)
+        public Collections(MainForm m, int id)
         {
             InitializeComponent();
             dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
@@ -32,7 +32,7 @@ namespace BulletJournal
             taskId = id;
         }
 
-        public AddCollection(MainForm m)
+        public Collections(MainForm m)
         {
             InitializeComponent();
             dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);

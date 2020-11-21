@@ -49,7 +49,7 @@ namespace BulletJournal
 
         private void btn_addDailyTask_Click(object sender, EventArgs e)
         {
-            using (AddDailyTask addDailyTask = new AddDailyTask(this))
+            using (DailyTask addDailyTask = new DailyTask(this))
             {
                 addDailyTask.ShowDialog();
             }
@@ -57,7 +57,7 @@ namespace BulletJournal
 
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
-            using (AddCollection addCollection = new AddCollection(this))
+            using (Collections addCollection = new Collections(this))
             {
                 addCollection.ShowDialog();
             }
@@ -465,7 +465,7 @@ namespace BulletJournal
 
         private void btn_addFutureLog_Click(object sender, EventArgs e)
         {
-            using (AddFutureLog addFutureLog = new AddFutureLog(this))
+            using (FutureLog addFutureLog = new FutureLog(this))
             {
                 addFutureLog.ShowDialog();
             }
@@ -473,7 +473,7 @@ namespace BulletJournal
 
         private void btn_addMonthlyTask_Click(object sender, EventArgs e)
         {
-            using (AddMonthlyTask addMonthlyTask = new AddMonthlyTask(this))
+            using (MonthlyTask addMonthlyTask = new MonthlyTask(this))
             {
                 addMonthlyTask.ShowDialog();
             }
@@ -646,28 +646,28 @@ namespace BulletJournal
         {
             if (entryType == JournalTask.EntryType.collection)
             {
-                using (AddCollection addCollection = new AddCollection(this, taskId))
+                using (Collections addCollection = new Collections(this, taskId))
                 {
                     addCollection.ShowDialog();
                 }
             }
             if (entryType == JournalTask.EntryType.daily)
             {
-                using (AddDailyTask addDailyTask = new AddDailyTask(this, taskId))
+                using (DailyTask addDailyTask = new DailyTask(this, taskId))
                 {
                     addDailyTask.ShowDialog();
                 }
             }
             if (entryType == JournalTask.EntryType.monthly)
             {
-                using (AddMonthlyTask addmMonthlyTask = new AddMonthlyTask(this, taskId))
+                using (MonthlyTask addmMonthlyTask = new MonthlyTask(this, taskId))
                 {
                     addmMonthlyTask.ShowDialog();
                 }
             }
             if (entryType == JournalTask.EntryType.future)
             {
-                using (AddFutureLog addFutureLog = new AddFutureLog(this, taskId))
+                using (FutureLog addFutureLog = new FutureLog(this, taskId))
                 {
                     addFutureLog.ShowDialog();
                 }

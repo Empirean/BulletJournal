@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_index = new System.Windows.Forms.TabPage();
-            this.button3 = new System.Windows.Forms.Button();
             this.dataGrid_index = new System.Windows.Forms.DataGridView();
             this.tab_Daily_Task = new System.Windows.Forms.TabPage();
             this.btn_addDailyTask = new System.Windows.Forms.Button();
@@ -84,7 +83,6 @@
             // 
             // tab_index
             // 
-            this.tab_index.Controls.Add(this.button3);
             this.tab_index.Controls.Add(this.dataGrid_index);
             this.tab_index.Location = new System.Drawing.Point(4, 25);
             this.tab_index.Name = "tab_index";
@@ -93,15 +91,6 @@
             this.tab_index.TabIndex = 0;
             this.tab_index.Text = "Index";
             this.tab_index.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(641, 371);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 42);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Add";
-            this.button3.UseVisualStyleBackColor = true;
             // 
             // dataGrid_index
             // 
@@ -380,7 +369,6 @@
         private System.Windows.Forms.DataGridView dataGrid_dailyTask;
         private System.Windows.Forms.Button btn_addDailyTask;
         private System.Windows.Forms.Button btn_addMonthlyTask;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dataGrid_index;
         private System.Windows.Forms.Button btn_addFutureLog;
         private System.Windows.Forms.DataGridView dataGrid_futureLog;
