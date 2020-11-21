@@ -13,7 +13,7 @@ namespace BulletJournal
 {
     public partial class AddCollection : Form
     {
-        DBTools db;
+        DBTools dbTools;
         MainForm main;
         int taskId;
 
@@ -22,11 +22,12 @@ namespace BulletJournal
         public AddCollection(MainForm m, int id)
         {
             InitializeComponent();
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
             main = m;
             cmb_taskType.SelectedIndex = 0;
+
             isEditMode = true;
-            this.Text = "Edit Collection";
+            this.Text = "<••> Edit Collection";
             GetCollectionData(id);
             taskId = id;
         }
@@ -34,7 +35,7 @@ namespace BulletJournal
         public AddCollection(MainForm m)
         {
             InitializeComponent();
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
             main = m;
             cmb_taskType.SelectedIndex = 0;
 
@@ -57,12 +58,12 @@ namespace BulletJournal
 
             };
 
-            DataTable collectionData = db.GenericQueryAction(commandString, parameters);
-            List<DataRow> dataRow = collectionData.AsEnumerable().ToList();
+            DataTable collectionData = dbTools.GenericQueryAction(commandString, parameters);
+            DataRow dataRow = collectionData.AsEnumerable().ToList()[0];
 
-            txt_description.Text = dataRow[0].Field<string>("taskdescription");
-            cmb_taskType.SelectedIndex = dataRow[0].Field<int>("tasktype");
-            chk_important.Checked = dataRow[0].Field<bool>("taskisimportant");
+            txt_description.Text = dataRow.Field<string>("taskdescription");
+            cmb_taskType.SelectedIndex = dataRow.Field<int>("tasktype");
+            chk_important.Checked = dataRow.Field<bool>("taskisimportant");
         }
 
         private void Clear()
@@ -112,7 +113,7 @@ namespace BulletJournal
             }
 
 
-            db.GenericNonQueryAction(command, parameters);
+            dbTools.GenericNonQueryAction(command, parameters);
             main.Populate_collection();
             main.Populate_index();
             Clear();

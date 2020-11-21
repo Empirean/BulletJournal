@@ -244,7 +244,8 @@ namespace BulletJournal
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
-                                   "where taskdate >= @futureTaskdate) " +
+                                   "where taskdate >= @futureTaskdate " +
+                                   "and taskdate <= @futureTaskdateEnd) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
                                    "0 as Count, " +
@@ -258,6 +259,7 @@ namespace BulletJournal
                                    "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
                                    "where taskdate >= @futureTaskdate " +
+                                   "and taskdate <= @futureTaskdateEnd " +
                                    "and d.tasktype = 0) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -272,6 +274,7 @@ namespace BulletJournal
                                    "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
                                    "where taskdate >= @futureTaskdate " +
+                                   "and taskdate <= @futureTaskdateEnd " +
                                    "and d.tasktype = 1) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -286,6 +289,7 @@ namespace BulletJournal
                                    "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
                                    "where taskdate >= @futureTaskdate " +
+                                   "and taskdate <= @futureTaskdateEnd " +
                                    "and d.tasktype = 2) " +
                                    "union all " +
                                    "select 'Future Tasks' as Entry, " +
@@ -300,6 +304,7 @@ namespace BulletJournal
                                    "where m.taskdate in (select taskdate " +
                                    "from futuremain " +
                                    "where taskdate >= @futureTaskdate " +
+                                   "and taskdate <= @futureTaskdateEnd " +
                                    "and d.tasktype = 3) " +
                                    ") as Future " +
                                    "group by Future.Entry "; 
@@ -311,6 +316,7 @@ namespace BulletJournal
                 new SqlParameter("@monthlytaskdateEnd", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month,
                                         DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)) },
                 new SqlParameter("@futureTaskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) },
+                new SqlParameter("@futureTaskdateEnd", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(6) }
             };
 
             dataGrid_index.DataSource = dbTools.GenericQueryAction(commandString, parameters);
@@ -373,11 +379,14 @@ namespace BulletJournal
                                    "inner join futuredetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
                                    "where m.taskdate >= @taskdate " +
+                                   "and m.taskdate <= @taskdateend " +
                                    "order by m.taskdate";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) },
+                new SqlParameter("@taskdateend", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(6) }
+
             };
 
             dataGrid_futureLog.DataSource = dbTools.GenericQueryAction(commandString, parameters);
@@ -640,6 +649,27 @@ namespace BulletJournal
                 using (AddCollection addCollection = new AddCollection(this, taskId))
                 {
                     addCollection.ShowDialog();
+                }
+            }
+            if (entryType == JournalTask.EntryType.daily)
+            {
+                using (AddDailyTask addDailyTask = new AddDailyTask(this, taskId))
+                {
+                    addDailyTask.ShowDialog();
+                }
+            }
+            if (entryType == JournalTask.EntryType.monthly)
+            {
+                using (AddMonthlyTask addmMonthlyTask = new AddMonthlyTask(this, taskId))
+                {
+                    addmMonthlyTask.ShowDialog();
+                }
+            }
+            if (entryType == JournalTask.EntryType.future)
+            {
+                using (AddFutureLog addFutureLog = new AddFutureLog(this, taskId))
+                {
+                    addFutureLog.ShowDialog();
                 }
             }
         }

@@ -16,18 +16,27 @@ namespace BulletJournal
         List<GeneralTask> generalTasks = new List<GeneralTask>();
         DBTools dbTools;
         MainForm main;
+        int taskId;
+        bool isEditMode = false;
+
+        public AddDailyTask(MainForm m, int id)
+        {
+            InitializeComponent();
+            dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            main = m;
+            taskId = id;
+            isEditMode = true;
+            GetDailyData(id);
+            this.Text = "<••> Edit Daily Task";
+
+
+        }
 
         public AddDailyTask(MainForm m)
         {
             InitializeComponent();
+            dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
             main = m;
-        }
-
-
-        public AddDailyTask()
-        {
-            InitializeComponent();
-            
         }
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
@@ -63,7 +72,7 @@ namespace BulletJournal
         {
             txtTaskDate.Text = monthCalendar1.SelectionRange.Start.ToString("dd/MM/yyyy");
             cmb_taskType.SelectedIndex = 0;
-            dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            
         }
 
         private void btn_delete_Click(object sender, EventArgs e)
@@ -131,31 +140,79 @@ namespace BulletJournal
             if (list_taskList.Items.Count < 1)
                 return;
 
-            string command = "insert into dailymain (taskdate) output inserted.taskid values (@taskDate)";
-
-            SqlParameter[] parameters = new SqlParameter[]
+            if (isEditMode)
             {
-                new SqlParameter("@taskDate", SqlDbType.Date) { Value = DateTime.Parse(txtTaskDate.Text)}
-            };
+                string command = "update dailymain " +
+                                 "set taskdate = @taskDate " +
+                                 "where taskid = @taskid";
 
-            int insertedId = dbTools.GenericScalarAction(command, parameters);
-
-            command = "insert into dailydetail (tasktype, taskdescription, taskisimportant, maintaskforeignkey) values " +
-                          "(@tasktype, @taskdescription, @taskisimportant, @foreignkey)";
-
-            foreach (GeneralTask taskItem in generalTasks)
-            {
-                
-                parameters = new SqlParameter[]
+                SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@tasktype", SqlDbType.Int) { Value = taskItem.TaskType},
-                    new SqlParameter("@taskdescription", SqlDbType.NVarChar) { Value = taskItem.TaskDescription},
-                    new SqlParameter("@taskisimportant", SqlDbType.Bit) { Value = taskItem.IsImportant},
-                    new SqlParameter("@foreignkey", SqlDbType.Int) { Value = insertedId }
+                    new SqlParameter("@taskDate", SqlDbType.Date) { Value = DateTime.Parse(txtTaskDate.Text)},
+                    new SqlParameter("@taskid", SqlDbType.Int) { Value = taskId}
                 };
 
                 dbTools.GenericNonQueryAction(command, parameters);
+
+                command = "delete from dailydetail " +
+                          "where maintaskforeignkey = @taskid";
+
+                parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskid", SqlDbType.Int) { Value = taskId}
+                };
+
+                dbTools.GenericNonQueryAction(command, parameters);
+
+                command = "insert into dailydetail (tasktype, taskdescription, taskisimportant, maintaskforeignkey) values " +
+                              "(@tasktype, @taskdescription, @taskisimportant, @foreignkey)";
+
+                foreach (GeneralTask taskItem in generalTasks)
+                {
+
+                    parameters = new SqlParameter[]
+                    {
+                        new SqlParameter("@tasktype", SqlDbType.Int) { Value = taskItem.TaskType},
+                        new SqlParameter("@taskdescription", SqlDbType.NVarChar) { Value = taskItem.TaskDescription},
+                        new SqlParameter("@taskisimportant", SqlDbType.Bit) { Value = taskItem.IsImportant},
+                        new SqlParameter("@foreignkey", SqlDbType.Int) { Value = taskId }
+                    };
+
+                    dbTools.GenericNonQueryAction(command, parameters);
+                }
+
             }
+            else
+            {
+
+                string command = "insert into dailymain (taskdate) output inserted.taskid values (@taskDate)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskDate", SqlDbType.Date) { Value = DateTime.Parse(txtTaskDate.Text)}
+                };
+
+                int insertedId = dbTools.GenericScalarAction(command, parameters);
+
+                command = "insert into dailydetail (tasktype, taskdescription, taskisimportant, maintaskforeignkey) values " +
+                              "(@tasktype, @taskdescription, @taskisimportant, @foreignkey)";
+
+                foreach (GeneralTask taskItem in generalTasks)
+                {
+                
+                    parameters = new SqlParameter[]
+                    {
+                        new SqlParameter("@tasktype", SqlDbType.Int) { Value = taskItem.TaskType},
+                        new SqlParameter("@taskdescription", SqlDbType.NVarChar) { Value = taskItem.TaskDescription},
+                        new SqlParameter("@taskisimportant", SqlDbType.Bit) { Value = taskItem.IsImportant},
+                        new SqlParameter("@foreignkey", SqlDbType.Int) { Value = insertedId }
+                    };
+
+                    dbTools.GenericNonQueryAction(command, parameters);
+                }
+            }
+
+
 
             Clear();
             list_taskList.Items.Clear();
@@ -163,6 +220,53 @@ namespace BulletJournal
 
             main.Populate_dailyTask();
             main.Populate_index();
+        }
+
+        private void GetDailyData(int id)
+        {
+           
+            string commandString = "select taskdate " +
+                                   "from dailymain " +
+                                   "where taskid = @taskId";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
+
+            };
+
+            DataTable dailyMainTable = dbTools.GenericQueryAction(commandString, parameters);
+
+            DataRow dailyMainContent = dailyMainTable.AsEnumerable().ToList()[0];
+
+            monthCalendar1.SelectionStart = dailyMainContent.Field<DateTime>("taskdate");
+
+
+            commandString = "select taskdescription, " +
+                                   "taskisimportant," +
+                                   "tasktype " +
+                                   "from dailydetail " +
+                                   "where maintaskforeignkey = @taskId";
+
+            parameters = new SqlParameter[]
+            {
+                new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
+
+            };
+
+            DataTable dailyDetailTable = dbTools.GenericQueryAction(commandString, parameters);
+            List<DataRow> dailyDetailContent = dailyDetailTable.AsEnumerable().ToList();
+
+            foreach (DataRow detailItem in dailyDetailContent)
+            {
+                GeneralTask generalTask = new GeneralTask();
+                generalTask.TaskDescription = detailItem.Field<string>("taskDescription");
+                generalTask.TaskType = detailItem.Field<int>("tasktype");
+                generalTask.IsImportant = detailItem.Field<bool>("taskisimportant");
+                generalTasks.Add(generalTask);
+
+                list_taskList.Items.Add(generalTask.TaskDescription);
+            }
         }
     }
 }
