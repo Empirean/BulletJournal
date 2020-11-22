@@ -15,21 +15,25 @@ namespace BulletJournal
     {
         DBTools dbTools;
         MainForm main;
+        JournalTask.EntryMode accessMode;
         int taskId;
 
-        bool isEditMode = false;
 
-        public Collections(MainForm m, int id)
+        public Collections(MainForm m, int id, JournalTask.EntryMode mode)
         {
             InitializeComponent();
             dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
-            main = m;
             cmb_taskType.SelectedIndex = 0;
 
-            isEditMode = true;
-            this.Text = "<••> Edit Collection";
-            GetCollectionData(id);
+
+            main = m;
             taskId = id;
+            GetCollectionData(id);
+            accessMode = mode;
+            
+            if (accessMode == JournalTask.EntryMode.edit)
+                this.Text = "<••> Edit Collection";
+
         }
 
         public Collections(MainForm m)
@@ -82,7 +86,7 @@ namespace BulletJournal
             SqlParameter[] parameters;
             string command;
 
-            if (isEditMode)
+            if (accessMode == JournalTask.EntryMode.edit)
             {
                 parameters = new SqlParameter[]
                 {
@@ -116,9 +120,10 @@ namespace BulletJournal
             dbTools.GenericNonQueryAction(command, parameters);
             main.Populate_collection();
             main.Populate_index();
+
             Clear();
 
-            if (isEditMode)
+            if (accessMode == JournalTask.EntryMode.edit)
                 this.Close();
 
         }

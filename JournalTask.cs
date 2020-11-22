@@ -21,7 +21,15 @@ namespace BulletJournal
             daily,
             monthly,
             future,
-            collection
+            collection,
+            none
+        }
+
+        public enum EntryMode
+        {
+            add,
+            edit,
+            migrate
         }
 
         public static int GetTask(string task)

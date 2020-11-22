@@ -17,9 +17,9 @@ namespace BulletJournal
         List<GeneralTask> generalTasks = new List<GeneralTask>();
         DBTools dbTools;
         MainForm main;
+        JournalTask.EntryMode accessMode;
 
         int taskId;
-        bool isEditMode = false;
 
 
         public FutureLog(MainForm m)
@@ -33,7 +33,7 @@ namespace BulletJournal
             main = m;
         }
 
-        public FutureLog(MainForm m, int id)
+        public FutureLog(MainForm m, int id, JournalTask.EntryMode mode)
         {
             InitializeComponent();
 
@@ -41,13 +41,14 @@ namespace BulletJournal
             populateTaskYear();
             populateTaskMonth();
 
-            
             main = m;
             taskId = id;
-            isEditMode = true;
+            
             GetFutureData(id);
+            accessMode = mode;
 
-            this.Text = "<••> Edit Future Log";
+            if (accessMode == JournalTask.EntryMode.edit)
+                this.Text = "<••> Edit Future Log";
         }
 
         private void AddFutureLog_Load(object sender, EventArgs e)
@@ -162,7 +163,7 @@ namespace BulletJournal
 
             string taskDate = "01/" + (cmb_taskMonth.SelectedIndex + 1).ToString("00") + "/" + cmb_taskYear.Text;
 
-            if (isEditMode)
+            if (accessMode == JournalTask.EntryMode.edit)
             {
                 string command = "update futuremain " +
                                  "set taskdate = @taskDate " +

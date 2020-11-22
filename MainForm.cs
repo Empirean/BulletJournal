@@ -81,7 +81,7 @@ namespace BulletJournal
                                    "from dailymain as m " +
                                    "inner join dailydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from dailymain " +
                                    "where taskdate = @taskdate) " +
                                    "union all " +
@@ -94,7 +94,7 @@ namespace BulletJournal
                                    "from dailymain as m " +
                                    "inner join dailydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from dailymain " +
                                    "where taskdate = @taskdate " +
                                    "and d.tasktype = 0) " +
@@ -108,7 +108,7 @@ namespace BulletJournal
                                    "from dailymain as m " +
                                    "inner join dailydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from dailymain " +
                                    "where taskdate = @taskdate " +
                                    "and d.tasktype = 1) " +
@@ -122,7 +122,7 @@ namespace BulletJournal
                                    "from dailymain as m " +
                                    "inner join dailydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from dailymain " +
                                    "where taskdate = @taskdate " +
                                    "and d.tasktype = 2) " +
@@ -136,7 +136,7 @@ namespace BulletJournal
                                    "from dailymain as m " +
                                    "inner join dailydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = (select taskdate " +
+                                   "where m.taskdate in (select taskdate " +
                                    "from dailymain " +
                                    "where taskdate = @taskdate " +
                                    "and d.tasktype = 3) " +
@@ -344,7 +344,7 @@ namespace BulletJournal
                                    "from dailymain as m " +
                                    "inner join dailydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate >= @taskdate " +
+                                   "where m.taskdate = @taskdate " +
                                    "order by m.taskdate";
 
             SqlParameter[] parameters = new SqlParameter[]
@@ -644,39 +644,111 @@ namespace BulletJournal
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (entryType == JournalTask.EntryType.collection)
-            {
-                using (Collections addCollection = new Collections(this, taskId))
-                {
-                    addCollection.ShowDialog();
-                }
-            }
             if (entryType == JournalTask.EntryType.daily)
             {
-                using (DailyTask addDailyTask = new DailyTask(this, taskId))
+                using (DailyTask dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.edit))
                 {
-                    addDailyTask.ShowDialog();
+                    dailyTask.ShowDialog();
                 }
             }
+            
             if (entryType == JournalTask.EntryType.monthly)
             {
-                using (MonthlyTask addmMonthlyTask = new MonthlyTask(this, taskId))
+                using (MonthlyTask monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.edit))
                 {
-                    addmMonthlyTask.ShowDialog();
+                    monthlyTask.ShowDialog();
                 }
             }
+
             if (entryType == JournalTask.EntryType.future)
             {
-                using (FutureLog addFutureLog = new FutureLog(this, taskId))
+                using (FutureLog futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.edit))
                 {
-                    addFutureLog.ShowDialog();
+                    futureLog.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.collection)
+            {
+                using (Collections collection = new Collections(this, taskId, JournalTask.EntryMode.edit))
+                {
+                    collection.ShowDialog();
                 }
             }
         }
 
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DailyTask dailyTask;
 
+            if (entryType == JournalTask.EntryType.daily)
+            {
+                using (dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
+                {
+                    dailyTask.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.monthly)
+            {
+                using (dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
+                {
+                    dailyTask.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.future)
+            {
+                using (dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
+                {
+                    dailyTask.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.collection)
+            {
+                using (dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
+                {
+                    dailyTask.ShowDialog();
+                }
+            }
+        }
+
+        private void monthlyTaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MonthlyTask monthlyTask;
+
+            if (entryType == JournalTask.EntryType.daily)
+            {
+                using (monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
+                {
+                    monthlyTask.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.monthly)
+            {
+                using (monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
+                {
+                    monthlyTask.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.future)
+            {
+                using (monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
+                {
+                    monthlyTask.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.collection)
+            {
+                using (monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
+                {
+                    monthlyTask.ShowDialog();
+                }
+            }
         }
     }
 }

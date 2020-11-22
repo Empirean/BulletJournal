@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtTaskDate = new System.Windows.Forms.TextBox();
+            this.lbl_startdate = new System.Windows.Forms.Label();
+            this.txt_taskDate = new System.Windows.Forms.TextBox();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_description = new System.Windows.Forms.TextBox();
@@ -44,29 +44,31 @@
             this.btn_clear = new System.Windows.Forms.Button();
             this.btn_edit = new System.Windows.Forms.Button();
             this.btn_delete = new System.Windows.Forms.Button();
+            this.txt_enddate = new System.Windows.Forms.TextBox();
+            this.lbl_enddate = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // lbl_startdate
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 44);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Task Date:";
+            this.lbl_startdate.AutoSize = true;
+            this.lbl_startdate.Location = new System.Drawing.Point(19, 44);
+            this.lbl_startdate.Name = "lbl_startdate";
+            this.lbl_startdate.Size = new System.Drawing.Size(77, 17);
+            this.lbl_startdate.TabIndex = 0;
+            this.lbl_startdate.Text = "Task Date:";
             // 
-            // txtTaskDate
+            // txt_taskDate
             // 
-            this.txtTaskDate.Enabled = false;
-            this.txtTaskDate.Location = new System.Drawing.Point(113, 44);
-            this.txtTaskDate.Name = "txtTaskDate";
-            this.txtTaskDate.Size = new System.Drawing.Size(304, 22);
-            this.txtTaskDate.TabIndex = 1;
+            this.txt_taskDate.Enabled = false;
+            this.txt_taskDate.Location = new System.Drawing.Point(113, 44);
+            this.txt_taskDate.Name = "txt_taskDate";
+            this.txt_taskDate.Size = new System.Drawing.Size(304, 22);
+            this.txt_taskDate.TabIndex = 1;
             // 
             // monthCalendar1
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(113, 78);
+            this.monthCalendar1.Location = new System.Drawing.Point(113, 127);
             this.monthCalendar1.MaxSelectionCount = 1;
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.TabIndex = 2;
@@ -75,7 +77,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 303);
+            this.label2.Location = new System.Drawing.Point(19, 352);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 17);
             this.label2.TabIndex = 3;
@@ -83,7 +85,7 @@
             // 
             // txt_description
             // 
-            this.txt_description.Location = new System.Drawing.Point(113, 303);
+            this.txt_description.Location = new System.Drawing.Point(113, 352);
             this.txt_description.Name = "txt_description";
             this.txt_description.Size = new System.Drawing.Size(304, 22);
             this.txt_description.TabIndex = 4;
@@ -101,7 +103,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 345);
+            this.label3.Location = new System.Drawing.Point(19, 394);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 17);
             this.label3.TabIndex = 6;
@@ -115,7 +117,7 @@
             "Event",
             "Notes",
             "Closed"});
-            this.cmb_taskType.Location = new System.Drawing.Point(113, 342);
+            this.cmb_taskType.Location = new System.Drawing.Point(113, 391);
             this.cmb_taskType.Name = "cmb_taskType";
             this.cmb_taskType.Size = new System.Drawing.Size(304, 24);
             this.cmb_taskType.TabIndex = 7;
@@ -123,7 +125,7 @@
             // chk_important
             // 
             this.chk_important.AutoSize = true;
-            this.chk_important.Location = new System.Drawing.Point(113, 388);
+            this.chk_important.Location = new System.Drawing.Point(113, 437);
             this.chk_important.Name = "chk_important";
             this.chk_important.Size = new System.Drawing.Size(89, 21);
             this.chk_important.TabIndex = 9;
@@ -196,11 +198,32 @@
             this.btn_delete.UseVisualStyleBackColor = true;
             this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
             // 
+            // txt_enddate
+            // 
+            this.txt_enddate.Enabled = false;
+            this.txt_enddate.Location = new System.Drawing.Point(113, 84);
+            this.txt_enddate.Name = "txt_enddate";
+            this.txt_enddate.Size = new System.Drawing.Size(304, 22);
+            this.txt_enddate.TabIndex = 16;
+            this.txt_enddate.Visible = false;
+            // 
+            // lbl_enddate
+            // 
+            this.lbl_enddate.AutoSize = true;
+            this.lbl_enddate.Location = new System.Drawing.Point(19, 84);
+            this.lbl_enddate.Name = "lbl_enddate";
+            this.lbl_enddate.Size = new System.Drawing.Size(71, 17);
+            this.lbl_enddate.TabIndex = 15;
+            this.lbl_enddate.Text = "End Date:";
+            this.lbl_enddate.Visible = false;
+            // 
             // DailyTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(813, 532);
+            this.Controls.Add(this.txt_enddate);
+            this.Controls.Add(this.lbl_enddate);
             this.Controls.Add(this.btn_delete);
             this.Controls.Add(this.btn_edit);
             this.Controls.Add(this.btn_clear);
@@ -212,8 +235,8 @@
             this.Controls.Add(this.txt_description);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.monthCalendar1);
-            this.Controls.Add(this.txtTaskDate);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txt_taskDate);
+            this.Controls.Add(this.lbl_startdate);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "DailyTask";
@@ -229,8 +252,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtTaskDate;
+        private System.Windows.Forms.Label lbl_startdate;
+        private System.Windows.Forms.TextBox txt_taskDate;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_description;
@@ -245,5 +268,7 @@
         private System.Windows.Forms.Button btn_clear;
         private System.Windows.Forms.Button btn_edit;
         private System.Windows.Forms.Button btn_delete;
+        private System.Windows.Forms.TextBox txt_enddate;
+        private System.Windows.Forms.Label lbl_enddate;
     }
 }
