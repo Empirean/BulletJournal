@@ -284,11 +284,7 @@ namespace BulletJournal
                 generalTasks.Clear();
             }
 
-            main.Populate_dailyTask();
-            main.Populate_monthly();
-            main.Populate_futureLog();
-            main.Populate_collection();
-            main.Populate_index();
+            main.RefreshGrid();
 
             if (accessMode == JournalTask.EntryMode.edit)
                 this.Close();

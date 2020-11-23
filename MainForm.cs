@@ -35,10 +35,18 @@ namespace BulletJournal
             Populate_futureLog();
             Populate_monthly();
             Populate_index();
+
+            dateTimePicker.Value = DateTime.Today;
         }
 
 
         private void btn_refresh_Click(object sender, EventArgs e)
+        {
+
+            RefreshGrid();
+        }
+
+        public void RefreshGrid()
         {
             Populate_collection();
             Populate_dailyTask();
@@ -311,12 +319,12 @@ namespace BulletJournal
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = DateTime.Now },
-                new SqlParameter("@monthlytaskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) },
-                new SqlParameter("@monthlytaskdateEnd", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month,
-                                        DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)) },
-                new SqlParameter("@futureTaskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) },
-                new SqlParameter("@futureTaskdateEnd", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(6) }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
+                new SqlParameter("@monthlytaskdate", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
+                new SqlParameter("@monthlytaskdateEnd", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month,
+                                        DateTime.DaysInMonth(dateTimePicker.Value.Year, dateTimePicker.Value.Month)) },
+                new SqlParameter("@futureTaskdate", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
+                new SqlParameter("@futureTaskdateEnd", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1).AddMonths(6) }
             };
 
             dataGrid_index.DataSource = dbTools.GenericQueryAction(commandString, parameters);
@@ -349,7 +357,7 @@ namespace BulletJournal
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = DateTime.Now }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
             };
 
             dataGrid_dailyTask.DataSource = dbTools.GenericQueryAction(commandString, parameters);
@@ -384,8 +392,8 @@ namespace BulletJournal
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) },
-                new SqlParameter("@taskdateend", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(6) }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
+                new SqlParameter("@taskdateend", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1).AddMonths(6) }
 
             };
 
@@ -421,9 +429,9 @@ namespace BulletJournal
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1) },
-                new SqlParameter("@taskdateEnd", SqlDbType.Date) { Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 
-                                        DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)) }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
+                new SqlParameter("@taskdateEnd", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 
+                                        DateTime.DaysInMonth(dateTimePicker.Value.Year, dateTimePicker.Value.Month)) }
 
             };
 
@@ -823,6 +831,16 @@ namespace BulletJournal
                     futureLog.ShowDialog();
                 }
             }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void dateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshGrid();
         }
     }
 }
