@@ -33,7 +33,7 @@ namespace BulletJournal
             main = m;
         }
 
-        public FutureLog(MainForm m, int id, JournalTask.EntryMode mode)
+        public FutureLog(MainForm m, int id, JournalTask.EntryMode mode, JournalTask.EntryType c = JournalTask.EntryType.none)
         {
             InitializeComponent();
 
@@ -43,12 +43,28 @@ namespace BulletJournal
 
             main = m;
             taskId = id;
-            
-            GetFutureData(id);
+
             accessMode = mode;
 
             if (accessMode == JournalTask.EntryMode.edit)
+            {
                 this.Text = "<••> Edit Future Log";
+                GetFutureData(id);
+            }
+            if (accessMode == JournalTask.EntryMode.migrate)
+            {
+                this.Text = "<••> Migrate Future Task";
+
+                if (c == JournalTask.EntryType.daily)
+                    GetDailyData(id);
+                if (c == JournalTask.EntryType.monthly)
+                    GetMonthlyData(id);
+                if (c == JournalTask.EntryType.future)
+                    GetFutureData(id);
+                if (c == JournalTask.EntryType.collection)
+                    GetCollectionData(id);
+
+            }
         }
 
         private void AddFutureLog_Load(object sender, EventArgs e)
@@ -204,6 +220,34 @@ namespace BulletJournal
                     dbTools.GenericNonQueryAction(command, parameters);
                 }
             }
+            else if (accessMode == JournalTask.EntryMode.migrate)
+            {
+                string command = "insert into futuremain (taskdate) output inserted.taskid values (@taskDate)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                new SqlParameter("@taskDate", SqlDbType.Date) { Value = DateTime.Parse(taskDate)}
+                };
+
+                int insertedId = dbTools.GenericScalarAction(command, parameters);
+
+                command = "insert into futuredetail (tasktype, taskdescription, taskisimportant, maintaskforeignkey) values " +
+                                "(@tasktype, @taskdescription, @taskisimportant, @foreignkey)";
+
+                foreach (GeneralTask taskItem in generalTasks)
+                {
+
+                    parameters = new SqlParameter[]
+                    {
+                    new SqlParameter("@tasktype", SqlDbType.Int) { Value = taskItem.TaskType},
+                    new SqlParameter("@taskdescription", SqlDbType.NVarChar) { Value = taskItem.TaskDescription},
+                    new SqlParameter("@taskisimportant", SqlDbType.Bit) { Value = taskItem.IsImportant},
+                    new SqlParameter("@foreignkey", SqlDbType.Int) { Value = insertedId }
+                    };
+
+                    dbTools.GenericNonQueryAction(command, parameters);
+                }
+            }
             else
             {
                 string command = "insert into futuremain (taskdate) output inserted.taskid values (@taskDate)";
@@ -233,17 +277,138 @@ namespace BulletJournal
                 }
             }
 
-            Clear();
-            list_taskList.Items.Clear();
-            generalTasks.Clear();
+            if (!(accessMode == JournalTask.EntryMode.migrate))
+            {
+                Clear();
+                list_taskList.Items.Clear();
+                generalTasks.Clear();
+            }
 
+            main.Populate_dailyTask();
+            main.Populate_monthly();
             main.Populate_futureLog();
+            main.Populate_collection();
             main.Populate_index();
+
+            if (accessMode == JournalTask.EntryMode.edit)
+                this.Close();
         }
 
         private void list_taskList_MouseUp(object sender, MouseEventArgs e)
         {
             btn_edit.Text = "Edit";
+        }
+
+        private void GetDailyData(int id)
+        {
+            string commandString = "select taskdate " +
+                                   "from dailymain " +
+                                   "where taskid = @taskId";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
+
+            };
+
+            DataTable monthlyMainTable = dbTools.GenericQueryAction(commandString, parameters);
+
+            DataRow monthlyMainContent = monthlyMainTable.AsEnumerable().ToList()[0];
+
+            cmb_taskMonth.SelectedIndex = monthlyMainContent.Field<DateTime>("taskdate").Month - 1;
+
+            int y = monthlyMainContent.Field<DateTime>("taskdate").Year;
+
+            if (!(cmb_taskYear.Items.Contains(y.ToString())))
+            {
+                cmb_taskYear.Items.Insert(0, y.ToString());
+                cmb_taskYear.SelectedIndex = 0;
+            }
+            else
+                cmb_taskYear.SelectedItem = y.ToString();
+
+
+            commandString = "select taskdescription, " +
+                                   "taskisimportant," +
+                                   "tasktype " +
+                                   "from dailydetail " +
+                                   "where maintaskforeignkey = @taskId";
+
+            parameters = new SqlParameter[]
+            {
+                new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
+
+            };
+
+            DataTable dailyDetailTable = dbTools.GenericQueryAction(commandString, parameters);
+            List<DataRow> dailyDetailContent = dailyDetailTable.AsEnumerable().ToList();
+
+            foreach (DataRow detailItem in dailyDetailContent)
+            {
+                GeneralTask generalTask = new GeneralTask();
+                generalTask.TaskDescription = detailItem.Field<string>("taskDescription");
+                generalTask.TaskType = detailItem.Field<int>("tasktype");
+                generalTask.IsImportant = detailItem.Field<bool>("taskisimportant");
+                generalTasks.Add(generalTask);
+
+                list_taskList.Items.Add(generalTask.TaskDescription);
+            }
+        }
+
+        private void GetMonthlyData(int id)
+        {
+            string commandString = "select taskdate " +
+                                   "from monthlymain " +
+                                   "where taskid = @taskId";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
+
+            };
+
+            DataTable monthlyMainTable = dbTools.GenericQueryAction(commandString, parameters);
+
+            DataRow monthlyMainContent = monthlyMainTable.AsEnumerable().ToList()[0];
+
+            cmb_taskMonth.SelectedIndex = monthlyMainContent.Field<DateTime>("taskdate").Month - 1;
+
+            int y = monthlyMainContent.Field<DateTime>("taskdate").Year;
+
+            if (!(cmb_taskYear.Items.Contains(y.ToString())))
+            {
+                cmb_taskYear.Items.Insert(0, y.ToString());
+                cmb_taskYear.SelectedIndex = 0;
+            }
+            else
+                cmb_taskYear.SelectedItem = y.ToString();
+
+
+            commandString = "select taskdescription, " +
+                                   "taskisimportant," +
+                                   "tasktype " +
+                                   "from monthlydetail " +
+                                   "where maintaskforeignkey = @taskId";
+
+            parameters = new SqlParameter[]
+            {
+                new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
+
+            };
+
+            DataTable dailyDetailTable = dbTools.GenericQueryAction(commandString, parameters);
+            List<DataRow> dailyDetailContent = dailyDetailTable.AsEnumerable().ToList();
+
+            foreach (DataRow detailItem in dailyDetailContent)
+            {
+                GeneralTask generalTask = new GeneralTask();
+                generalTask.TaskDescription = detailItem.Field<string>("taskDescription");
+                generalTask.TaskType = detailItem.Field<int>("tasktype");
+                generalTask.IsImportant = detailItem.Field<bool>("taskisimportant");
+                generalTasks.Add(generalTask);
+
+                list_taskList.Items.Add(generalTask.TaskDescription);
+            }
         }
 
         private void GetFutureData(int id)
@@ -300,6 +465,48 @@ namespace BulletJournal
 
                 list_taskList.Items.Add(generalTask.TaskDescription);
             }
+        }
+
+        private void GetCollectionData(int id)
+        {
+            string commandString = "select taskdateadded, " +
+                                   "taskdescription, " +
+                                   "tasktype, " +
+                                   "taskisimportant " +
+                                   "from collectiontable " +
+                                   "where taskid = @taskId";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
+
+            };
+
+            DataTable monthlyMainTable = dbTools.GenericQueryAction(commandString, parameters);
+
+            DataRow monthlyMainContent = monthlyMainTable.AsEnumerable().ToList()[0];
+
+            cmb_taskMonth.SelectedIndex = monthlyMainContent.Field<DateTime>("taskdateadded").Month - 1;
+
+            int y = monthlyMainContent.Field<DateTime>("taskdateadded").Year;
+
+            if (!(cmb_taskYear.Items.Contains(y.ToString())))
+            {
+                cmb_taskYear.Items.Insert(0, y.ToString());
+                cmb_taskYear.SelectedIndex = 0;
+            }
+            else
+                cmb_taskYear.SelectedItem = y.ToString();
+
+
+            GeneralTask generalTask = new GeneralTask();
+            generalTask.TaskDescription = monthlyMainContent.Field<string>("taskDescription");
+            generalTask.TaskType = monthlyMainContent.Field<int>("tasktype");
+            generalTask.IsImportant = monthlyMainContent.Field<bool>("taskisimportant");
+            generalTasks.Add(generalTask);
+
+            list_taskList.Items.Add(generalTask.TaskDescription);
+
         }
     }
 }

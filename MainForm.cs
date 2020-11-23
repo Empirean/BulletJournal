@@ -750,5 +750,79 @@ namespace BulletJournal
                 }
             }
         }
+
+        private void futureLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FutureLog futureLog;
+
+            if (entryType == JournalTask.EntryType.daily)
+            {
+                using (futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
+                {
+                    futureLog.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.monthly)
+            {
+                using (futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
+                {
+                    futureLog.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.future)
+            {
+                using (futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
+                {
+                    futureLog.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.collection)
+            {
+                using (futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
+                {
+                    futureLog.ShowDialog();
+                }
+            }
+        }
+
+        private void collectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Collections futureLog;
+
+            if (entryType == JournalTask.EntryType.daily)
+            {
+                using (futureLog = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
+                {
+                    futureLog.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.monthly)
+            {
+                using (futureLog = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
+                {
+                    futureLog.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.future)
+            {
+                using (futureLog = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
+                {
+                    futureLog.ShowDialog();
+                }
+            }
+
+            if (entryType == JournalTask.EntryType.collection)
+            {
+                using (futureLog = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
+                {
+                    futureLog.ShowDialog();
+                }
+            }
+        }
     }
 }

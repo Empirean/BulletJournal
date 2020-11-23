@@ -39,6 +39,7 @@ namespace BulletJournal
             {
                 this.Text = "<••> Migrate Daily Task";
                 monthCalendar1.MaxSelectionCount = 7;
+
                 lbl_enddate.Visible = true;
                 txt_enddate.Visible = true;
 
@@ -281,6 +282,9 @@ namespace BulletJournal
             }
 
             main.Populate_dailyTask();
+            main.Populate_monthly();
+            main.Populate_futureLog();
+            main.Populate_collection();
             main.Populate_index();
 
             if (accessMode == JournalTask.EntryMode.edit)
@@ -305,7 +309,7 @@ namespace BulletJournal
 
             DataRow dailyMainContent = dailyMainTable.AsEnumerable().ToList()[0];
 
-            monthCalendar1.SelectionStart = dailyMainContent.Field<DateTime>("taskdate");
+            monthCalendar1.SelectionStart = DateTime.Now;
 
 
             commandString = "select taskdescription, " +
@@ -352,7 +356,7 @@ namespace BulletJournal
 
             DataRow dailyMainContent = dailyMainTable.AsEnumerable().ToList()[0];
 
-            monthCalendar1.SelectionStart = dailyMainContent.Field<DateTime>("taskdate");
+            monthCalendar1.SelectionStart = DateTime.Now;
 
 
             commandString = "select taskdescription, " +
@@ -399,7 +403,7 @@ namespace BulletJournal
 
             DataRow dailyMainContent = dailyMainTable.AsEnumerable().ToList()[0];
 
-            monthCalendar1.SelectionStart = dailyMainContent.Field<DateTime>("taskdate");
+            monthCalendar1.SelectionStart = DateTime.Now;
 
 
             commandString = "select taskdescription, " +

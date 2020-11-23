@@ -284,13 +284,22 @@ namespace BulletJournal
                 }
             }
 
+            if (!(accessMode == JournalTask.EntryMode.migrate))
+            {
+                Clear();
+                list_taskList.Items.Clear();
+                generalTasks.Clear();
+            }
 
-            Clear();
-            list_taskList.Items.Clear();
-            generalTasks.Clear();
-
+            main.Populate_dailyTask();
             main.Populate_monthly();
+            main.Populate_futureLog();
+            main.Populate_collection();
             main.Populate_index();
+
+            if (accessMode == JournalTask.EntryMode.edit)
+                this.Close();
+
         }
 
         private void list_taskList_MouseUp(object sender, MouseEventArgs e)
