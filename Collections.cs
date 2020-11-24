@@ -63,7 +63,7 @@ namespace BulletJournal
                 return;
 
             SqlParameter[] parameters;
-            string command;
+            string commandString;
 
             if (accessMode == JournalTask.EntryMode.edit)
             {
@@ -74,7 +74,7 @@ namespace BulletJournal
                     new SqlParameter("@isImportant", SqlDbType.Bit) { Value = chk_important.Checked},
                     new SqlParameter("@taskid", SqlDbType.Int) { Value = taskId}
                 };
-                command = "update collectiontable " +
+                commandString = "update collectiontable " +
                           "set " +
                           "taskdescription = @desc, " +
                           "tasktype = @taskType, " +
@@ -91,12 +91,12 @@ namespace BulletJournal
                     new SqlParameter("@isImportant", SqlDbType.Bit) { Value = chk_important.Checked},
                     new SqlParameter("@taskDateAdded", SqlDbType.Date) { Value = DateTime.Now}
                 };
-                command = "insert into collectiontable (taskdescription, tasktype, taskisimportant, taskDateAdded) " +
+                commandString = "insert into collectiontable (taskdescription, tasktype, taskisimportant, taskDateAdded) " +
                                  "values (@desc, @tasktype, @isImportant, @taskDateAdded)";
             }
 
 
-            dbTools.GenericNonQueryAction(command, parameters);
+            dbTools.GenericNonQueryAction(commandString, parameters);
             main.Populate_collection();
             main.Populate_index();
 
