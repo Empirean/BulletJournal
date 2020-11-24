@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_index = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.dataGrid_index = new System.Windows.Forms.DataGridView();
             this.tab_Daily_Task = new System.Windows.Forms.TabPage();
             this.btn_addDailyTask = new System.Windows.Forms.Button();
@@ -55,8 +58,6 @@
             this.dailyTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tab_index.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_index)).BeginInit();
@@ -99,6 +100,23 @@
             this.tab_index.Text = "Index";
             this.tab_index.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 387);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 17);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Date Today:";
+            // 
+            // dateTimePicker
+            // 
+            this.dateTimePicker.Location = new System.Drawing.Point(129, 383);
+            this.dateTimePicker.Name = "dateTimePicker";
+            this.dateTimePicker.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePicker.TabIndex = 0;
+            this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
+            // 
             // dataGrid_index
             // 
             this.dataGrid_index.AllowUserToAddRows = false;
@@ -131,7 +149,7 @@
             this.btn_addDailyTask.Location = new System.Drawing.Point(641, 371);
             this.btn_addDailyTask.Name = "btn_addDailyTask";
             this.btn_addDailyTask.Size = new System.Drawing.Size(75, 42);
-            this.btn_addDailyTask.TabIndex = 2;
+            this.btn_addDailyTask.TabIndex = 0;
             this.btn_addDailyTask.Text = "Add";
             this.btn_addDailyTask.UseVisualStyleBackColor = true;
             this.btn_addDailyTask.Click += new System.EventHandler(this.btn_addDailyTask_Click);
@@ -169,7 +187,7 @@
             this.btn_addMonthlyTask.Location = new System.Drawing.Point(641, 371);
             this.btn_addMonthlyTask.Name = "btn_addMonthlyTask";
             this.btn_addMonthlyTask.Size = new System.Drawing.Size(75, 42);
-            this.btn_addMonthlyTask.TabIndex = 3;
+            this.btn_addMonthlyTask.TabIndex = 0;
             this.btn_addMonthlyTask.Text = "Add";
             this.btn_addMonthlyTask.UseVisualStyleBackColor = true;
             this.btn_addMonthlyTask.Click += new System.EventHandler(this.btn_addMonthlyTask_Click);
@@ -208,7 +226,7 @@
             this.btn_addFutureLog.Location = new System.Drawing.Point(641, 371);
             this.btn_addFutureLog.Name = "btn_addFutureLog";
             this.btn_addFutureLog.Size = new System.Drawing.Size(75, 42);
-            this.btn_addFutureLog.TabIndex = 4;
+            this.btn_addFutureLog.TabIndex = 0;
             this.btn_addFutureLog.Text = "Add";
             this.btn_addFutureLog.UseVisualStyleBackColor = true;
             this.btn_addFutureLog.Click += new System.EventHandler(this.btn_addFutureLog_Click);
@@ -246,7 +264,7 @@
             this.btn_addCollection.Location = new System.Drawing.Point(641, 371);
             this.btn_addCollection.Name = "btn_addCollection";
             this.btn_addCollection.Size = new System.Drawing.Size(75, 42);
-            this.btn_addCollection.TabIndex = 5;
+            this.btn_addCollection.TabIndex = 0;
             this.btn_addCollection.Text = "Add";
             this.btn_addCollection.UseVisualStyleBackColor = true;
             this.btn_addCollection.Click += new System.EventHandler(this.btn_addCollection_Click);
@@ -292,14 +310,14 @@
             // 
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.Size = new System.Drawing.Size(224, 26);
-            this.btn_refresh.Text = "Refresh";
+            this.btn_refresh.Text = "&Refresh";
             this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // contextMenuStrip1
@@ -339,40 +357,23 @@
             // dailyTaskToolStripMenuItem
             // 
             this.dailyTaskToolStripMenuItem.Name = "dailyTaskToolStripMenuItem";
-            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.dailyTaskToolStripMenuItem.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem_Click);
             // 
             // monthlyTaskToolStripMenuItem
             // 
             this.monthlyTaskToolStripMenuItem.Name = "monthlyTaskToolStripMenuItem";
-            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.monthlyTaskToolStripMenuItem.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem_Click);
             // 
             // futureLogToolStripMenuItem
             // 
             this.futureLogToolStripMenuItem.Name = "futureLogToolStripMenuItem";
-            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.futureLogToolStripMenuItem.Text = "Future Log";
             this.futureLogToolStripMenuItem.Click += new System.EventHandler(this.futureLogToolStripMenuItem_Click);
-            // 
-            // dateTimePicker
-            // 
-            this.dateTimePicker.Location = new System.Drawing.Point(129, 383);
-            this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.Size = new System.Drawing.Size(200, 22);
-            this.dateTimePicker.TabIndex = 2;
-            this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 387);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 17);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Date Today:";
             // 
             // MainForm
             // 
@@ -381,10 +382,12 @@
             this.ClientSize = new System.Drawing.Size(813, 518);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "<••> Bullet Journal";
+            this.Text = "Bullet Journal";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tab_index.ResumeLayout(false);

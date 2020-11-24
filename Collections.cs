@@ -25,7 +25,6 @@ namespace BulletJournal
             dbTools = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
             cmb_taskType.SelectedIndex = 0;
 
-
             main = m;
             taskId = id;
 
@@ -33,22 +32,8 @@ namespace BulletJournal
 
             if (accessMode == JournalTask.EntryMode.edit)
             {
-                this.Text = "<••> Edit Collection";
+                this.Text = "Edit Collection";
                 GetCollectionData(id);
-            }
-            if (accessMode == JournalTask.EntryMode.migrate)
-            {
-                this.Text = "<••> Migrate Monthly Task";
-
-                if (c == JournalTask.EntryType.daily)
-                    GetDailyData(id);
-                if (c == JournalTask.EntryType.monthly)
-                    GetMonthlyData(id);
-                if (c == JournalTask.EntryType.future)
-                    GetFutureData(id);
-                if (c == JournalTask.EntryType.collection)
-                    GetCollectionData(id);
-
             }
 
         }
@@ -128,81 +113,6 @@ namespace BulletJournal
             if (txt_description.Text.Length > 0)
                 return true;
             return false;
-        }
-
-        private void GetDailyData(int id)
-        {
-
-            string commandString = "select taskId, " +
-                                   "taskdescription, " +
-                                   "tasktype, " +
-                                   "taskisimportant, " +
-                                   "taskdateadded " +
-                                   "from collectiontable " +
-                                   "where taskid = @taskId";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
-
-            };
-
-            DataTable collectionData = dbTools.GenericQueryAction(commandString, parameters);
-            DataRow dataRow = collectionData.AsEnumerable().ToList()[0];
-
-            txt_description.Text = dataRow.Field<string>("taskdescription");
-            cmb_taskType.SelectedIndex = dataRow.Field<int>("tasktype");
-            chk_important.Checked = dataRow.Field<bool>("taskisimportant");
-        }
-
-        private void GetMonthlyData(int id)
-        {
-
-            string commandString = "select taskId, " +
-                                   "taskdescription, " +
-                                   "tasktype, " +
-                                   "taskisimportant, " +
-                                   "taskdateadded " +
-                                   "from collectiontable " +
-                                   "where taskid = @taskId";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
-
-            };
-
-            DataTable collectionData = dbTools.GenericQueryAction(commandString, parameters);
-            DataRow dataRow = collectionData.AsEnumerable().ToList()[0];
-
-            txt_description.Text = dataRow.Field<string>("taskdescription");
-            cmb_taskType.SelectedIndex = dataRow.Field<int>("tasktype");
-            chk_important.Checked = dataRow.Field<bool>("taskisimportant");
-        }
-
-        private void GetFutureData(int id)
-        {
-
-            string commandString = "select taskId, " +
-                                   "taskdescription, " +
-                                   "tasktype, " +
-                                   "taskisimportant, " +
-                                   "taskdateadded " +
-                                   "from collectiontable " +
-                                   "where taskid = @taskId";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = id }
-
-            };
-
-            DataTable collectionData = dbTools.GenericQueryAction(commandString, parameters);
-            DataRow dataRow = collectionData.AsEnumerable().ToList()[0];
-
-            txt_description.Text = dataRow.Field<string>("taskdescription");
-            cmb_taskType.SelectedIndex = dataRow.Field<int>("tasktype");
-            chk_important.Checked = dataRow.Field<bool>("taskisimportant");
         }
 
         private void GetCollectionData(int id)

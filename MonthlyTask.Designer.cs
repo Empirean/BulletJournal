@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MonthlyTask));
             this.btn_delete = new System.Windows.Forms.Button();
             this.btn_edit = new System.Windows.Forms.Button();
             this.btn_clear = new System.Windows.Forms.Button();
@@ -53,7 +54,7 @@
             this.btn_delete.Location = new System.Drawing.Point(560, 461);
             this.btn_delete.Name = "btn_delete";
             this.btn_delete.Size = new System.Drawing.Size(75, 42);
-            this.btn_delete.TabIndex = 41;
+            this.btn_delete.TabIndex = 4;
             this.btn_delete.Text = "Delete";
             this.btn_delete.UseVisualStyleBackColor = true;
             this.btn_delete.Click += new System.EventHandler(this.btn_delete_Click);
@@ -63,7 +64,7 @@
             this.btn_edit.Location = new System.Drawing.Point(641, 461);
             this.btn_edit.Name = "btn_edit";
             this.btn_edit.Size = new System.Drawing.Size(75, 42);
-            this.btn_edit.TabIndex = 40;
+            this.btn_edit.TabIndex = 5;
             this.btn_edit.Text = "Edit";
             this.btn_edit.UseVisualStyleBackColor = true;
             this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);
@@ -73,7 +74,7 @@
             this.btn_clear.Location = new System.Drawing.Point(722, 413);
             this.btn_clear.Name = "btn_clear";
             this.btn_clear.Size = new System.Drawing.Size(75, 42);
-            this.btn_clear.TabIndex = 39;
+            this.btn_clear.TabIndex = 6;
             this.btn_clear.Text = "Clear";
             this.btn_clear.UseVisualStyleBackColor = true;
             this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
@@ -84,7 +85,7 @@
             this.cmb_taskYear.Location = new System.Drawing.Point(109, 75);
             this.cmb_taskYear.Name = "cmb_taskYear";
             this.cmb_taskYear.Size = new System.Drawing.Size(304, 24);
-            this.cmb_taskYear.TabIndex = 38;
+            this.cmb_taskYear.TabIndex = 10;
             // 
             // cmb_taskMonth
             // 
@@ -92,7 +93,7 @@
             this.cmb_taskMonth.Location = new System.Drawing.Point(109, 36);
             this.cmb_taskMonth.Name = "cmb_taskMonth";
             this.cmb_taskMonth.Size = new System.Drawing.Size(304, 24);
-            this.cmb_taskMonth.TabIndex = 37;
+            this.cmb_taskMonth.TabIndex = 10;
             // 
             // label4
             // 
@@ -108,7 +109,7 @@
             this.btn_add.Location = new System.Drawing.Point(722, 461);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(75, 42);
-            this.btn_add.TabIndex = 35;
+            this.btn_add.TabIndex = 3;
             this.btn_add.Text = "Add";
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
@@ -119,7 +120,7 @@
             this.chk_important.Location = new System.Drawing.Point(109, 200);
             this.chk_important.Name = "chk_important";
             this.chk_important.Size = new System.Drawing.Size(89, 21);
-            this.chk_important.TabIndex = 34;
+            this.chk_important.TabIndex = 2;
             this.chk_important.Text = "Important";
             this.chk_important.UseVisualStyleBackColor = true;
             // 
@@ -134,7 +135,7 @@
             this.cmb_taskType.Location = new System.Drawing.Point(109, 154);
             this.cmb_taskType.Name = "cmb_taskType";
             this.cmb_taskType.Size = new System.Drawing.Size(304, 24);
-            this.cmb_taskType.TabIndex = 33;
+            this.cmb_taskType.TabIndex = 1;
             // 
             // label3
             // 
@@ -160,7 +161,7 @@
             this.txt_description.Location = new System.Drawing.Point(109, 115);
             this.txt_description.Name = "txt_description";
             this.txt_description.Size = new System.Drawing.Size(304, 22);
-            this.txt_description.TabIndex = 30;
+            this.txt_description.TabIndex = 0;
             // 
             // label2
             // 
@@ -226,9 +227,11 @@
             this.Controls.Add(this.txt_description);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MonthlyTask";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "<••> New Monthly Task";
+            this.Text = "New Monthly Task";
             this.Load += new System.EventHandler(this.AddMonthlyTask_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

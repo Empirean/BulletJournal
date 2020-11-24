@@ -48,12 +48,12 @@ namespace BulletJournal
 
             if (accessMode == JournalTask.EntryMode.edit)
             {
-                this.Text = "<••> Edit Future Log";
+                this.Text = "Edit Future Log";
                 GetFutureData(id);
             }
             if (accessMode == JournalTask.EntryMode.migrate)
             {
-                this.Text = "<••> Migrate Future Task";
+                this.Text = "Migrate Future Task";
 
                 if (c == JournalTask.EntryType.daily)
                     GetDailyData(id);
@@ -286,7 +286,7 @@ namespace BulletJournal
 
             main.RefreshGrid();
 
-            if (accessMode == JournalTask.EntryMode.edit)
+            if (accessMode == JournalTask.EntryMode.edit || accessMode == JournalTask.EntryMode.migrate)
                 this.Close();
         }
 

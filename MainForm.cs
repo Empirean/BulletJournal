@@ -386,13 +386,13 @@ namespace BulletJournal
                                    "from futuremain as m " +
                                    "inner join futuredetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate >= @taskdate " +
+                                   "where m.taskdate >= @taskdatestart " +
                                    "and m.taskdate <= @taskdateend " +
                                    "order by m.taskdate";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
+                new SqlParameter("@taskdatestart", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
                 new SqlParameter("@taskdateend", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1).AddMonths(6) }
 
             };
@@ -423,13 +423,13 @@ namespace BulletJournal
                                    "from monthlymain as m " +
                                    "inner join monthlydetail as d " +
                                    "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate >= @taskdate " +
+                                   "where m.taskdate >= @taskdatestart " +
                                    "and m.taskdate <= @taskdateEnd " +
                                    "order by m.taskdate";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
+                new SqlParameter("@taskdatestart", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
                 new SqlParameter("@taskdateEnd", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 
                                         DateTime.DaysInMonth(dateTimePicker.Value.Year, dateTimePicker.Value.Month)) }
 
@@ -595,27 +595,27 @@ namespace BulletJournal
             if (entryType == JournalTask.EntryType.monthly)
             {
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] mainParameters = new SqlParameter[]
                 {
                     new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
 
                 };
 
-                string commandString = "delete from monthlymain " +
+                string mainString = "delete from monthlymain " +
                                        "where taskid = @taskId";
 
-                dbTools.GenericNonQueryAction(commandString, parameters);
+                dbTools.GenericNonQueryAction(mainString, mainParameters);
 
-                parameters = new SqlParameter[]
+                SqlParameter[] detailParameters = new SqlParameter[]
                 {
                     new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
 
                 };
 
-                commandString = "delete from monthlydetail " +
+                string detailString = "delete from monthlydetail " +
                                 "where maintaskforeignkey = @taskId";
 
-                dbTools.GenericNonQueryAction(commandString, parameters);
+                dbTools.GenericNonQueryAction(detailString, detailParameters);
 
                 Populate_monthly();
                 Populate_index();
@@ -623,27 +623,27 @@ namespace BulletJournal
             if (entryType == JournalTask.EntryType.future)
             {
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] mainParameters = new SqlParameter[]
                 {
                     new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
 
                 };
 
-                string commandString = "delete from futuremain " +
+                string mainString = "delete from futuremain " +
                                        "where taskid = @taskId";
 
-                dbTools.GenericNonQueryAction(commandString, parameters);
+                dbTools.GenericNonQueryAction(mainString, mainParameters);
 
-                parameters = new SqlParameter[]
+                SqlParameter[] detailParameters = new SqlParameter[]
                 {
                     new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
 
                 };
 
-                commandString = "delete from futuredetail " +
+                string detailString = "delete from futuredetail " +
                                 "where maintaskforeignkey = @taskId";
 
-                dbTools.GenericNonQueryAction(commandString, parameters);
+                dbTools.GenericNonQueryAction(detailString, detailParameters);
 
                 Populate_futureLog();
                 Populate_index();
@@ -798,37 +798,37 @@ namespace BulletJournal
 
         private void collectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Collections futureLog;
+            Collections collections;
 
             if (entryType == JournalTask.EntryType.daily)
             {
-                using (futureLog = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
+                using (collections = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
                 {
-                    futureLog.ShowDialog();
+                    collections.ShowDialog();
                 }
             }
 
             if (entryType == JournalTask.EntryType.monthly)
             {
-                using (futureLog = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
+                using (collections = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
                 {
-                    futureLog.ShowDialog();
+                    collections.ShowDialog();
                 }
             }
 
             if (entryType == JournalTask.EntryType.future)
             {
-                using (futureLog = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
+                using (collections = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
                 {
-                    futureLog.ShowDialog();
+                    collections.ShowDialog();
                 }
             }
 
             if (entryType == JournalTask.EntryType.collection)
             {
-                using (futureLog = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
+                using (collections = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
                 {
-                    futureLog.ShowDialog();
+                    collections.ShowDialog();
                 }
             }
         }
@@ -842,5 +842,6 @@ namespace BulletJournal
         {
             RefreshGrid();
         }
+
     }
 }

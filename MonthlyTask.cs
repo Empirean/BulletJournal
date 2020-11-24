@@ -37,12 +37,12 @@ namespace BulletJournal
 
             if (accessMode == JournalTask.EntryMode.edit)
             {
-                this.Text = "<••> Edit Monthly Task";
+                this.Text = "Edit Monthly Task";
                 GetMonthlyData(taskId);
             }
             if (accessMode == JournalTask.EntryMode.migrate)
             {
-                this.Text = "<••> Migrate Monthly Task";
+                this.Text = "Migrate Monthly Task";
 
                 if (c == JournalTask.EntryType.daily)
                     GetDailyData(id);
@@ -293,7 +293,7 @@ namespace BulletJournal
 
             main.RefreshGrid();
 
-            if (accessMode == JournalTask.EntryMode.edit)
+            if (accessMode == JournalTask.EntryMode.edit || accessMode == JournalTask.EntryMode.migrate)
                 this.Close();
 
         }

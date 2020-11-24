@@ -32,12 +32,12 @@ namespace BulletJournal
 
             if (accessMode == JournalTask.EntryMode.edit)
             {
-                this.Text = "<••> Edit Daily Task";
+                this.Text = "Edit Daily Task";
                 GetDailyData(id);
             }
             if (accessMode == JournalTask.EntryMode.migrate)
             {
-                this.Text = "<••> Migrate Daily Task";
+                this.Text = "Migrate Daily Task";
                 monthCalendar1.MaxSelectionCount = 7;
 
                 lbl_enddate.Visible = true;
@@ -283,7 +283,7 @@ namespace BulletJournal
 
             main.RefreshGrid();
 
-            if (accessMode == JournalTask.EntryMode.edit)
+            if (accessMode == JournalTask.EntryMode.edit || accessMode == JournalTask.EntryMode.migrate)
                 this.Close();
 
         }
