@@ -12,6 +12,9 @@ using System.Windows.Forms;
 
 namespace BulletJournal
 {
+
+    //test commit
+
     public partial class MainForm : Form
     {
         DBTools dbTools;
