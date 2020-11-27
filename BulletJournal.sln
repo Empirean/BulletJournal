@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal", "BulletJournal.csproj", "{2CE52B25-004E-4E85-ABCE-774DAAD41DF6}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "BullerJournalInstaller", "..\BullerJournalInstaller\BullerJournalInstaller.vdproj", "{62CD774C-D7F9-49DE-A307-15C3ECC8D62D}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "BulletJournalInstaller", "..\BulletJournalInstaller\BulletJournalInstaller.vdproj", "{EDD36EC5-B00B-47D3-B7DA-B55E4B0F000A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,12 +13,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2CE52B25-004E-4E85-ABCE-774DAAD41DF6}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{2CE52B25-004E-4E85-ABCE-774DAAD41DF6}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{2CE52B25-004E-4E85-ABCE-774DAAD41DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE52B25-004E-4E85-ABCE-774DAAD41DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CE52B25-004E-4E85-ABCE-774DAAD41DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CE52B25-004E-4E85-ABCE-774DAAD41DF6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62CD774C-D7F9-49DE-A307-15C3ECC8D62D}.Debug|Any CPU.ActiveCfg = Debug
-		{62CD774C-D7F9-49DE-A307-15C3ECC8D62D}.Release|Any CPU.ActiveCfg = Release
+		{EDD36EC5-B00B-47D3-B7DA-B55E4B0F000A}.Debug|Any CPU.ActiveCfg = Debug
+		{EDD36EC5-B00B-47D3-B7DA-B55E4B0F000A}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

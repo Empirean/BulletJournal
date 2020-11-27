@@ -26,11 +26,23 @@ namespace BulletJournal.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\JournalDataba" +
-            "se.mdf;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=c:\\users\\Mario\\AppData\\Roamin" +
+            "g\\Hamunchi\\BulletJournal\\JournalDatabase.mdf;Integrated Security=True")]
         public string DatabaseConnectionString {
             get {
                 return ((string)(this["DatabaseConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Mario\\AppData\\Roamin" +
+            "g\\Hamunchi\\BulletJournal\\JournalDatabase.mdf;Integrated Security=True;Connect Ti" +
+            "meout=30")]
+        public string DatabaseConnectionString1 {
+            get {
+                return ((string)(this["DatabaseConnectionString1"]));
             }
         }
     }
