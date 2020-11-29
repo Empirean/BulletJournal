@@ -34,7 +34,7 @@ namespace BulletJournal
             dbTools = new DBTools(cn);
             
             Populate_dailyTask();
-            Populate_collection();
+            Populate_Collection();
             Populate_futureLog();
             Populate_monthly();
             Populate_index();
@@ -51,7 +51,7 @@ namespace BulletJournal
 
         public void RefreshGrid()
         {
-            Populate_collection();
+            Populate_Collection();
             Populate_dailyTask();
             Populate_futureLog();
             Populate_monthly();
@@ -68,10 +68,18 @@ namespace BulletJournal
 
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
+
+            /*
             using (Collections addCollection = new Collections(this))
             {
                 addCollection.ShowDialog();
             }
+            */
+            using (Category category = new Category("", JournalTask.EntryMode.add, 0, this) )
+            {
+                category.ShowDialog();
+            }
+
         }
 
         public void Populate_index()
@@ -447,31 +455,34 @@ namespace BulletJournal
             dataGrid_monthly.Columns["Description"].Width = 280;
         }
 
-        public void Populate_collection()
+        public void Populate_Collection()
         {
-            string commandString = "select TaskId,  case when TaskIsImportant = 1 then '*' else '' end as [I], " + 
-                                   " case " +
-                                   " when TaskType = 0 then 'TASK' " + 
-                                   " when TaskType = 1 then 'EVENT' " +
-                                   " when TaskType = 2 then 'NOTES' " + 
-                                   " else 'CLOSED' end as [Type], " + 
-                                   " TaskDescription as [Description], " +
-                                   " TaskDateAdded as [Date (DD/MM/YYYY)] " +
-                                   " from CollectionTable";
+            string commandString = "select " +
+                                   "a.collectionid, " +
+                                   "a.collectionname as Category, " +
+                                   "count(b.collectionid) as [Contents] " +
+                                   "from collectionmain as a " +
+                                   "left join collectiondetail as b " +
+                                   "on a.collectionid = b.maintaskforeignkey " +
+                                   "group by a.collectionid, a.collectionname";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
             };
 
-            
+
             dataGrid_collection.DataSource = dbTools.GenericQueryAction(commandString, parameters);
+
             dataGrid_collection.Columns[0].Visible = false;
             dataGrid_collection.Columns[0].Width = 1;
+            dataGrid_collection.Columns["Category"].Width = 400;
+            dataGrid_collection.Columns["Contents"].Width = 70;
+            /*
             dataGrid_collection.Columns["I"].Width = 20;
             dataGrid_collection.Columns["Type"].Width = 70;
             dataGrid_collection.Columns["Description"].Width = 285;
             dataGrid_collection.Columns["Date (DD/MM/YYYY)"].Width = 95;
-
+            */
         }
 
         private void btn_addFutureLog_Click(object sender, EventArgs e)
@@ -564,7 +575,7 @@ namespace BulletJournal
                 };
 
                 dbTools.GenericNonQueryAction(commandString, parameters);
-                Populate_collection();
+                Populate_Collection();
                 Populate_index();
             }
             if (entryType == JournalTask.EntryType.daily)

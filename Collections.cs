@@ -97,7 +97,7 @@ namespace BulletJournal
 
 
             dbTools.GenericNonQueryAction(commandString, parameters);
-            main.Populate_collection();
+            main.Populate_Collection();
             main.Populate_index();
 
             Clear();
