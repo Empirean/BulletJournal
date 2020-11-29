@@ -477,12 +477,6 @@ namespace BulletJournal
             dataGrid_collection.Columns[0].Width = 1;
             dataGrid_collection.Columns["Category"].Width = 400;
             dataGrid_collection.Columns["Contents"].Width = 70;
-            /*
-            dataGrid_collection.Columns["I"].Width = 20;
-            dataGrid_collection.Columns["Type"].Width = 70;
-            dataGrid_collection.Columns["Description"].Width = 285;
-            dataGrid_collection.Columns["Date (DD/MM/YYYY)"].Width = 95;
-            */
         }
 
         private void btn_addFutureLog_Click(object sender, EventArgs e)
@@ -565,16 +559,28 @@ namespace BulletJournal
         {
             if (entryType == JournalTask.EntryType.collection)
             {
-                string commandString = "delete from collectiontable " +
-                                       "where taskid = @taskId";
+                string mainCommand = "delete from collectionmain " +
+                                       "where collectionid = @taskId";
 
-                SqlParameter[] parameters = new SqlParameter[]
+                SqlParameter[] mainparameters = new SqlParameter[]
                 {
                     new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
 
                 };
 
-                dbTools.GenericNonQueryAction(commandString, parameters);
+                dbTools.GenericNonQueryAction(mainCommand, mainparameters);
+
+                string detailCommand = "delete from collectiondetail " +
+                                       "where maintaskforeignkey = @taskId";
+
+                SqlParameter[] detailParameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                dbTools.GenericNonQueryAction(detailCommand, detailParameters);
+
                 Populate_Collection();
                 Populate_index();
             }
