@@ -69,13 +69,7 @@ namespace BulletJournal
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
 
-            /*
-            using (Collections addCollection = new Collections(this))
-            {
-                addCollection.ShowDialog();
-            }
-            */
-            using (Category category = new Category("", JournalTask.EntryMode.add, 0, this) )
+            using (Category category = new Category(this, 0, JournalTask.EntryMode.add) )
             {
                 category.ShowDialog();
             }
@@ -698,10 +692,12 @@ namespace BulletJournal
 
             if (entryType == JournalTask.EntryType.collection)
             {
-                using (Collections collection = new Collections(this, taskId, JournalTask.EntryMode.edit))
+
+                using (Category collection = new Category(this, taskId, JournalTask.EntryMode.edit))
                 {
                     collection.ShowDialog();
                 }
+
             }
         }
 

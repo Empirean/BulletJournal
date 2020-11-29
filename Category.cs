@@ -18,16 +18,30 @@ namespace BulletJournal
         MainForm main;
         int catId;
 
-        public Category(string _description, JournalTask.EntryMode _mode, int _catid, MainForm _mainform)
+        public Category(MainForm _mainform,  int _catid, JournalTask.EntryMode _mode)
         {
             InitializeComponent();
 
             db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
-
-            txt_category.Text = _description;
+            
             mode = _mode;
             catId = _catid;
             main = _mainform;
+
+            if (mode == JournalTask.EntryMode.edit)
+            {
+                string command = "select collectionname " +
+                                 "from collectionmain " +
+                                 "where collectionid = @id";
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@id", SqlDbType.Int) { Value = catId}
+                };
+
+                DataTable dataTable = db.GenericQueryAction(command,parameters);
+                DataRow dataRow = dataTable.AsEnumerable().ToList()[0];
+                txt_category.Text = dataRow.Field<string>("collectionname");
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -41,6 +55,20 @@ namespace BulletJournal
                                  "(collectionname) " +
                                  "values" +
                                  "(@desc)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_category.Text}
+                };
+
+                db.GenericNonQueryAction(command, parameters);
+            }
+
+            if (mode == JournalTask.EntryMode.edit)
+            {
+                string command = "update collectionmain " +
+                                 "set " +
+                                 "collectionname = (@desc)";
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {
