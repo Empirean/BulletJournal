@@ -51,7 +51,9 @@
     <ApplicationIcon>bulletJournal.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
@@ -71,11 +73,17 @@
     <Compile Include="Category.Designer.cs">
       <DependentUpon>Category.cs</DependentUpon>
     </Compile>
-    <Compile Include="Collections.cs">
+    <Compile Include="Collection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Collections.Designer.cs">
-      <DependentUpon>Collections.cs</DependentUpon>
+    <Compile Include="Collection.Designer.cs">
+      <DependentUpon>Collection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CollectionContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CollectionContent.Designer.cs">
+      <DependentUpon>CollectionContent.cs</DependentUpon>
     </Compile>
     <Compile Include="DailyTask.cs">
       <SubType>Form</SubType>
@@ -114,8 +122,11 @@
     <EmbeddedResource Include="Category.resx">
       <DependentUpon>Category.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Collections.resx">
-      <DependentUpon>Collections.cs</DependentUpon>
+    <EmbeddedResource Include="Collection.resx">
+      <DependentUpon>Collection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CollectionContent.resx">
+      <DependentUpon>CollectionContent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DailyTask.resx">
       <DependentUpon>DailyTask.cs</DependentUpon>

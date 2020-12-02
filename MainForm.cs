@@ -18,8 +18,9 @@ namespace BulletJournal
     public partial class MainForm : Form
     {
         DBTools dbTools;
-        int taskId;
         JournalTask.EntryType entryType;
+
+        int taskId;
 
         public MainForm()
         {
@@ -68,12 +69,11 @@ namespace BulletJournal
 
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
-
-            using (Category category = new Category(this, 0, JournalTask.EntryMode.add) )
+            using (Category category = new Category(JournalTask.EntryMode.add))
             {
+                category.OnCategorySaved += this.OnSave;
                 category.ShowDialog();
             }
-
         }
 
         public void Populate_index()
@@ -501,9 +501,23 @@ namespace BulletJournal
 
         private void dataGrid_collection_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
+
+            if (e.Button == MouseButtons.Left)
+            {
+
+                int colId = (int)dataGrid_collection.SelectedRows[0].Cells[0].Value;
+
+                using (CollectionContent content = new CollectionContent(this, colId))
+                {
+                    content.OnRefreshGrid += this.OnSave;
+                    content.ShowDialog();
+                }
+            }
+
             if (e.Button == MouseButtons.Right)
             {
                 taskId = ContextMenuHandler(dataGrid_collection, contextMenuStrip1, e);
+                contextMenuStrip1.Items["migrate"].Visible = false;
                 entryType = JournalTask.EntryType.collection;
             }
         }
@@ -535,6 +549,7 @@ namespace BulletJournal
         {
             if (e.Button == MouseButtons.Right)
             {
+                
                 taskId = ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.monthly;
             }
@@ -692,10 +707,11 @@ namespace BulletJournal
 
             if (entryType == JournalTask.EntryType.collection)
             {
-
-                using (Category collection = new Category(this, taskId, JournalTask.EntryMode.edit))
+                
+                using (Category category = new Category( JournalTask.EntryMode.edit, taskId))
                 {
-                    collection.ShowDialog();
+                    category.OnCategorySaved += OnSave;
+                    category.ShowDialog();
                 }
 
             }
@@ -812,49 +828,17 @@ namespace BulletJournal
             }
         }
 
-        private void collectionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Collections collections;
-
-            if (entryType == JournalTask.EntryType.daily)
-            {
-                using (collections = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
-                {
-                    collections.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.monthly)
-            {
-                using (collections = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
-                {
-                    collections.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.future)
-            {
-                using (collections = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
-                {
-                    collections.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.collection)
-            {
-                using (collections = new Collections(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
-                {
-                    collections.ShowDialog();
-                }
-            }
-        }
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
         private void dateTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshGrid();
+        }
+
+        public void OnSave()
         {
             RefreshGrid();
         }

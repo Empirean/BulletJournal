@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BulletJournal
 {
+
     public partial class Category : Form
     {
+        public delegate void EventHandler();
+        public event EventHandler OnCategorySaved;
+
         DBTools db;
         JournalTask.EntryMode mode;
-        MainForm main;
+
         int catId;
 
-        public Category(MainForm _mainform,  int _catid, JournalTask.EntryMode _mode)
+        public Category(JournalTask.EntryMode _mode, int _catid = -1 )
         {
             InitializeComponent();
 
@@ -26,7 +25,6 @@ namespace BulletJournal
             
             mode = _mode;
             catId = _catid;
-            main = _mainform;
 
             if (mode == JournalTask.EntryMode.edit)
             {
@@ -41,6 +39,7 @@ namespace BulletJournal
                 DataTable dataTable = db.GenericQueryAction(command,parameters);
                 DataRow dataRow = dataTable.AsEnumerable().ToList()[0];
                 txt_category.Text = dataRow.Field<string>("collectionname");
+                this.Text = "Edit Category";
             }
         }
 
@@ -68,11 +67,13 @@ namespace BulletJournal
             {
                 string command = "update collectionmain " +
                                  "set " +
-                                 "collectionname = (@desc)";
+                                 "collectionname = @desc " +
+                                 "where collectionid = @id";
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_category.Text}
+                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_category.Text},
+                    new SqlParameter("id", SqlDbType.Int) { Value = catId}
                 };
 
                 db.GenericNonQueryAction(command, parameters);
@@ -80,15 +81,23 @@ namespace BulletJournal
 
             txt_category.Text = "";
 
-            main.Populate_Collection();
+            OnCategorySave();
+
+            if (mode == JournalTask.EntryMode.edit)
+                this.Close();
         }
 
         private bool IsInputValid()
         {
-            txt_category.Text = txt_category.Text.Trim();
-            if (txt_category.Text.Length > 0)
+            if (txt_category.Text.Trim().Length > 0)
                 return true;
             return false;
+        }
+
+        protected virtual void OnCategorySave()
+        {
+            if (OnCategorySaved != null)
+                OnCategorySaved();
         }
     }
 }
