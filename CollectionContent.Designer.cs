@@ -94,7 +94,7 @@ namespace BulletJournal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 512);
+            this.ClientSize = new System.Drawing.Size(572, 512);
             this.Controls.Add(this.btn_addCollection);
             this.Controls.Add(this.dataGrid_content);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;

@@ -507,7 +507,7 @@ namespace BulletJournal
 
                 int colId = (int)dataGrid_collection.SelectedRows[0].Cells[0].Value;
 
-                using (CollectionContent content = new CollectionContent(this, colId))
+                using (CollectionContent content = new CollectionContent(colId))
                 {
                     content.OnRefreshGrid += this.OnSave;
                     content.ShowDialog();
@@ -566,33 +566,7 @@ namespace BulletJournal
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (entryType == JournalTask.EntryType.collection)
-            {
-                string mainCommand = "delete from collectionmain " +
-                                       "where collectionid = @taskId";
-
-                SqlParameter[] mainparameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
-
-                };
-
-                dbTools.GenericNonQueryAction(mainCommand, mainparameters);
-
-                string detailCommand = "delete from collectiondetail " +
-                                       "where maintaskforeignkey = @taskId";
-
-                SqlParameter[] detailParameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
-
-                };
-
-                dbTools.GenericNonQueryAction(detailCommand, detailParameters);
-
-                Populate_Collection();
-                Populate_index();
-            }
+            
             if (entryType == JournalTask.EntryType.daily)
             {
 
@@ -676,6 +650,33 @@ namespace BulletJournal
 
                 Populate_futureLog();
                 Populate_index();
+            }
+
+            if (entryType == JournalTask.EntryType.collection)
+            {
+                string mainCommand = "delete from collectionmain " +
+                                       "where collectionid = @taskId";
+
+                SqlParameter[] mainparameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                dbTools.GenericNonQueryAction(mainCommand, mainparameters);
+
+                string detailCommand = "delete from collectiondetail " +
+                                       "where maintaskforeignkey = @taskId";
+
+                SqlParameter[] detailParameters = new SqlParameter[]
+                {
+                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+
+                };
+
+                dbTools.GenericNonQueryAction(detailCommand, detailParameters);
+
+                RefreshGrid();
             }
         }
 
@@ -838,7 +839,7 @@ namespace BulletJournal
             RefreshGrid();
         }
 
-        public void OnSave()
+        private void OnSave()
         {
             RefreshGrid();
         }

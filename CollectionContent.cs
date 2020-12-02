@@ -20,7 +20,7 @@ namespace BulletJournal
         int collectionDetailId;
 
 
-        public CollectionContent(MainForm _category, int _id)
+        public CollectionContent(int _id)
         {
             InitializeComponent();
 
@@ -102,7 +102,7 @@ namespace BulletJournal
         }
 
         // Save Event Handler
-        public void OnCollectionSaved()
+        private void OnCollectionSaved()
         {
             Populate_Content(collectionMainid);
             OnRefreshGrids();
