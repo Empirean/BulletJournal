@@ -9,45 +9,64 @@ namespace BulletJournal
 
     public partial class Category : Form
     {
+        // Events
         public delegate void EventHandler();
         public event EventHandler OnCategorySaved;
 
+        // Database Tools
         DBTools db;
+
+        // Journal Entry Mode
         JournalTask.EntryMode mode;
 
-        int catId;
+        // Id
+        int categoryId;
 
         public Category(JournalTask.EntryMode _mode, int _catid = -1 )
         {
             InitializeComponent();
 
+            // Initialize Database Tools
             db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
             
+            // store mode
             mode = _mode;
-            catId = _catid;
 
+            // store categoryId
+            categoryId = _catid;
+
+            // Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
+
+                this.Text = "Edit Category";
+
+                // Query the category name
                 string command = "select collectionname " +
                                  "from collectionmain " +
                                  "where collectionid = @id";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@id", SqlDbType.Int) { Value = catId}
+                    new SqlParameter("@id", SqlDbType.Int) { Value = categoryId}
                 };
 
                 DataTable dataTable = db.GenericQueryAction(command,parameters);
                 DataRow dataRow = dataTable.AsEnumerable().ToList()[0];
+
+                // Set the textbox to the category name
                 txt_category.Text = dataRow.Field<string>("collectionname");
-                this.Text = "Edit Category";
+                
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!(IsInputValid()))
+
+            // Input validation
+            if (!(JournalTask.IsInputValid(txt_category)))
                 return;
 
+            // Saving on Add Mode
             if (mode == JournalTask.EntryMode.add)
             {
                 string command = "insert into collectionmain " +
@@ -63,6 +82,8 @@ namespace BulletJournal
                 db.GenericNonQueryAction(command, parameters);
             }
 
+
+            // Saving on Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
                 string command = "update collectionmain " +
@@ -73,27 +94,25 @@ namespace BulletJournal
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_category.Text},
-                    new SqlParameter("id", SqlDbType.Int) { Value = catId}
+                    new SqlParameter("@id", SqlDbType.Int) { Value = categoryId}
                 };
 
                 db.GenericNonQueryAction(command, parameters);
             }
 
+            // Cleanup
             txt_category.Text = "";
 
+            // Broadcast the event
             OnCategorySave();
 
+            // Close when on edit mode
             if (mode == JournalTask.EntryMode.edit)
                 this.Close();
         }
 
-        private bool IsInputValid()
-        {
-            if (txt_category.Text.Trim().Length > 0)
-                return true;
-            return false;
-        }
 
+        // Event Publisher
         protected virtual void OnCategorySave()
         {
             if (OnCategorySaved != null)

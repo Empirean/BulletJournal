@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BulletJournal
 {
     public partial class Collection : Form
     {
-
+        // Events
         public delegate void EventHandler();
         public event EventHandler OnCollectionSaved;
 
+        // Database Tools
         DBTools db;
+
+        // Journal Entry Mode
         JournalTask.EntryMode mode;
 
+        // Ids
         int collectionMainId;
         int collectionDetailId;
 
@@ -27,16 +26,22 @@ namespace BulletJournal
         {
             InitializeComponent();
 
+            // Initialize Database Tools
             db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
 
+            // Store Mode
             mode = _mode;
 
+            // Store Ids
             collectionMainId = _collectionMainId;
             collectionDetailId = _collectionDetailId;
 
-
+            // Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
+                this.Text = "Edit Collection";
+
+                // Query the collection name
                 string command = "select description " +
                                  "from collectiondetail " +
                                  "where collectionid = @detid " +
@@ -49,29 +54,22 @@ namespace BulletJournal
 
                 DataTable dataTable = db.GenericQueryAction(command, parameters);
                 DataRow dataRow = dataTable.AsEnumerable().ToList()[0];
+
+                // set the textbox to collection name
                 txt_collection.Text = dataRow.Field<string>("description");
-                this.Text = "Edit Collection";
+                
             }
         }
 
-        private bool IsInputValid()
-        {
-            if (txt_collection.Text.Trim().Length > 0)
-                return true;
-            return false;
-        }
-
-        protected virtual void OnCategorySave()
-        {
-            if (OnCollectionSaved != null)
-                OnCollectionSaved();
-        }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!(IsInputValid()))
+
+            // Input validation
+            if (!(JournalTask.IsInputValid(txt_collection)))
                 return;
             
+            // Saving on Add Mode
             if (mode == JournalTask.EntryMode.add)
             {
                 string command = "insert into collectiondetail " +
@@ -89,7 +87,7 @@ namespace BulletJournal
             }
             
 
-            
+            // Saving on Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
                 string command = "update collectiondetail " +
@@ -108,13 +106,22 @@ namespace BulletJournal
                 db.GenericNonQueryAction(command, parameters);
             }
             
-
+            // Clean Up
             txt_collection.Text = "";
 
+            // Publish Event
             OnCategorySave();
 
+            // Close when on edit mode
             if (mode == JournalTask.EntryMode.edit)
                 this.Close();
+        }
+
+        // Event Publisher
+        protected virtual void OnCategorySave()
+        {
+            if (OnCollectionSaved != null)
+                OnCollectionSaved();
         }
     }
 }
