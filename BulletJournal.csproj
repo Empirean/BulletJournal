@@ -85,6 +85,12 @@
     <Compile Include="CollectionContent.Designer.cs">
       <DependentUpon>CollectionContent.cs</DependentUpon>
     </Compile>
+    <Compile Include="DailyDescription.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DailyDescription.Designer.cs">
+      <DependentUpon>DailyDescription.cs</DependentUpon>
+    </Compile>
     <Compile Include="DailyTask.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CollectionContent.resx">
       <DependentUpon>CollectionContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DailyDescription.resx">
+      <DependentUpon>DailyDescription.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DailyTask.resx">
       <DependentUpon>DailyTask.cs</DependentUpon>

@@ -17,7 +17,7 @@ namespace BulletJournal
 
     public partial class MainForm : Form
     {
-        DBTools dbTools;
+        DBTools db;
         JournalTask.EntryType entryType;
 
         int taskId;
@@ -32,13 +32,9 @@ namespace BulletJournal
         {
             
             string cn = Properties.Settings.Default.DatabaseConnectionString;
-            dbTools = new DBTools(cn);
-            
-            Populate_dailyTask();
-            Populate_Collection();
-            Populate_futureLog();
-            Populate_monthly();
-            Populate_index();
+            db = new DBTools(cn);
+
+            RefreshGrid();
 
             dateTimePicker.Value = DateTime.Today;
         }
@@ -61,9 +57,16 @@ namespace BulletJournal
 
         private void btn_addDailyTask_Click(object sender, EventArgs e)
         {
+            /*
             using (DailyTask addDailyTask = new DailyTask(this))
             {
                 addDailyTask.ShowDialog();
+            }
+            */
+            using (DailyDescription category = new DailyDescription(JournalTask.EntryMode.add))
+            {
+                category.OnDailyMainSave += this.OnSave;
+                category.ShowDialog();
             }
         }
 
@@ -332,7 +335,7 @@ namespace BulletJournal
                 new SqlParameter("@futureTaskdateEnd", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1).AddMonths(6) }
             };
 
-            dataGrid_index.DataSource = dbTools.GenericQueryAction(commandString, parameters);
+            dataGrid_index.DataSource = db.GenericQueryAction(commandString, parameters);
             dataGrid_index.Columns["Entry"].Width = 120;
             dataGrid_index.Columns["Count"].Width = 70;
             dataGrid_index.Columns["Tasks"].Width = 70;
@@ -344,34 +347,28 @@ namespace BulletJournal
 
         public void Populate_dailyTask()
         {
-            string commandString = "select m.taskid, " +
-                                          "m.taskdate as [Date (DD/MM/YYYY)], " +
-                                          "case when d.taskisimportant = 1 " +
-                                          "then '*' else '' end as [I], " +
-                                          "case " +
-                                          "when d.tasktype = 0 then 'TASK' " +
-                                          "when d.tasktype = 1 then 'EVENT' " +
-                                          "when d.tasktype = 2 then 'NOTES'" +
-                                          "else 'CLOSED' end as [Type], " +
-                                          "d.taskdescription as [Description]" +
-                                   "from dailymain as m " +
-                                   "inner join dailydetail as d " +
-                                   "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate = @taskdate " +
-                                   "order by m.taskdate";
+            string command = "select " +
+                                   "a.taskid, " +
+                                   "format(a.taskdate, 'dd/MM/yyyy') as [Date], " +
+                                   "a.description as Description, " +
+                                   "count(b.taskid) as [Contents] " +
+                                   "from dailymain as a " +
+                                   "left join dailydetail as b " +
+                                   "on a.taskid = b.maintaskforeignkey " +
+                                   "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
             };
 
-            dataGrid_dailyTask.DataSource = dbTools.GenericQueryAction(commandString, parameters);
+
+            dataGrid_dailyTask.DataSource = db.GenericQueryAction(command, parameters);
+
             dataGrid_dailyTask.Columns[0].Visible = false;
             dataGrid_dailyTask.Columns[0].Width = 1;
-            dataGrid_dailyTask.Columns["Date (DD/MM/YYYY)"].Width = 95;
-            dataGrid_dailyTask.Columns["I"].Width = 20;
-            dataGrid_dailyTask.Columns["Type"].Width = 70;
-            dataGrid_dailyTask.Columns["Description"].Width = 285;
+            dataGrid_dailyTask.Columns["Date"].Width = 70;
+            dataGrid_dailyTask.Columns["Description"].Width = 332;
+            dataGrid_dailyTask.Columns["Contents"].Width = 70;
         }
 
         public void Populate_futureLog()
@@ -402,7 +399,7 @@ namespace BulletJournal
 
             };
 
-            dataGrid_futureLog.DataSource = dbTools.GenericQueryAction(commandString, parameters);
+            dataGrid_futureLog.DataSource = db.GenericQueryAction(commandString, parameters);
             dataGrid_futureLog.Columns[0].Visible = false;
             dataGrid_futureLog.Columns[0].Width = 1;
             dataGrid_futureLog.Columns["Date"].Width = 100;
@@ -440,7 +437,7 @@ namespace BulletJournal
 
             };
 
-            dataGrid_monthly.DataSource = dbTools.GenericQueryAction(commandString, parameters);
+            dataGrid_monthly.DataSource = db.GenericQueryAction(commandString, parameters);
             dataGrid_monthly.Columns[0].Visible = false;
             dataGrid_monthly.Columns[0].Width = 1;
             dataGrid_monthly.Columns["Date"].Width = 100;
@@ -465,7 +462,7 @@ namespace BulletJournal
             };
 
 
-            dataGrid_collection.DataSource = dbTools.GenericQueryAction(commandString, parameters);
+            dataGrid_collection.DataSource = db.GenericQueryAction(commandString, parameters);
 
             dataGrid_collection.Columns[0].Visible = false;
             dataGrid_collection.Columns[0].Width = 1;
@@ -491,17 +488,18 @@ namespace BulletJournal
 
         private void dataGrid_dailyTask_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-
             if (e.Button == MouseButtons.Right)
             {
-                taskId = ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
+                taskId = JournalTask.ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.daily;
+
+                contextMenuStrip1.Items["migrate"].Visible = false;
             }
         }
 
         private void dataGrid_collection_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-
+            // Left Click
             if (e.Button == MouseButtons.Left)
             {
 
@@ -514,43 +512,24 @@ namespace BulletJournal
                 }
             }
 
+            // Right Click
             if (e.Button == MouseButtons.Right)
             {
-                taskId = ContextMenuHandler(dataGrid_collection, contextMenuStrip1, e);
+                // Store id
+                taskId = JournalTask.ContextMenuHandler(dataGrid_collection, contextMenuStrip1, e);
+
                 contextMenuStrip1.Items["migrate"].Visible = false;
                 entryType = JournalTask.EntryType.collection;
             }
         }
 
-        private int ContextMenuHandler(DataGridView datagrid, ContextMenuStrip menu, DataGridViewCellMouseEventArgs e)
-        {
-            try
-            {
-                datagrid.Rows[e.RowIndex].Selected = true;
-                Rectangle cellRectangle = datagrid.GetCellDisplayRectangle(
-                                                datagrid.Columns[e.ColumnIndex].Index,
-                                                datagrid.Rows[e.RowIndex].Index,
-                                                true);
-
-                Point menuSpawnLocation = new Point(cellRectangle.Left, cellRectangle.Top);
-                
-                menu.Show(datagrid, menuSpawnLocation);
-            }
-            catch (Exception)
-            {
-            }
-
-            return (int) datagrid.SelectedRows[0].Cells[0].Value;
-        }
-
-        
 
         private void dataGrid_monthly_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
                 
-                taskId = ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
+                taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.monthly;
             }
         }
@@ -559,7 +538,7 @@ namespace BulletJournal
         {
             if (e.Button == MouseButtons.Right)
             {
-                taskId = ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
+                taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.future;
             }
         }
@@ -579,7 +558,7 @@ namespace BulletJournal
                 string commandString = "delete from dailymain " +
                                        "where taskid = @taskId";
 
-                dbTools.GenericNonQueryAction(commandString, parameters);
+                db.GenericNonQueryAction(commandString, parameters);
 
                 parameters = new SqlParameter[]
                 {
@@ -590,7 +569,7 @@ namespace BulletJournal
                 commandString = "delete from dailydetail " +
                                 "where maintaskforeignkey = @taskId";
 
-                dbTools.GenericNonQueryAction(commandString, parameters);
+                db.GenericNonQueryAction(commandString, parameters);
 
                 Populate_dailyTask();
                 Populate_index();
@@ -607,7 +586,7 @@ namespace BulletJournal
                 string mainString = "delete from monthlymain " +
                                        "where taskid = @taskId";
 
-                dbTools.GenericNonQueryAction(mainString, mainParameters);
+                db.GenericNonQueryAction(mainString, mainParameters);
 
                 SqlParameter[] detailParameters = new SqlParameter[]
                 {
@@ -618,7 +597,7 @@ namespace BulletJournal
                 string detailString = "delete from monthlydetail " +
                                 "where maintaskforeignkey = @taskId";
 
-                dbTools.GenericNonQueryAction(detailString, detailParameters);
+                db.GenericNonQueryAction(detailString, detailParameters);
 
                 Populate_monthly();
                 Populate_index();
@@ -635,7 +614,7 @@ namespace BulletJournal
                 string mainString = "delete from futuremain " +
                                        "where taskid = @taskId";
 
-                dbTools.GenericNonQueryAction(mainString, mainParameters);
+                db.GenericNonQueryAction(mainString, mainParameters);
 
                 SqlParameter[] detailParameters = new SqlParameter[]
                 {
@@ -646,7 +625,7 @@ namespace BulletJournal
                 string detailString = "delete from futuredetail " +
                                 "where maintaskforeignkey = @taskId";
 
-                dbTools.GenericNonQueryAction(detailString, detailParameters);
+                db.GenericNonQueryAction(detailString, detailParameters);
 
                 Populate_futureLog();
                 Populate_index();
@@ -663,7 +642,7 @@ namespace BulletJournal
 
                 };
 
-                dbTools.GenericNonQueryAction(mainCommand, mainparameters);
+                db.GenericNonQueryAction(mainCommand, mainparameters);
 
                 string detailCommand = "delete from collectiondetail " +
                                        "where maintaskforeignkey = @taskId";
@@ -674,7 +653,7 @@ namespace BulletJournal
 
                 };
 
-                dbTools.GenericNonQueryAction(detailCommand, detailParameters);
+                db.GenericNonQueryAction(detailCommand, detailParameters);
 
                 RefreshGrid();
             }
@@ -684,8 +663,9 @@ namespace BulletJournal
         {
             if (entryType == JournalTask.EntryType.daily)
             {
-                using (DailyTask dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.edit))
+                using (DailyDescription dailyTask = new DailyDescription(JournalTask.EntryMode.edit, taskId))
                 {
+                    dailyTask.OnDailyMainSave += OnSave;
                     dailyTask.ShowDialog();
                 }
             }
