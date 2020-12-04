@@ -1,7 +1,7 @@
 ﻿
 namespace BulletJournal
 {
-    partial class CollectionContent
+    partial class DailyContent
     {
         /// <summary>
         /// Required designer variable.
@@ -30,9 +30,9 @@ namespace BulletJournal
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CollectionContent));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DailyContent));
             this.dataGrid_content = new System.Windows.Forms.DataGridView();
-            this.btn_addDaily = new System.Windows.Forms.Button();
+            this.btn_addCollection = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,18 +54,18 @@ namespace BulletJournal
             this.dataGrid_content.RowTemplate.Height = 24;
             this.dataGrid_content.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_content.Size = new System.Drawing.Size(550, 398);
-            this.dataGrid_content.TabIndex = 0;
+            this.dataGrid_content.TabIndex = 1;
             this.dataGrid_content.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseUp);
             // 
-            // btn_addDaily
+            // btn_addCollection
             // 
-            this.btn_addDaily.Location = new System.Drawing.Point(487, 461);
-            this.btn_addDaily.Name = "btn_addDaily";
-            this.btn_addDaily.Size = new System.Drawing.Size(75, 42);
-            this.btn_addDaily.TabIndex = 1;
-            this.btn_addDaily.Text = "Add";
-            this.btn_addDaily.UseVisualStyleBackColor = true;
-            this.btn_addDaily.Click += new System.EventHandler(this.btn_addCollection_Click);
+            this.btn_addCollection.Location = new System.Drawing.Point(487, 461);
+            this.btn_addCollection.Name = "btn_addCollection";
+            this.btn_addCollection.Size = new System.Drawing.Size(75, 42);
+            this.btn_addCollection.TabIndex = 2;
+            this.btn_addCollection.Text = "Add";
+            this.btn_addCollection.UseVisualStyleBackColor = true;
+            this.btn_addCollection.Click += new System.EventHandler(this.btn_addCollection_Click);
             // 
             // contextMenuStrip1
             // 
@@ -90,19 +90,19 @@ namespace BulletJournal
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // CollectionContent
+            // DailyContent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(572, 512);
-            this.Controls.Add(this.btn_addDaily);
+            this.ClientSize = new System.Drawing.Size(576, 516);
+            this.Controls.Add(this.btn_addCollection);
             this.Controls.Add(this.dataGrid_content);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "CollectionContent";
+            this.Name = "DailyContent";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Collections";
+            this.Text = "Daily Tasks";
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_content)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -112,7 +112,7 @@ namespace BulletJournal
         #endregion
 
         private System.Windows.Forms.DataGridView dataGrid_content;
-        private System.Windows.Forms.Button btn_addDaily;
+        private System.Windows.Forms.Button btn_addCollection;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;

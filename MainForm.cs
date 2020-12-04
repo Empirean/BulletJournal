@@ -488,6 +488,20 @@ namespace BulletJournal
 
         private void dataGrid_dailyTask_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
+            // Left Click
+            if (e.Button == MouseButtons.Left)
+            {
+
+                int colId = (int)dataGrid_dailyTask.SelectedRows[0].Cells[0].Value;
+
+                using (DailyContent content = new DailyContent(colId))
+                {
+                    content.OnRefreshGrid += this.OnSave;
+                    content.ShowDialog();
+                }
+            }
+
+            // right click
             if (e.Button == MouseButtons.Right)
             {
                 taskId = JournalTask.ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);

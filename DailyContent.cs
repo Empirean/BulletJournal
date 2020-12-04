@@ -1,0 +1,129 @@
+﻿using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Windows.Forms;
+
+namespace BulletJournal
+{
+    public partial class DailyContent : Form
+    {
+        // Events
+        public delegate void EventHandler();
+        public event EventHandler OnRefreshGrid;
+
+        // Database tools
+        DBTools db;
+
+        // Ids
+        int dailyMainid;
+        int dailyDetailId;
+
+        public DailyContent(int _id)
+        {
+            InitializeComponent();
+
+            // Initialize Database tools
+            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            // SaveId
+            dailyMainid = _id;
+
+            // Fill Grid
+            Populate_Content(dailyMainid);
+        }
+
+        private void btn_addCollection_Click(object sender, EventArgs e)
+        {
+            using (DailyTaskList dailyTaskList = new DailyTaskList(JournalTask.EntryMode.add, dailyMainid, dailyDetailId))
+            {
+                // Subscribe to save event
+                dailyTaskList.OnCollectionSaved += this.OnCollectionSaved;
+                dailyTaskList.ShowDialog();
+            }
+        }
+
+        private void Populate_Content(int _id)
+        {
+            // Queries all the collectionname
+
+            string command = "select " +
+                             "taskid, " +
+                             "case " +
+                             "when taskisimportant = 1 " +
+                             "then '*' " +
+                             "else '' end as [I], " +
+                             "case " +
+                             "when tasktype = 0 then 'TASK' " +
+                             "when tasktype = 1 then 'EVENT' " +
+                             "when tasktype = 2 then 'NOTES' " +
+                             "else 'CLOSED' end as [Type], " +
+                             "taskdescription as Description " +
+                             "from dailydetail " +
+                             "where maintaskforeignkey = @id";
+
+            SqlParameter[] paramters = new SqlParameter[]
+            {
+                new SqlParameter("@id", SqlDbType.Int) { Value = _id}
+            };
+
+            dataGrid_content.DataSource = db.GenericQueryAction(command, paramters);
+
+            // format grid
+            dataGrid_content.Columns[0].Visible = false;
+            dataGrid_content.Columns[0].Width = 1;
+            dataGrid_content.Columns["I"].Width = 30;
+            dataGrid_content.Columns["Type"].Width = 60;
+            dataGrid_content.Columns["Description"].Width = 268;
+        }
+
+        private void dataGrid_content_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                // Store collection id and show contextmenu
+                dailyDetailId = JournalTask.ContextMenuHandler(dataGrid_content, contextMenuStrip1, e);
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string command = "delete from dailydetail " +
+                             "where taskid = @id";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@id", SqlDbType.Int) { Value = dailyDetailId}
+            };
+
+            db.GenericNonQueryAction(command, parameters);
+
+            // Publish Event
+            OnCollectionSaved();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            using (DailyTaskList dailyTaskList = new DailyTaskList(JournalTask.EntryMode.edit, dailyMainid, dailyDetailId))
+            {
+                // Subscribe to save event
+                dailyTaskList.OnCollectionSaved += this.OnCollectionSaved;
+                dailyTaskList.ShowDialog();
+            }
+            
+        }
+
+        private void OnCollectionSaved()
+        {
+            Populate_Content(dailyMainid);
+            OnRefreshGrids();
+        }
+
+        // Event Publisher
+        protected virtual void OnRefreshGrids()
+        {
+            if (OnRefreshGrid != null)
+                OnRefreshGrid();
+        }
+    }  
+}
