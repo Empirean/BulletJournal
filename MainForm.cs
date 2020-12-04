@@ -713,6 +713,7 @@ namespace BulletJournal
 
         private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             DailyTask_to_be_deleted dailyTask;
 
             if (entryType == JournalTask.EntryType.daily)
@@ -746,10 +747,12 @@ namespace BulletJournal
                     dailyTask.ShowDialog();
                 }
             }
+            */
         }
 
         private void monthlyTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             MonthlyTask monthlyTask;
 
             if (entryType == JournalTask.EntryType.daily)
@@ -783,6 +786,7 @@ namespace BulletJournal
                     monthlyTask.ShowDialog();
                 }
             }
+            */
         }
 
         private void futureLogToolStripMenuItem_Click(object sender, EventArgs e)
