@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace BulletJournal
 {
 
-    public partial class Category : Form
+    public partial class CollectionDescription : Form
     {
         // Events
         public delegate void EventHandler();
@@ -22,7 +22,7 @@ namespace BulletJournal
         // Id
         int categoryId;
 
-        public Category(JournalTask.EntryMode _mode, int _catid = -1 )
+        public CollectionDescription(JournalTask.EntryMode _mode, int _catid = -1 )
         {
             InitializeComponent();
 

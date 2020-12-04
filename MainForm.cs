@@ -57,12 +57,6 @@ namespace BulletJournal
 
         private void btn_addDailyTask_Click(object sender, EventArgs e)
         {
-            /*
-            using (DailyTask addDailyTask = new DailyTask(this))
-            {
-                addDailyTask.ShowDialog();
-            }
-            */
             using (DailyDescription category = new DailyDescription(JournalTask.EntryMode.add))
             {
                 category.OnDailyMainSave += this.OnSave;
@@ -72,7 +66,7 @@ namespace BulletJournal
 
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
-            using (Category category = new Category(JournalTask.EntryMode.add))
+            using (CollectionDescription category = new CollectionDescription(JournalTask.EntryMode.add))
             {
                 category.OnCategorySaved += this.OnSave;
                 category.ShowDialog();
@@ -410,40 +404,29 @@ namespace BulletJournal
 
         public void Populate_monthly()
         {
-            string commandString = "select m.taskid, " +
-                                          "cast(datename(year, m.taskdate) as nvarchar(4)) + ' - ' + " +
-                                          "datename(month, m.taskdate)" +
-                                          " as [Date], " +
-                                          "case when d.taskisimportant = 1 " +
-                                          "then '*' else '' end as [I], " +
-                                          "case " +
-                                          "when d.tasktype = 0 then 'TASK' " +
-                                          "when d.tasktype = 1 then 'EVENT' " +
-                                          "when d.tasktype = 2 then 'NOTES'" +
-                                          "else 'CLOSED' end as [Type], " +
-                                          "d.taskdescription as [Description]" +
-                                   "from monthlymain as m " +
-                                   "inner join monthlydetail as d " +
-                                   "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate >= @taskdatestart " +
-                                   "and m.taskdate <= @taskdateEnd " +
-                                   "order by m.taskdate";
+
+            string command = "select " +
+                                   "a.taskid, " +
+                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
+                                   "a.description as Description, " +
+                                   "count(b.taskid) as [Contents] " +
+                                   "from monthlymain as a " +
+                                   "left join monthlydetail as b " +
+                                   "on a.taskid = b.maintaskforeignkey " +
+                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdatestart", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
-                new SqlParameter("@taskdateEnd", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 
-                                        DateTime.DaysInMonth(dateTimePicker.Value.Year, dateTimePicker.Value.Month)) }
-
             };
 
-            dataGrid_monthly.DataSource = db.GenericQueryAction(commandString, parameters);
+
+            dataGrid_monthly.DataSource = db.GenericQueryAction(command, parameters);
+
             dataGrid_monthly.Columns[0].Visible = false;
             dataGrid_monthly.Columns[0].Width = 1;
-            dataGrid_monthly.Columns["Date"].Width = 100;
-            dataGrid_monthly.Columns["I"].Width = 20;
-            dataGrid_monthly.Columns["Type"].Width = 70;
-            dataGrid_monthly.Columns["Description"].Width = 280;
+            dataGrid_monthly.Columns["Date"].Width = 90;
+            dataGrid_monthly.Columns["Description"].Width = 310;
+            dataGrid_monthly.Columns["Contents"].Width = 70;
         }
 
         public void Populate_Collection()
@@ -480,10 +463,12 @@ namespace BulletJournal
 
         private void btn_addMonthlyTask_Click(object sender, EventArgs e)
         {
-            using (MonthlyTask addMonthlyTask = new MonthlyTask(this))
+            using (MonthlyDescription monthlyDescription = new MonthlyDescription(JournalTask.EntryMode.add))
             {
-                addMonthlyTask.ShowDialog();
+                monthlyDescription.OnMonthlyMainSave += this.OnSave;
+                monthlyDescription.ShowDialog();
             }
+
         }
 
         private void dataGrid_dailyTask_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -540,11 +525,26 @@ namespace BulletJournal
 
         private void dataGrid_monthly_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
+            // left click
+            if (e.Button == MouseButtons.Left)
+            {
+
+                int colId = (int)dataGrid_monthly.SelectedRows[0].Cells[0].Value;
+
+                using (MonthlyContent content = new MonthlyContent(colId))
+                {
+                    content.OnRefreshGrid += this.OnSave;
+                    content.ShowDialog();
+                }
+            }
+
+            // right click
             if (e.Button == MouseButtons.Right)
             {
                 
                 taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.monthly;
+                contextMenuStrip1.Items["migrate"].Visible = false;
             }
         }
 
@@ -585,8 +585,7 @@ namespace BulletJournal
 
                 db.GenericNonQueryAction(commandString, parameters);
 
-                Populate_dailyTask();
-                Populate_index();
+                RefreshGrid();
             }
             if (entryType == JournalTask.EntryType.monthly)
             {
@@ -613,8 +612,7 @@ namespace BulletJournal
 
                 db.GenericNonQueryAction(detailString, detailParameters);
 
-                Populate_monthly();
-                Populate_index();
+                RefreshGrid();
             }
             if (entryType == JournalTask.EntryType.future)
             {
@@ -686,9 +684,10 @@ namespace BulletJournal
             
             if (entryType == JournalTask.EntryType.monthly)
             {
-                using (MonthlyTask monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.edit))
+                using (MonthlyDescription monthlyDescription = new MonthlyDescription(JournalTask.EntryMode.edit, taskId))
                 {
-                    monthlyTask.ShowDialog();
+                    monthlyDescription.OnMonthlyMainSave += this.OnSave;
+                    monthlyDescription.ShowDialog();
                 }
             }
 
@@ -703,7 +702,7 @@ namespace BulletJournal
             if (entryType == JournalTask.EntryType.collection)
             {
                 
-                using (Category category = new Category( JournalTask.EntryMode.edit, taskId))
+                using (CollectionDescription category = new CollectionDescription( JournalTask.EntryMode.edit, taskId))
                 {
                     category.OnCategorySaved += OnSave;
                     category.ShowDialog();
@@ -714,11 +713,11 @@ namespace BulletJournal
 
         private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DailyTask dailyTask;
+            DailyTask_to_be_deleted dailyTask;
 
             if (entryType == JournalTask.EntryType.daily)
             {
-                using (dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
+                using (dailyTask = new DailyTask_to_be_deleted(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
                 {
                     dailyTask.ShowDialog();
                 }
@@ -726,7 +725,7 @@ namespace BulletJournal
 
             if (entryType == JournalTask.EntryType.monthly)
             {
-                using (dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
+                using (dailyTask = new DailyTask_to_be_deleted(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
                 {
                     dailyTask.ShowDialog();
                 }
@@ -734,7 +733,7 @@ namespace BulletJournal
 
             if (entryType == JournalTask.EntryType.future)
             {
-                using (dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
+                using (dailyTask = new DailyTask_to_be_deleted(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
                 {
                     dailyTask.ShowDialog();
                 }
@@ -742,7 +741,7 @@ namespace BulletJournal
 
             if (entryType == JournalTask.EntryType.collection)
             {
-                using (dailyTask = new DailyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
+                using (dailyTask = new DailyTask_to_be_deleted(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
                 {
                     dailyTask.ShowDialog();
                 }

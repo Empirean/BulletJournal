@@ -58,7 +58,7 @@ namespace BulletJournal
 
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
-            using (Collection collection = new Collection(JournalTask.EntryMode.add, collectionMainid))
+            using (CollectionList collection = new CollectionList(JournalTask.EntryMode.add, collectionMainid))
             {
                 // Subscribe to save event
                 collection.OnCollectionSaved += this.OnCollectionSaved;
@@ -93,7 +93,7 @@ namespace BulletJournal
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (Collection collection = new Collection(JournalTask.EntryMode.edit, collectionMainid, collectionDetailId))
+            using (CollectionList collection = new CollectionList(JournalTask.EntryMode.edit, collectionMainid, collectionDetailId))
             {
                 // Subscribe to save event
                 collection.OnCollectionSaved += this.OnCollectionSaved;

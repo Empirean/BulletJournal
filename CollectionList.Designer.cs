@@ -1,7 +1,7 @@
 ﻿
 namespace BulletJournal
 {
-    partial class Category
+    partial class CollectionList
     {
         /// <summary>
         /// Required designer variable.
@@ -29,14 +29,30 @@ namespace BulletJournal
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Category));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CollectionList));
+            this.txt_collection = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txt_category = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // txt_collection
+            // 
+            this.txt_collection.Location = new System.Drawing.Point(92, 78);
+            this.txt_collection.Name = "txt_collection";
+            this.txt_collection.Size = new System.Drawing.Size(304, 22);
+            this.txt_collection.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 78);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Collection:";
             // 
             // menuStrip1
             // 
@@ -46,7 +62,7 @@ namespace BulletJournal
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(430, 30);
-            this.menuStrip1.TabIndex = 0;
+            this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
@@ -64,37 +80,21 @@ namespace BulletJournal
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // txt_category
-            // 
-            this.txt_category.Location = new System.Drawing.Point(92, 78);
-            this.txt_category.Name = "txt_category";
-            this.txt_category.Size = new System.Drawing.Size(304, 22);
-            this.txt_category.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 78);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 17);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Category:";
-            // 
-            // Category
+            // Collection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(430, 171);
-            this.Controls.Add(this.txt_category);
+            this.Controls.Add(this.txt_collection);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Category";
+            this.Name = "Collection";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "New Category";
+            this.Text = "New Collection";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -104,10 +104,10 @@ namespace BulletJournal
 
         #endregion
 
+        private System.Windows.Forms.TextBox txt_collection;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.TextBox txt_category;
-        private System.Windows.Forms.Label label1;
     }
 }
