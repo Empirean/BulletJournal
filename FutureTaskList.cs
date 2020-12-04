@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BulletJournal
 {
-    public partial class MonthlyTaskList : Form
+    public partial class FutureTaskList : Form
     {
 
         public delegate void EventHandler();
@@ -19,10 +24,10 @@ namespace BulletJournal
         JournalTask.EntryMode mode;
 
         // Ids
-        int monthlyMainId;
-        int monthlyDetailId;
+        int futureMainId;
+        int futureDetailId;
 
-        public MonthlyTaskList(JournalTask.EntryMode _mode, int _monthlyMainId = -1, int _monthlyDetailId = -1)
+        public FutureTaskList(JournalTask.EntryMode _mode, int _futureMainId = -1, int _futureDetailId = -1)
         {
             InitializeComponent();
 
@@ -33,27 +38,27 @@ namespace BulletJournal
             mode = _mode;
 
             // Store Ids
-            monthlyMainId = _monthlyMainId;
-            monthlyDetailId = _monthlyDetailId;
+            futureMainId = _futureMainId;
+            futureDetailId = _futureDetailId;
 
             cmb_taskType.SelectedIndex = 0;
 
             // Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
-                this.Text = "Edit Monthly Task";
+                this.Text = "Edit Future Task";
 
                 // Query the collection name
                 string command = "select taskdescription, " +
                                  "tasktype, " +
                                  "taskisimportant " +
-                                 "from monthlydetail " +
+                                 "from futuredetail " +
                                  "where taskid = @detid " +
                                  "and maintaskforeignkey = @mainid";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@detid", SqlDbType.Int) { Value = monthlyDetailId},
-                    new SqlParameter("@mainid", SqlDbType.Int) { Value = monthlyMainId}
+                    new SqlParameter("@detid", SqlDbType.Int) { Value = futureDetailId},
+                    new SqlParameter("@mainid", SqlDbType.Int) { Value = futureMainId}
                 };
 
                 DataTable dataTable = db.GenericQueryAction(command, parameters);
@@ -78,7 +83,7 @@ namespace BulletJournal
             // Saving on Add Mode
             if (mode == JournalTask.EntryMode.add)
             {
-                string command = "insert into monthlydetail " +
+                string command = "insert into futuredetail " +
                                  "(taskdescription, tasktype, taskisimportant, maintaskforeignkey) " +
                                  "values" +
                                  "(@desc, @tasktype, @taskisimportant, @id)";
@@ -86,7 +91,7 @@ namespace BulletJournal
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_description.Text},
-                    new SqlParameter("@id", SqlDbType.Int) { Value = monthlyMainId},
+                    new SqlParameter("@id", SqlDbType.Int) { Value = futureMainId},
                     new SqlParameter("@tasktype", SqlDbType.Int) { Value = JournalTask.GetTask(cmb_taskType.Text)},
                     new SqlParameter("@taskisimportant", SqlDbType.Bit) { Value = chk_important.Checked}
                 };
@@ -98,7 +103,7 @@ namespace BulletJournal
             // Saving on Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
-                string command = "update monthlydetail " +
+                string command = "update futuredetail " +
                                  "set " +
                                  "taskdescription = @desc, " +
                                  "tasktype = @tasktype, " +
@@ -111,8 +116,8 @@ namespace BulletJournal
                     new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_description.Text},
                     new SqlParameter("@tasktype", SqlDbType.Int) { Value = JournalTask.GetTask(cmb_taskType.Text)},
                     new SqlParameter("@taskisimportant", SqlDbType.Bit) { Value = chk_important.Checked},
-                    new SqlParameter("@detid", SqlDbType.Int) { Value = monthlyDetailId},
-                    new SqlParameter("@mainid", SqlDbType.Int) { Value = monthlyMainId}
+                    new SqlParameter("@detid", SqlDbType.Int) { Value = futureDetailId},
+                    new SqlParameter("@mainid", SqlDbType.Int) { Value = futureMainId}
                 };
 
                 db.GenericNonQueryAction(command, parameters);
@@ -124,14 +129,14 @@ namespace BulletJournal
             chk_important.Checked = false;
 
             // Publish Event
-            OnMonthlySave();
+            OnFutureSave();
 
             // Close when on edit mode
             if (mode == JournalTask.EntryMode.edit)
                 this.Close();
         }
 
-        protected virtual void OnMonthlySave()
+        protected virtual void OnFutureSave()
         {
             if (OnMonthlySaved != null)
                 OnMonthlySaved();

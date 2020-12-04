@@ -38,7 +38,7 @@ namespace BulletJournal
             using (MonthlyTaskList monthlyTaskList = new MonthlyTaskList(JournalTask.EntryMode.add, monthlyMainid, monthlyDetailId))
             {
                 // Subscribe to save event
-                monthlyTaskList.OnCollectionSaved += this.OnCollectionSaved;
+                monthlyTaskList.OnMonthlySaved += this.OnMonthlySaved;
                 monthlyTaskList.ShowDialog();
             }
             
@@ -95,7 +95,7 @@ namespace BulletJournal
             using (MonthlyTaskList monthlyTaskList = new MonthlyTaskList(JournalTask.EntryMode.edit, monthlyMainid, monthlyDetailId))
             {
                 // Subscribe to save event
-                monthlyTaskList.OnCollectionSaved += this.OnCollectionSaved;
+                monthlyTaskList.OnMonthlySaved += this.OnMonthlySaved;
                 monthlyTaskList.ShowDialog();
             }
             
@@ -114,10 +114,10 @@ namespace BulletJournal
             db.GenericNonQueryAction(command, parameters);
 
             // Publish Event
-            OnCollectionSaved();
+            OnMonthlySaved();
         }
 
-        private void OnCollectionSaved()
+        private void OnMonthlySaved()
         {
             Populate_Content(monthlyMainid);
             OnRefreshGrids();

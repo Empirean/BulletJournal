@@ -103,6 +103,24 @@
     <Compile Include="DailyTaskList.Designer.cs">
       <DependentUpon>DailyTaskList.cs</DependentUpon>
     </Compile>
+    <Compile Include="FutureContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FutureContent.Designer.cs">
+      <DependentUpon>FutureContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FutureDescription.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FutureDescription.Designer.cs">
+      <DependentUpon>FutureDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FutureTaskList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FutureTaskList.Designer.cs">
+      <DependentUpon>FutureTaskList.cs</DependentUpon>
+    </Compile>
     <Compile Include="FutureLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,8 +179,17 @@
     <EmbeddedResource Include="DailyTaskList.resx">
       <DependentUpon>DailyTaskList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FutureContent.resx">
+      <DependentUpon>FutureContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FutureDescription.resx">
+      <DependentUpon>FutureDescription.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FutureLog.resx">
       <DependentUpon>FutureLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FutureTaskList.resx">
+      <DependentUpon>FutureTaskList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MonthlyContent.resx">
       <DependentUpon>MonthlyContent.cs</DependentUpon>

@@ -367,39 +367,28 @@ namespace BulletJournal
 
         public void Populate_futureLog()
         {
-            string commandString = "select m.taskid, " +
-                                          "cast(datename(year, m.taskdate) as nvarchar(4)) + ' - ' + " +
-                                          "datename(month, m.taskdate)" +
-                                          " as [Date], " +
-                                          "case when d.taskisimportant = 1 " +
-                                          "then '*' else '' end as [I], " +
-                                          "case " +
-                                          "when d.tasktype = 0 then 'TASK' " +
-                                          "when d.tasktype = 1 then 'EVENT' " +
-                                          "when d.tasktype = 2 then 'NOTES'" +
-                                          "else 'CLOSED' end as [Type], " +
-                                          "d.taskdescription as [Description]" +
-                                   "from futuremain as m " +
-                                   "inner join futuredetail as d " +
-                                   "on m.taskid = d.maintaskforeignkey " +
-                                   "where m.taskdate >= @taskdatestart " +
-                                   "and m.taskdate <= @taskdateend " +
-                                   "order by m.taskdate";
+            string command = "select " +
+                                   "a.taskid, " +
+                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
+                                   "a.description as Description, " +
+                                   "count(b.taskid) as [Contents] " +
+                                   "from futuremain as a " +
+                                   "left join futuredetail as b " +
+                                   "on a.taskid = b.maintaskforeignkey " +
+                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdatestart", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1) },
-                new SqlParameter("@taskdateend", SqlDbType.Date) { Value = new DateTime(dateTimePicker.Value.Year, dateTimePicker.Value.Month, 1).AddMonths(6) }
-
             };
 
-            dataGrid_futureLog.DataSource = db.GenericQueryAction(commandString, parameters);
+
+            dataGrid_futureLog.DataSource = db.GenericQueryAction(command, parameters);
+
             dataGrid_futureLog.Columns[0].Visible = false;
             dataGrid_futureLog.Columns[0].Width = 1;
-            dataGrid_futureLog.Columns["Date"].Width = 100;
-            dataGrid_futureLog.Columns["I"].Width = 20;
-            dataGrid_futureLog.Columns["Type"].Width = 70;
-            dataGrid_futureLog.Columns["Description"].Width = 280;
+            dataGrid_futureLog.Columns["Date"].Width = 90;
+            dataGrid_futureLog.Columns["Description"].Width = 310;
+            dataGrid_futureLog.Columns["Contents"].Width = 70;
         }
 
         public void Populate_monthly()
@@ -455,9 +444,10 @@ namespace BulletJournal
 
         private void btn_addFutureLog_Click(object sender, EventArgs e)
         {
-            using (FutureLog addFutureLog = new FutureLog(this))
+            using (FutureDescription monthlyDescription = new FutureDescription(JournalTask.EntryMode.add))
             {
-                addFutureLog.ShowDialog();
+                monthlyDescription.OnFutureMainSave += this.OnSave;
+                monthlyDescription.ShowDialog();
             }
         }
 
@@ -550,10 +540,25 @@ namespace BulletJournal
 
         private void dataGrid_futureLog_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
+            // left click
+            if (e.Button == MouseButtons.Left)
+            {
+
+                int colId = (int)dataGrid_futureLog.SelectedRows[0].Cells[0].Value;
+
+                using (FutureContent content = new FutureContent(colId))
+                {
+                    content.OnRefreshGrid += this.OnSave;
+                    content.ShowDialog();
+                }
+            }
+
+            // right clock
             if (e.Button == MouseButtons.Right)
             {
                 taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.future;
+                contextMenuStrip1.Items["migrate"].Visible = false;
             }
         }
 
@@ -693,19 +698,20 @@ namespace BulletJournal
 
             if (entryType == JournalTask.EntryType.future)
             {
-                using (FutureLog futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.edit))
+                using (FutureDescription monthlyDescription = new FutureDescription(JournalTask.EntryMode.edit, taskId))
                 {
-                    futureLog.ShowDialog();
+                    monthlyDescription.OnFutureMainSave += this.OnSave;
+                    monthlyDescription.ShowDialog();
                 }
             }
 
             if (entryType == JournalTask.EntryType.collection)
             {
                 
-                using (CollectionDescription category = new CollectionDescription( JournalTask.EntryMode.edit, taskId))
+                using (CollectionDescription collectionDescription = new CollectionDescription( JournalTask.EntryMode.edit, taskId))
                 {
-                    category.OnCategorySaved += OnSave;
-                    category.ShowDialog();
+                    collectionDescription.OnCategorySaved += OnSave;
+                    collectionDescription.ShowDialog();
                 }
 
             }
@@ -791,6 +797,7 @@ namespace BulletJournal
 
         private void futureLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             FutureLog futureLog;
 
             if (entryType == JournalTask.EntryType.daily)
@@ -824,6 +831,7 @@ namespace BulletJournal
                     futureLog.ShowDialog();
                 }
             }
+            */
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

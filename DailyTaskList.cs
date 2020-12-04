@@ -10,7 +10,7 @@ namespace BulletJournal
     {
 
         public delegate void EventHandler();
-        public event EventHandler OnCollectionSaved;
+        public event EventHandler OnDailySaved;
 
         // Database Tools
         DBTools db;
@@ -36,10 +36,12 @@ namespace BulletJournal
             dailyMainId = _dailyMainId;
             dailyDetailId = _dailyDetailId;
 
+            cmb_taskType.SelectedIndex = 0;
+
             // Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
-                this.Text = "Edit Collection";
+                this.Text = "Edit Daily Task";
 
                 // Query the collection name
                 string command = "select taskdescription, " +
@@ -59,12 +61,12 @@ namespace BulletJournal
 
                 // set the textbox to collection name
                 txt_description.Text = dataRow.Field<string>("taskdescription");
-                cmb_taskType.SelectedItem = dataRow.Field<int>("tasktype");
+                cmb_taskType.SelectedIndex = dataRow.Field<int>("tasktype");
                 chk_important.Checked = dataRow.Field<bool>("taskisimportant");
 
             }
 
-            cmb_taskType.SelectedIndex = 0;
+            
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -122,17 +124,17 @@ namespace BulletJournal
             chk_important.Checked = false;
 
             // Publish Event
-            OnCategorySave();
+            OnDailySave();
 
             // Close when on edit mode
             if (mode == JournalTask.EntryMode.edit)
                 this.Close();
         }
 
-        protected virtual void OnCategorySave()
+        protected virtual void OnDailySave()
         {
-            if (OnCollectionSaved != null)
-                OnCollectionSaved();
+            if (OnDailySaved != null)
+                OnDailySaved();
         }
     }
 }

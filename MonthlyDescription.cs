@@ -15,7 +15,7 @@ namespace BulletJournal
         JournalTask.EntryMode mode;
         int MonthlyMainId;
 
-        public MonthlyDescription(JournalTask.EntryMode _mode, int _dailyMainId = -1)
+        public MonthlyDescription(JournalTask.EntryMode _mode, int _monthlyMainId = -1)
         {
             InitializeComponent();
             dateTimePicker1.CustomFormat = "MMMM yyyy";
@@ -27,7 +27,7 @@ namespace BulletJournal
             mode = _mode;
 
             // store categoryId
-            MonthlyMainId = _dailyMainId;
+            MonthlyMainId = _monthlyMainId;
 
             // Edit Mode
             if (mode == JournalTask.EntryMode.edit)

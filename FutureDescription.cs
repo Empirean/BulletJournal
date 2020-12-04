@@ -6,20 +6,19 @@ using System.Windows.Forms;
 
 namespace BulletJournal
 {
-    public partial class DailyDescription : Form
+    public partial class FutureDescription : Form
     {
-
-        // Events
         public delegate void EventHandler();
-        public event EventHandler OnDailyMainSave;
+        public event EventHandler OnFutureMainSave;
 
         DBTools db;
         JournalTask.EntryMode mode;
-        int dailyMainId;
+        int FutureMainId;
 
-        public DailyDescription(JournalTask.EntryMode _mode, int _dailyMainId = -1)
+        public FutureDescription(JournalTask.EntryMode _mode, int _futureMainId = -1)
         {
             InitializeComponent();
+            dateTimePicker1.CustomFormat = "MMMM yyyy";
 
             // Initialize Database Tools
             db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
@@ -28,22 +27,22 @@ namespace BulletJournal
             mode = _mode;
 
             // store categoryId
-            dailyMainId = _dailyMainId;
+            FutureMainId = _futureMainId;
 
             // Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
 
-                this.Text = "Edit Task Date";
+                this.Text = "Edit Future Log";
 
                 // Query the category name
                 string command = "select taskdate, " +
                                  "description " +
-                                 "from dailymain " +
+                                 "from futuremain " +
                                  "where taskid = @id";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@id", SqlDbType.Int) { Value = dailyMainId}
+                    new SqlParameter("@id", SqlDbType.Int) { Value = FutureMainId}
                 };
 
                 DataTable dataTable = db.GenericQueryAction(command, parameters);
@@ -58,7 +57,6 @@ namespace BulletJournal
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             // Input validation
             if (!(JournalTask.IsInputValid(txt_Desscription)))
                 return;
@@ -66,7 +64,7 @@ namespace BulletJournal
             // Saving on Add Mode
             if (mode == JournalTask.EntryMode.add)
             {
-                string command = "insert into dailymain " +
+                string command = "insert into futuremain " +
                                  "(taskdate, description) " +
                                  "values" +
                                  "(@taskdate, @desc)";
@@ -80,11 +78,11 @@ namespace BulletJournal
                 db.GenericNonQueryAction(command, parameters);
             }
 
-            
+
             // Saving on Edit Mode
             if (mode == JournalTask.EntryMode.edit)
             {
-                string command = "update dailymain " +
+                string command = "update futuremain " +
                                  "set " +
                                  "description = @desc," +
                                  "taskdate = @taskdate " +
@@ -93,29 +91,29 @@ namespace BulletJournal
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_Desscription.Text},
-                    new SqlParameter("@id", SqlDbType.Int) { Value = dailyMainId},
+                    new SqlParameter("@id", SqlDbType.Int) { Value = FutureMainId},
                     new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker1.Value},
                 };
 
                 db.GenericNonQueryAction(command, parameters);
             }
-            
+
 
             // Cleanup
             txt_Desscription.Text = "";
 
             // Broadcast the event
-            OnDailyDescriptionSave();
+            OnFutureDescriptionSave();
 
             // Close when on edit mode
             if (mode == JournalTask.EntryMode.edit)
                 this.Close();
         }
 
-        protected virtual void OnDailyDescriptionSave()
+        protected virtual void OnFutureDescriptionSave()
         {
-            if (OnDailyMainSave != null)
-                OnDailyMainSave();
+            if (OnFutureMainSave != null)
+                OnFutureMainSave();
         }
     }
 }

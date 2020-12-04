@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace BulletJournal
 {
-    public partial class DailyContent : Form
+    public partial class FutureContent : Form
     {
         // Events
         public delegate void EventHandler();
@@ -15,10 +15,10 @@ namespace BulletJournal
         DBTools db;
 
         // Ids
-        int dailyMainid;
-        int dailyDetailId;
+        int futureMainid;
+        int futureDetailId;
 
-        public DailyContent(int _id)
+        public FutureContent(int _id)
         {
             InitializeComponent();
 
@@ -26,20 +26,22 @@ namespace BulletJournal
             db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
 
             // SaveId
-            dailyMainid = _id;
+            futureMainid = _id;
 
             // Fill Grid
-            Populate_Content(dailyMainid);
+            Populate_Content(futureMainid);
         }
 
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
-            using (DailyTaskList dailyTaskList = new DailyTaskList(JournalTask.EntryMode.add, dailyMainid, dailyDetailId))
+            
+            using (FutureTaskList futureTaskList = new FutureTaskList(JournalTask.EntryMode.add, futureMainid, futureDetailId))
             {
                 // Subscribe to save event
-                dailyTaskList.OnDailySaved += this.OnDailySaved;
-                dailyTaskList.ShowDialog();
+                futureTaskList.OnMonthlySaved += this.OnFutureSaved;
+                futureTaskList.ShowDialog();
             }
+            
         }
 
         private void Populate_Content(int _id)
@@ -58,7 +60,7 @@ namespace BulletJournal
                              "when tasktype = 2 then 'NOTES' " +
                              "else 'CLOSED' end as [Type], " +
                              "taskdescription as Description " +
-                             "from dailydetail " +
+                             "from futuredetail " +
                              "where maintaskforeignkey = @id";
 
             SqlParameter[] paramters = new SqlParameter[]
@@ -78,44 +80,46 @@ namespace BulletJournal
 
         private void dataGrid_content_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
+            
             if (e.Button == MouseButtons.Right)
             {
                 // Store collection id and show contextmenu
-                dailyDetailId = JournalTask.ContextMenuHandler(dataGrid_content, contextMenuStrip1, e);
+                futureDetailId = JournalTask.ContextMenuHandler(dataGrid_content, contextMenuStrip1, e);
             }
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string command = "delete from dailydetail " +
-                             "where taskid = @id";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@id", SqlDbType.Int) { Value = dailyDetailId}
-            };
-
-            db.GenericNonQueryAction(command, parameters);
-
-            // Publish Event
-            OnDailySaved();
+            
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            using (DailyTaskList dailyTaskList = new DailyTaskList(JournalTask.EntryMode.edit, dailyMainid, dailyDetailId))
+            using (FutureTaskList futureTaskList = new FutureTaskList(JournalTask.EntryMode.edit, futureMainid, futureDetailId))
             {
                 // Subscribe to save event
-                dailyTaskList.OnDailySaved += this.OnDailySaved;
-                dailyTaskList.ShowDialog();
+                futureTaskList.OnMonthlySaved += this.OnFutureSaved;
+                futureTaskList.ShowDialog();
             }
             
         }
 
-        private void OnDailySaved()
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Populate_Content(dailyMainid);
+            string command = "delete from futuredetail " +
+                            "where taskid = @id";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@id", SqlDbType.Int) { Value = futureDetailId}
+            };
+
+            db.GenericNonQueryAction(command, parameters);
+
+            // Publish Event
+            OnFutureSaved();
+        }
+
+        private void OnFutureSaved()
+        {
+            Populate_Content(futureMainid);
             OnRefreshGrids();
         }
 
@@ -125,5 +129,5 @@ namespace BulletJournal
             if (OnRefreshGrid != null)
                 OnRefreshGrid();
         }
-    }  
+    }
 }
