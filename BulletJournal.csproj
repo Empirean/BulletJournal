@@ -121,12 +121,6 @@
     <Compile Include="FutureTaskList.Designer.cs">
       <DependentUpon>FutureTaskList.cs</DependentUpon>
     </Compile>
-    <Compile Include="FutureLog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FutureLog.Designer.cs">
-      <DependentUpon>FutureLog.cs</DependentUpon>
-    </Compile>
     <Compile Include="MonthlyContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,7 +134,6 @@
       <DependentUpon>MonthlyDescription.cs</DependentUpon>
     </Compile>
     <Compile Include="DBTools.cs" />
-    <Compile Include="GeneralTask.cs" />
     <Compile Include="JournalDatabaseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -184,9 +177,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FutureDescription.resx">
       <DependentUpon>FutureDescription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FutureLog.resx">
-      <DependentUpon>FutureLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FutureTaskList.resx">
       <DependentUpon>FutureTaskList.cs</DependentUpon>

@@ -158,7 +158,6 @@
             // 
             this.dataGrid_dailyTask.AllowUserToAddRows = false;
             this.dataGrid_dailyTask.AllowUserToDeleteRows = false;
-            this.dataGrid_dailyTask.AllowUserToOrderColumns = true;
             this.dataGrid_dailyTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_dailyTask.Location = new System.Drawing.Point(16, 17);
             this.dataGrid_dailyTask.MultiSelect = false;
@@ -196,7 +195,6 @@
             // 
             this.dataGrid_monthly.AllowUserToAddRows = false;
             this.dataGrid_monthly.AllowUserToDeleteRows = false;
-            this.dataGrid_monthly.AllowUserToOrderColumns = true;
             this.dataGrid_monthly.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_monthly.Location = new System.Drawing.Point(16, 17);
             this.dataGrid_monthly.MultiSelect = false;
@@ -235,7 +233,6 @@
             // 
             this.dataGrid_futureLog.AllowUserToAddRows = false;
             this.dataGrid_futureLog.AllowUserToDeleteRows = false;
-            this.dataGrid_futureLog.AllowUserToOrderColumns = true;
             this.dataGrid_futureLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_futureLog.Location = new System.Drawing.Point(16, 17);
             this.dataGrid_futureLog.MultiSelect = false;
@@ -273,7 +270,6 @@
             // 
             this.dataGrid_collection.AllowUserToAddRows = false;
             this.dataGrid_collection.AllowUserToDeleteRows = false;
-            this.dataGrid_collection.AllowUserToOrderColumns = true;
             this.dataGrid_collection.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_collection.Location = new System.Drawing.Point(16, 17);
             this.dataGrid_collection.MultiSelect = false;
@@ -328,19 +324,19 @@
             this.deleteToolStripMenuItem,
             this.migrate});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 104);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(131, 76);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -351,27 +347,27 @@
             this.monthlyTaskToolStripMenuItem,
             this.futureLogToolStripMenuItem});
             this.migrate.Name = "migrate";
-            this.migrate.Size = new System.Drawing.Size(210, 24);
+            this.migrate.Size = new System.Drawing.Size(130, 24);
             this.migrate.Text = "Migrate";
             // 
             // dailyTaskToolStripMenuItem
             // 
             this.dailyTaskToolStripMenuItem.Name = "dailyTaskToolStripMenuItem";
-            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.dailyTaskToolStripMenuItem.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem_Click);
             // 
             // monthlyTaskToolStripMenuItem
             // 
             this.monthlyTaskToolStripMenuItem.Name = "monthlyTaskToolStripMenuItem";
-            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.monthlyTaskToolStripMenuItem.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem_Click);
             // 
             // futureLogToolStripMenuItem
             // 
             this.futureLogToolStripMenuItem.Name = "futureLogToolStripMenuItem";
-            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.futureLogToolStripMenuItem.Text = "Future Log";
             this.futureLogToolStripMenuItem.Click += new System.EventHandler(this.futureLogToolStripMenuItem_Click);
             // 

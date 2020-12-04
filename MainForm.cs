@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -349,10 +343,12 @@ namespace BulletJournal
                                    "from dailymain as a " +
                                    "left join dailydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
+                                   "where a.taskdate >= @taskdate " +
                                    "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
             };
 
 
