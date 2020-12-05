@@ -703,10 +703,10 @@ namespace BulletJournal
 
             if (entryType == JournalTask.EntryType.future)
             {
-                using (FutureDescription monthlyDescription = new FutureDescription(JournalTask.EntryMode.edit, taskId))
+                using (FutureDescription futureDescription = new FutureDescription(JournalTask.EntryMode.edit, taskId))
                 {
-                    monthlyDescription.OnFutureMainSave += this.OnSave;
-                    monthlyDescription.ShowDialog();
+                    futureDescription.OnFutureMainSave += this.OnSave;
+                    futureDescription.ShowDialog();
                 }
             }
 
@@ -762,6 +762,33 @@ namespace BulletJournal
             {
                 migration.OnMigrated += OnSave;
                 migration.ShowDialog();
+            }
+        }
+
+        private void dailyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (DailyDescription dailyDescription = new DailyDescription(JournalTask.EntryMode.migrate, taskId, entryType))
+            {
+                dailyDescription.OnDailyMainSave += OnSave;
+                dailyDescription.ShowDialog();
+            }
+        }
+
+        private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (MonthlyDescription dailyDescription = new MonthlyDescription(JournalTask.EntryMode.migrate, taskId, entryType))
+            {
+                dailyDescription.OnMonthlyMainSave += OnSave;
+                dailyDescription.ShowDialog();
+            }
+        }
+
+        private void futureLogToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (FutureDescription dailyDescription = new FutureDescription(JournalTask.EntryMode.migrate, taskId, entryType))
+            {
+                dailyDescription.OnFutureMainSave += OnSave;
+                dailyDescription.ShowDialog();
             }
         }
     }

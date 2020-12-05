@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BulletJournal
@@ -288,22 +282,7 @@ namespace BulletJournal
             
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                
-                string command = "insert into dailydetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from dailydetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-                
-
+                MigrationHelper.MigrateDailyToDaily(_id, (int) row.Cells[0].Value);
             }
         }
 
@@ -311,22 +290,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-
-                string command = "insert into monthlydetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from dailydetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-
-
+                MigrationHelper.MigrateDailyToMonthly(_id, (int)row.Cells[0].Value);
             }
         }
 
@@ -334,22 +298,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-
-                string command = "insert into futuredetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from dailydetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-
-
+                MigrationHelper.MigrateDailyToFuture(_id, (int)row.Cells[0].Value);
             }
         }
 
@@ -357,22 +306,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-
-                string command = "insert into dailydetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from monthlydetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-
-
+                MigrationHelper.MigrateMonthlyToDaily(_id, (int)row.Cells[0].Value);
             }
         }
 
@@ -380,22 +314,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-
-                string command = "insert into monthlydetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from monthlydetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-
-
+                MigrationHelper.MigrateMonthlyToMonthly(_id, (int)row.Cells[0].Value);
             }
         }
 
@@ -403,22 +322,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-
-                string command = "insert into futuredetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from monthlydetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-
-
+                MigrationHelper.MigrateMonthlyToFuture(_id, (int)row.Cells[0].Value);
             }
         }
 
@@ -426,22 +330,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-
-                string command = "insert into dailydetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from futuredetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-
-
+                MigrationHelper.MigrateFutureToDaily(_id, (int)row.Cells[0].Value);
             }
         }
 
@@ -449,22 +338,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-
-                string command = "insert into monthlydetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from futuredetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-
-
+                MigrationHelper.MigrateFutureToMonthly(_id, (int)row.Cells[0].Value);
             }
         }
 
@@ -472,22 +346,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-
-                string command = "insert into futuredetail " +
-                    "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                    "(select tasktype, taskdescription, taskisimportant, " + row.Cells[0].Value.ToString() + " " +
-                    "from futuredetail " +
-                    "where maintaskforeignkey = @id)";
-
-
-                SqlParameter[] parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
-                };
-
-                db.GenericNonQueryAction(command, parameters);
-
-
+                MigrationHelper.MigrateFutureToFuture(_id, (int)row.Cells[0].Value);
             }
         }
 

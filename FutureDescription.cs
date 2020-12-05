@@ -13,9 +13,11 @@ namespace BulletJournal
 
         DBTools db;
         JournalTask.EntryMode mode;
-        int FutureMainId;
+        JournalTask.EntryType entryType;
+        int futureMainId;
 
-        public FutureDescription(JournalTask.EntryMode _mode, int _futureMainId = -1)
+        public FutureDescription(JournalTask.EntryMode _mode, int _futureMainId = -1,
+            JournalTask.EntryType _entryType = JournalTask.EntryType.none)
         {
             InitializeComponent();
             dateTimePicker1.CustomFormat = "MMMM yyyy";
@@ -27,7 +29,10 @@ namespace BulletJournal
             mode = _mode;
 
             // store categoryId
-            FutureMainId = _futureMainId;
+            futureMainId = _futureMainId;
+
+            // for migration
+            entryType = _entryType;
 
             // Edit Mode
             if (mode == JournalTask.EntryMode.edit)
@@ -42,7 +47,7 @@ namespace BulletJournal
                                  "where taskid = @id";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@id", SqlDbType.Int) { Value = FutureMainId}
+                    new SqlParameter("@id", SqlDbType.Int) { Value = futureMainId}
                 };
 
                 DataTable dataTable = db.GenericQueryAction(command, parameters);
@@ -53,6 +58,8 @@ namespace BulletJournal
                 dateTimePicker1.Text = dataRow.Field<DateTime>("taskdate").ToString();
 
             }
+
+            
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -91,13 +98,45 @@ namespace BulletJournal
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_Desscription.Text},
-                    new SqlParameter("@id", SqlDbType.Int) { Value = FutureMainId},
+                    new SqlParameter("@id", SqlDbType.Int) { Value = futureMainId},
                     new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker1.Value},
                 };
 
                 db.GenericNonQueryAction(command, parameters);
             }
 
+            if (mode == JournalTask.EntryMode.migrate)
+            {
+                string command = "insert into futuremain " +
+                                 "(taskdate, description) " +
+                                 "output inserted.taskid " +
+                                 "values" +
+                                 "(@taskdate, @desc)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_Desscription.Text},
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker1.Value}
+                };
+
+                int insertedId = db.GenericScalarAction(command, parameters);
+
+                switch (entryType)
+                {
+                    case JournalTask.EntryType.daily:
+                        MigrationHelper.MigrateDailyToFuture(futureMainId, insertedId);
+                        break;
+                    case JournalTask.EntryType.monthly:
+                        MigrationHelper.MigrateMonthlyToFuture(futureMainId, insertedId);
+                        break;
+                    case JournalTask.EntryType.future:
+                        MigrationHelper.MigrateFutureToFuture(futureMainId, insertedId);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
 
             // Cleanup
             txt_Desscription.Text = "";

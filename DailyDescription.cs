@@ -15,9 +15,11 @@ namespace BulletJournal
 
         DBTools db;
         JournalTask.EntryMode mode;
+        JournalTask.EntryType entryType;
         int dailyMainId;
 
-        public DailyDescription(JournalTask.EntryMode _mode, int _dailyMainId = -1)
+        public DailyDescription(JournalTask.EntryMode _mode, int _dailyMainId = -1, 
+            JournalTask.EntryType _entryType = JournalTask.EntryType.none)
         {
             InitializeComponent();
 
@@ -29,6 +31,9 @@ namespace BulletJournal
 
             // store categoryId
             dailyMainId = _dailyMainId;
+
+            // for migration
+            entryType = _entryType;
 
             // Edit Mode
             if (mode == JournalTask.EntryMode.edit)
@@ -98,6 +103,39 @@ namespace BulletJournal
                 };
 
                 db.GenericNonQueryAction(command, parameters);
+            }
+
+            if (mode == JournalTask.EntryMode.migrate)
+            {
+                string command = "insert into dailymain " +
+                                 "(taskdate, description) " +
+                                 "output inserted.taskid " +
+                                 "values" +
+                                 "(@taskdate, @desc)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_Desscription.Text},
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker1.Value}
+                };
+
+                int insertedId = db.GenericScalarAction(command, parameters);
+
+                switch (entryType)
+                {
+                    case JournalTask.EntryType.daily:
+                        MigrationHelper.MigrateDailyToDaily(dailyMainId, insertedId);
+                        break;
+                    case JournalTask.EntryType.monthly:
+                        MigrationHelper.MigrateMonthlyToDaily(dailyMainId, insertedId);
+                        break;
+                    case JournalTask.EntryType.future:
+                        MigrationHelper.MigrateFutureToDaily(dailyMainId, insertedId);
+                        break;
+                    default:
+                        break;
+                }
+
             }
             
 

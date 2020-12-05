@@ -127,6 +127,7 @@
     <Compile Include="Migration.Designer.cs">
       <DependentUpon>Migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationHelper.cs" />
     <Compile Include="MonthlyContent.cs">
       <SubType>Form</SubType>
     </Compile>

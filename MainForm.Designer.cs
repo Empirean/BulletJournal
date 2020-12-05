@@ -56,10 +56,10 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.migrate = new System.Windows.Forms.ToolStripMenuItem();
             this.toExistingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dailyTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dailyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -334,14 +334,14 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -364,16 +364,6 @@
             this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
             // 
-            // asNewToolStripMenuItem
-            // 
-            this.asNewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dailyTaskToolStripMenuItem1,
-            this.monthlyTaskToolStripMenuItem1,
-            this.futureLogToolStripMenuItem1});
-            this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
-            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.asNewToolStripMenuItem.Text = "As New";
-            // 
             // dailyTaskToolStripMenuItem
             // 
             this.dailyTaskToolStripMenuItem.Name = "dailyTaskToolStripMenuItem";
@@ -395,23 +385,36 @@
             this.futureLogToolStripMenuItem.Text = "Future Log";
             this.futureLogToolStripMenuItem.Click += new System.EventHandler(this.futureLogToolStripMenuItem_Click);
             // 
+            // asNewToolStripMenuItem
+            // 
+            this.asNewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dailyTaskToolStripMenuItem1,
+            this.monthlyTaskToolStripMenuItem1,
+            this.futureLogToolStripMenuItem1});
+            this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
+            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.asNewToolStripMenuItem.Text = "As New";
+            // 
             // dailyTaskToolStripMenuItem1
             // 
             this.dailyTaskToolStripMenuItem1.Name = "dailyTaskToolStripMenuItem1";
             this.dailyTaskToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.dailyTaskToolStripMenuItem1.Text = "Daily Task";
+            this.dailyTaskToolStripMenuItem1.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem1_Click);
             // 
             // monthlyTaskToolStripMenuItem1
             // 
             this.monthlyTaskToolStripMenuItem1.Name = "monthlyTaskToolStripMenuItem1";
             this.monthlyTaskToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.monthlyTaskToolStripMenuItem1.Text = "Monthly Task";
+            this.monthlyTaskToolStripMenuItem1.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem1_Click);
             // 
             // futureLogToolStripMenuItem1
             // 
             this.futureLogToolStripMenuItem1.Name = "futureLogToolStripMenuItem1";
             this.futureLogToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.futureLogToolStripMenuItem1.Text = "Future Log";
+            this.futureLogToolStripMenuItem1.Click += new System.EventHandler(this.futureLogToolStripMenuItem1_Click);
             // 
             // MainForm
             // 

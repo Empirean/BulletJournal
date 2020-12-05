@@ -13,9 +13,11 @@ namespace BulletJournal
 
         DBTools db;
         JournalTask.EntryMode mode;
-        int MonthlyMainId;
+        JournalTask.EntryType entryType;
+        int monthlyMainId;
 
-        public MonthlyDescription(JournalTask.EntryMode _mode, int _monthlyMainId = -1)
+        public MonthlyDescription(JournalTask.EntryMode _mode, int _monthlyMainId = -1,
+            JournalTask.EntryType _entryType = JournalTask.EntryType.none)
         {
             InitializeComponent();
             dateTimePicker1.CustomFormat = "MMMM yyyy";
@@ -27,7 +29,10 @@ namespace BulletJournal
             mode = _mode;
 
             // store categoryId
-            MonthlyMainId = _monthlyMainId;
+            monthlyMainId = _monthlyMainId;
+
+            // for migration
+            entryType = _entryType;
 
             // Edit Mode
             if (mode == JournalTask.EntryMode.edit)
@@ -42,7 +47,7 @@ namespace BulletJournal
                                  "where taskid = @id";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@id", SqlDbType.Int) { Value = MonthlyMainId}
+                    new SqlParameter("@id", SqlDbType.Int) { Value = monthlyMainId}
                 };
 
                 DataTable dataTable = db.GenericQueryAction(command, parameters);
@@ -92,11 +97,44 @@ namespace BulletJournal
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_Desscription.Text},
-                    new SqlParameter("@id", SqlDbType.Int) { Value = MonthlyMainId},
+                    new SqlParameter("@id", SqlDbType.Int) { Value = monthlyMainId},
                     new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker1.Value},
                 };
 
                 db.GenericNonQueryAction(command, parameters);
+            }
+
+            if (mode == JournalTask.EntryMode.migrate)
+            {
+                string command = "insert into monthlymain " +
+                                 "(taskdate, description) " +
+                                 "output inserted.taskid " +
+                                 "values" +
+                                 "(@taskdate, @desc)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_Desscription.Text},
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker1.Value}
+                };
+
+                int insertedId = db.GenericScalarAction(command, parameters);
+
+                switch (entryType)
+                {
+                    case JournalTask.EntryType.daily:
+                        MigrationHelper.MigrateDailyToMonthly(monthlyMainId, insertedId);
+                        break;
+                    case JournalTask.EntryType.monthly:
+                        MigrationHelper.MigrateMonthlyToMonthly(monthlyMainId, insertedId);
+                        break;
+                    case JournalTask.EntryType.future:
+                        MigrationHelper.MigrateFutureToMonthly(monthlyMainId, insertedId);
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
 
