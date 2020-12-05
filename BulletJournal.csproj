@@ -121,6 +121,12 @@
     <Compile Include="FutureTaskList.Designer.cs">
       <DependentUpon>FutureTaskList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Migration.Designer.cs">
+      <DependentUpon>Migration.cs</DependentUpon>
+    </Compile>
     <Compile Include="MonthlyContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FutureTaskList.resx">
       <DependentUpon>FutureTaskList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migration.resx">
+      <DependentUpon>Migration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MonthlyContent.resx">
       <DependentUpon>MonthlyContent.cs</DependentUpon>

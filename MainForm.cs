@@ -344,7 +344,8 @@ namespace BulletJournal
                                    "left join dailydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
-                                   "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description";
+                                   "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description " +
+                                   "order by format(a.taskdate, 'dd/MM/yyyy'), a.taskid";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
@@ -361,31 +362,7 @@ namespace BulletJournal
             dataGrid_dailyTask.Columns["Contents"].Width = 70;
         }
 
-        public void Populate_futureLog()
-        {
-            string command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from futuremain as a " +
-                                   "left join futuredetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-            };
-
-
-            dataGrid_futureLog.DataSource = db.GenericQueryAction(command, parameters);
-
-            dataGrid_futureLog.Columns[0].Visible = false;
-            dataGrid_futureLog.Columns[0].Width = 1;
-            dataGrid_futureLog.Columns["Date"].Width = 90;
-            dataGrid_futureLog.Columns["Description"].Width = 310;
-            dataGrid_futureLog.Columns["Contents"].Width = 70;
-        }
+        
 
         public void Populate_monthly()
         {
@@ -398,10 +375,13 @@ namespace BulletJournal
                                    "from monthlymain as a " +
                                    "left join monthlydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
-                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description";
+                                   "where a.taskdate >= @taskdate " +
+                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
+                                   "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
             };
 
 
@@ -412,6 +392,35 @@ namespace BulletJournal
             dataGrid_monthly.Columns["Date"].Width = 90;
             dataGrid_monthly.Columns["Description"].Width = 310;
             dataGrid_monthly.Columns["Contents"].Width = 70;
+        }
+
+        public void Populate_futureLog()
+        {
+            string command = "select " +
+                                   "a.taskid, " +
+                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
+                                   "a.description as Description, " +
+                                   "count(b.taskid) as [Contents] " +
+                                   "from futuremain as a " +
+                                   "left join futuredetail as b " +
+                                   "on a.taskid = b.maintaskforeignkey " +
+                                   "where a.taskdate >= @taskdate " +
+                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
+                                   "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
+            };
+
+
+            dataGrid_futureLog.DataSource = db.GenericQueryAction(command, parameters);
+
+            dataGrid_futureLog.Columns[0].Visible = false;
+            dataGrid_futureLog.Columns[0].Width = 1;
+            dataGrid_futureLog.Columns["Date"].Width = 90;
+            dataGrid_futureLog.Columns["Description"].Width = 310;
+            dataGrid_futureLog.Columns["Contents"].Width = 70;
         }
 
         public void Populate_Collection()
@@ -478,7 +487,7 @@ namespace BulletJournal
                 taskId = JournalTask.ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.daily;
 
-                contextMenuStrip1.Items["migrate"].Visible = false;
+                
             }
         }
 
@@ -530,7 +539,7 @@ namespace BulletJournal
                 
                 taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.monthly;
-                contextMenuStrip1.Items["migrate"].Visible = false;
+                
             }
         }
 
@@ -554,7 +563,7 @@ namespace BulletJournal
             {
                 taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.future;
-                contextMenuStrip1.Items["migrate"].Visible = false;
+                
             }
         }
 
@@ -713,123 +722,6 @@ namespace BulletJournal
             }
         }
 
-        private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            /*
-            DailyTask_to_be_deleted dailyTask;
-
-            if (entryType == JournalTask.EntryType.daily)
-            {
-                using (dailyTask = new DailyTask_to_be_deleted(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
-                {
-                    dailyTask.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.monthly)
-            {
-                using (dailyTask = new DailyTask_to_be_deleted(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
-                {
-                    dailyTask.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.future)
-            {
-                using (dailyTask = new DailyTask_to_be_deleted(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
-                {
-                    dailyTask.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.collection)
-            {
-                using (dailyTask = new DailyTask_to_be_deleted(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
-                {
-                    dailyTask.ShowDialog();
-                }
-            }
-            */
-        }
-
-        private void monthlyTaskToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            /*
-            MonthlyTask monthlyTask;
-
-            if (entryType == JournalTask.EntryType.daily)
-            {
-                using (monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
-                {
-                    monthlyTask.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.monthly)
-            {
-                using (monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
-                {
-                    monthlyTask.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.future)
-            {
-                using (monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
-                {
-                    monthlyTask.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.collection)
-            {
-                using (monthlyTask = new MonthlyTask(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
-                {
-                    monthlyTask.ShowDialog();
-                }
-            }
-            */
-        }
-
-        private void futureLogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            /*
-            FutureLog futureLog;
-
-            if (entryType == JournalTask.EntryType.daily)
-            {
-                using (futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.daily))
-                {
-                    futureLog.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.monthly)
-            {
-                using (futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.monthly))
-                {
-                    futureLog.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.future)
-            {
-                using (futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.future))
-                {
-                    futureLog.ShowDialog();
-                }
-            }
-
-            if (entryType == JournalTask.EntryType.collection)
-            {
-                using (futureLog = new FutureLog(this, taskId, JournalTask.EntryMode.migrate, JournalTask.EntryType.collection))
-                {
-                    futureLog.ShowDialog();
-                }
-            }
-            */
-        }
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -845,5 +737,32 @@ namespace BulletJournal
             RefreshGrid();
         }
 
+        private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.daily, taskId, dateTimePicker))
+            {
+                migration.OnMigrated += OnSave;
+                migration.ShowDialog();
+
+            }
+        }
+
+        private void monthlyTaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.monthly, taskId, dateTimePicker))
+            {
+                migration.OnMigrated += OnSave;
+                migration.ShowDialog();
+            }
+        }
+
+        private void futureLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.future, taskId, dateTimePicker))
+            {
+                migration.OnMigrated += OnSave;
+                migration.ShowDialog();
+            }
+        }
     }
 }
