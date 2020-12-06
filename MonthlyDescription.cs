@@ -15,8 +15,11 @@ namespace BulletJournal
         JournalTask.EntryMode mode;
         JournalTask.EntryType entryType;
         int monthlyMainId;
+        int monthlyDetailid;
 
-        public MonthlyDescription(JournalTask.EntryMode _mode, int _monthlyMainId = -1,
+        public MonthlyDescription(JournalTask.EntryMode _mode,
+            int _monthlyMainId = -1,
+            int _monthlyDetailid = -1,
             JournalTask.EntryType _entryType = JournalTask.EntryType.none)
         {
             InitializeComponent();
@@ -30,6 +33,7 @@ namespace BulletJournal
 
             // store categoryId
             monthlyMainId = _monthlyMainId;
+            monthlyDetailid = _monthlyDetailid;
 
             // for migration
             entryType = _entryType;
@@ -130,6 +134,39 @@ namespace BulletJournal
                         break;
                     case JournalTask.EntryType.future:
                         MigrationHelper.MigrateFutureToMonthly(monthlyMainId, insertedId, JournalTask.EntryMode.migrate_main);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            if (mode == JournalTask.EntryMode.migrate_detail)
+            {
+                string command = "insert into monthlymain " +
+                                 "(taskdate, description) " +
+                                 "output inserted.taskid " +
+                                 "values" +
+                                 "(@taskdate, @desc)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_Desscription.Text},
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker1.Value}
+                };
+
+                int insertedId = db.GenericScalarAction(command, parameters);
+
+                switch (entryType)
+                {
+                    case JournalTask.EntryType.daily:
+                        MigrationHelper.MigrateDailyToMonthly(monthlyDetailid, insertedId, JournalTask.EntryMode.migrate_detail);
+                        break;
+                    case JournalTask.EntryType.monthly:
+                        MigrationHelper.MigrateMonthlyToMonthly(monthlyDetailid, insertedId, JournalTask.EntryMode.migrate_detail);
+                        break;
+                    case JournalTask.EntryType.future:
+                        MigrationHelper.MigrateFutureToMonthly(monthlyDetailid, insertedId, JournalTask.EntryMode.migrate_detail);
                         break;
                     default:
                         break;

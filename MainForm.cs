@@ -768,7 +768,7 @@ namespace BulletJournal
 
         private void dailyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            using (DailyDescription dailyDescription = new DailyDescription(JournalTask.EntryMode.migrate_main, taskId, entryType))
+            using (DailyDescription dailyDescription = new DailyDescription(JournalTask.EntryMode.migrate_main, taskId, _entryType: entryType))
             {
                 dailyDescription.OnDailyMainSave += OnSave;
                 dailyDescription.ShowDialog();
@@ -777,7 +777,7 @@ namespace BulletJournal
 
         private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            using (MonthlyDescription dailyDescription = new MonthlyDescription(JournalTask.EntryMode.migrate_main, taskId, entryType))
+            using (MonthlyDescription dailyDescription = new MonthlyDescription(JournalTask.EntryMode.migrate_main, taskId, _entryType: entryType))
             {
                 dailyDescription.OnMonthlyMainSave += OnSave;
                 dailyDescription.ShowDialog();
@@ -786,7 +786,7 @@ namespace BulletJournal
 
         private void futureLogToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            using (FutureDescription dailyDescription = new FutureDescription(JournalTask.EntryMode.migrate_main, taskId, entryType))
+            using (FutureDescription dailyDescription = new FutureDescription(JournalTask.EntryMode.migrate_main, taskId, _entryType: entryType))
             {
                 dailyDescription.OnFutureMainSave += OnSave;
                 dailyDescription.ShowDialog();

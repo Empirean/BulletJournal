@@ -17,8 +17,11 @@ namespace BulletJournal
         JournalTask.EntryMode mode;
         JournalTask.EntryType entryType;
         int dailyMainId;
+        int dailyDetailId;
 
-        public DailyDescription(JournalTask.EntryMode _mode, int _dailyMainId = -1, 
+        public DailyDescription(JournalTask.EntryMode _mode,
+            int _dailyMainId = -1,
+            int _dailyDetailId = -1,
             JournalTask.EntryType _entryType = JournalTask.EntryType.none)
         {
             InitializeComponent();
@@ -31,6 +34,7 @@ namespace BulletJournal
 
             // store categoryId
             dailyMainId = _dailyMainId;
+            dailyDetailId = _dailyDetailId;
 
             // for migration
             entryType = _entryType;
@@ -137,7 +141,40 @@ namespace BulletJournal
                 }
 
             }
-            
+
+            if (mode == JournalTask.EntryMode.migrate_detail)
+            {
+                string command = "insert into dailymain " +
+                                 "(taskdate, description) " +
+                                 "output inserted.taskid " +
+                                 "values" +
+                                 "(@taskdate, @desc)";
+
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_Desscription.Text},
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker1.Value}
+                };
+
+                int insertedId = db.GenericScalarAction(command, parameters);
+
+                switch (entryType)
+                {
+                    case JournalTask.EntryType.daily:
+                        MigrationHelper.MigrateDailyToDaily(dailyDetailId, insertedId, JournalTask.EntryMode.migrate_detail);
+                        break;
+                    case JournalTask.EntryType.monthly:
+                        MigrationHelper.MigrateMonthlyToDaily(dailyDetailId, insertedId, JournalTask.EntryMode.migrate_detail);
+                        break;
+                    case JournalTask.EntryType.future:
+                        MigrationHelper.MigrateFutureToDaily(dailyDetailId, insertedId, JournalTask.EntryMode.migrate_detail);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
 
             // Cleanup
             txt_Desscription.Text = "";

@@ -171,5 +171,32 @@ namespace BulletJournal
 
             }
         }
+
+        private void dailyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (DailyDescription dailyDescription = new DailyDescription(JournalTask.EntryMode.migrate_detail, monthlyMainid, monthlyDetailId, JournalTask.EntryType.monthly))
+            {
+                dailyDescription.OnDailyMainSave += OnRefreshGrids;
+                dailyDescription.ShowDialog();
+            }
+        }
+
+        private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (MonthlyDescription monthlyDescription = new MonthlyDescription(JournalTask.EntryMode.migrate_detail, monthlyMainid, monthlyDetailId, JournalTask.EntryType.monthly))
+            {
+                monthlyDescription.OnMonthlyMainSave += OnRefreshGrids;
+                monthlyDescription.ShowDialog();
+            }
+        }
+
+        private void futureLogToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (FutureDescription futureDescription = new FutureDescription(JournalTask.EntryMode.migrate_detail, monthlyMainid, monthlyDetailId, JournalTask.EntryType.monthly))
+            {
+                futureDescription.OnFutureMainSave += OnRefreshGrids;
+                futureDescription.ShowDialog();
+            }
+        }
     }
 }

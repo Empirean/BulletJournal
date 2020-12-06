@@ -38,10 +38,10 @@ namespace BulletJournal
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.migrateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toExistingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.asNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dailyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.futureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dailyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.futureToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,19 +84,19 @@ namespace BulletJournal
             this.deleteToolStripMenuItem,
             this.migrateToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 104);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(131, 76);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -106,7 +106,7 @@ namespace BulletJournal
             this.toExistingToolStripMenuItem,
             this.asNewToolStripMenuItem});
             this.migrateToolStripMenuItem.Name = "migrateToolStripMenuItem";
-            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.migrateToolStripMenuItem.Text = "Migrate";
             // 
             // toExistingToolStripMenuItem
@@ -119,6 +119,27 @@ namespace BulletJournal
             this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
             // 
+            // dailyToolStripMenuItem
+            // 
+            this.dailyToolStripMenuItem.Name = "dailyToolStripMenuItem";
+            this.dailyToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.dailyToolStripMenuItem.Text = "Daily Task";
+            this.dailyToolStripMenuItem.Click += new System.EventHandler(this.dailyToolStripMenuItem_Click);
+            // 
+            // monthlyToolStripMenuItem
+            // 
+            this.monthlyToolStripMenuItem.Name = "monthlyToolStripMenuItem";
+            this.monthlyToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.monthlyToolStripMenuItem.Text = "Monthly Task";
+            this.monthlyToolStripMenuItem.Click += new System.EventHandler(this.monthlyToolStripMenuItem_Click);
+            // 
+            // futureToolStripMenuItem
+            // 
+            this.futureToolStripMenuItem.Name = "futureToolStripMenuItem";
+            this.futureToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.futureToolStripMenuItem.Text = "Future Log";
+            this.futureToolStripMenuItem.Click += new System.EventHandler(this.futureToolStripMenuItem_Click);
+            // 
             // asNewToolStripMenuItem
             // 
             this.asNewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -129,44 +150,26 @@ namespace BulletJournal
             this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.asNewToolStripMenuItem.Text = "As New";
             // 
-            // dailyToolStripMenuItem
-            // 
-            this.dailyToolStripMenuItem.Name = "dailyToolStripMenuItem";
-            this.dailyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.dailyToolStripMenuItem.Text = "Daily Task";
-            this.dailyToolStripMenuItem.Click += new System.EventHandler(this.dailyToolStripMenuItem_Click);
-            // 
-            // monthlyToolStripMenuItem
-            // 
-            this.monthlyToolStripMenuItem.Name = "monthlyToolStripMenuItem";
-            this.monthlyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.monthlyToolStripMenuItem.Text = "Monthly Task";
-            this.monthlyToolStripMenuItem.Click += new System.EventHandler(this.monthlyToolStripMenuItem_Click);
-            // 
-            // futureToolStripMenuItem
-            // 
-            this.futureToolStripMenuItem.Name = "futureToolStripMenuItem";
-            this.futureToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.futureToolStripMenuItem.Text = "Future Log";
-            this.futureToolStripMenuItem.Click += new System.EventHandler(this.futureToolStripMenuItem_Click);
-            // 
             // dailyToolStripMenuItem1
             // 
             this.dailyToolStripMenuItem1.Name = "dailyToolStripMenuItem1";
             this.dailyToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.dailyToolStripMenuItem1.Text = "Daily Task";
+            this.dailyToolStripMenuItem1.Click += new System.EventHandler(this.dailyToolStripMenuItem1_Click);
             // 
             // monthlyToolStripMenuItem1
             // 
             this.monthlyToolStripMenuItem1.Name = "monthlyToolStripMenuItem1";
             this.monthlyToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.monthlyToolStripMenuItem1.Text = "Monthly Task";
+            this.monthlyToolStripMenuItem1.Click += new System.EventHandler(this.monthlyToolStripMenuItem1_Click);
             // 
             // futureToolStripMenuItem1
             // 
             this.futureToolStripMenuItem1.Name = "futureToolStripMenuItem1";
             this.futureToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.futureToolStripMenuItem1.Text = "Future Log";
+            this.futureToolStripMenuItem1.Click += new System.EventHandler(this.futureToolStripMenuItem1_Click);
             // 
             // DailyContent
             // 
