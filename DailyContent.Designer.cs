@@ -36,6 +36,15 @@ namespace BulletJournal
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.migrateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toExistingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.asNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dailyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.monthlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.futureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dailyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.monthlyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.futureToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_content)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -72,23 +81,92 @@ namespace BulletJournal
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem,
-            this.deleteToolStripMenuItem});
+            this.deleteToolStripMenuItem,
+            this.migrateToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(123, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 104);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(122, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // migrateToolStripMenuItem
+            // 
+            this.migrateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toExistingToolStripMenuItem,
+            this.asNewToolStripMenuItem});
+            this.migrateToolStripMenuItem.Name = "migrateToolStripMenuItem";
+            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.migrateToolStripMenuItem.Text = "Migrate";
+            // 
+            // toExistingToolStripMenuItem
+            // 
+            this.toExistingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dailyToolStripMenuItem,
+            this.monthlyToolStripMenuItem,
+            this.futureToolStripMenuItem});
+            this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
+            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.toExistingToolStripMenuItem.Text = "To Existing";
+            // 
+            // asNewToolStripMenuItem
+            // 
+            this.asNewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dailyToolStripMenuItem1,
+            this.monthlyToolStripMenuItem1,
+            this.futureToolStripMenuItem1});
+            this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
+            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.asNewToolStripMenuItem.Text = "As New";
+            // 
+            // dailyToolStripMenuItem
+            // 
+            this.dailyToolStripMenuItem.Name = "dailyToolStripMenuItem";
+            this.dailyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.dailyToolStripMenuItem.Text = "Daily Task";
+            this.dailyToolStripMenuItem.Click += new System.EventHandler(this.dailyToolStripMenuItem_Click);
+            // 
+            // monthlyToolStripMenuItem
+            // 
+            this.monthlyToolStripMenuItem.Name = "monthlyToolStripMenuItem";
+            this.monthlyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.monthlyToolStripMenuItem.Text = "Monthly Task";
+            this.monthlyToolStripMenuItem.Click += new System.EventHandler(this.monthlyToolStripMenuItem_Click);
+            // 
+            // futureToolStripMenuItem
+            // 
+            this.futureToolStripMenuItem.Name = "futureToolStripMenuItem";
+            this.futureToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.futureToolStripMenuItem.Text = "Future Log";
+            this.futureToolStripMenuItem.Click += new System.EventHandler(this.futureToolStripMenuItem_Click);
+            // 
+            // dailyToolStripMenuItem1
+            // 
+            this.dailyToolStripMenuItem1.Name = "dailyToolStripMenuItem1";
+            this.dailyToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.dailyToolStripMenuItem1.Text = "Daily Task";
+            // 
+            // monthlyToolStripMenuItem1
+            // 
+            this.monthlyToolStripMenuItem1.Name = "monthlyToolStripMenuItem1";
+            this.monthlyToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.monthlyToolStripMenuItem1.Text = "Monthly Task";
+            // 
+            // futureToolStripMenuItem1
+            // 
+            this.futureToolStripMenuItem1.Name = "futureToolStripMenuItem1";
+            this.futureToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.futureToolStripMenuItem1.Text = "Future Log";
             // 
             // DailyContent
             // 
@@ -116,5 +194,14 @@ namespace BulletJournal
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem migrateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toExistingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dailyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem monthlyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem futureToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem asNewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dailyToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem monthlyToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem futureToolStripMenuItem1;
     }
 }

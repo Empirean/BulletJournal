@@ -105,7 +105,7 @@ namespace BulletJournal
                 db.GenericNonQueryAction(command, parameters);
             }
 
-            if (mode == JournalTask.EntryMode.migrate)
+            if (mode == JournalTask.EntryMode.migrate_main)
             {
                 string command = "insert into futuremain " +
                                  "(taskdate, description) " +
@@ -124,13 +124,13 @@ namespace BulletJournal
                 switch (entryType)
                 {
                     case JournalTask.EntryType.daily:
-                        MigrationHelper.MigrateDailyToFuture(futureMainId, insertedId);
+                        MigrationHelper.MigrateDailyToFuture(futureMainId, insertedId, JournalTask.EntryMode.migrate_main);
                         break;
                     case JournalTask.EntryType.monthly:
-                        MigrationHelper.MigrateMonthlyToFuture(futureMainId, insertedId);
+                        MigrationHelper.MigrateMonthlyToFuture(futureMainId, insertedId, JournalTask.EntryMode.migrate_main);
                         break;
                     case JournalTask.EntryType.future:
-                        MigrationHelper.MigrateFutureToFuture(futureMainId, insertedId);
+                        MigrationHelper.MigrateFutureToFuture(futureMainId, insertedId, JournalTask.EntryMode.migrate_main);
                         break;
                     default:
                         break;
@@ -145,7 +145,9 @@ namespace BulletJournal
             OnFutureDescriptionSave();
 
             // Close when on edit mode
-            if (mode == JournalTask.EntryMode.edit)
+            if (mode == JournalTask.EntryMode.edit ||
+               mode == JournalTask.EntryMode.migrate_main ||
+               mode == JournalTask.EntryMode.migrate_detail)
                 this.Close();
         }
 

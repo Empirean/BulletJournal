@@ -125,5 +125,47 @@ namespace BulletJournal
             if (OnRefreshGrid != null)
                 OnRefreshGrid();
         }
+
+        private void dailyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(JournalTask.EntryType.daily,
+                JournalTask.EntryType.daily,
+                dailyMainid,
+                dailyDetailId,
+                JournalTask.EntryMode.migrate_detail))
+            {
+                migration.OnMigrated += OnRefreshGrids;
+                migration.ShowDialog();
+
+            }
+        }
+
+        private void monthlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(JournalTask.EntryType.daily,
+                JournalTask.EntryType.monthly,
+                dailyMainid,
+                dailyDetailId,
+                JournalTask.EntryMode.migrate_detail))
+            {
+                migration.OnMigrated += OnRefreshGrids;
+                migration.ShowDialog();
+
+            }
+        }
+
+        private void futureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(JournalTask.EntryType.daily,
+                JournalTask.EntryType.future,
+                dailyMainid,
+                dailyDetailId,
+                JournalTask.EntryMode.migrate_detail))
+            {
+                migration.OnMigrated += OnRefreshGrids;
+                migration.ShowDialog();
+
+            }
+        }
     }  
 }

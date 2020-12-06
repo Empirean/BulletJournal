@@ -10,15 +10,21 @@ namespace BulletJournal
         public delegate void EventHandler();
         public event EventHandler OnMigrated;
 
-
-
         DBTools db;
-        DateTimePicker dateTimePicker;
+
         JournalTask.EntryType entryTypeFr;
         JournalTask.EntryType entryTypeTo;
-        int mainId;
+        JournalTask.EntryMode mode;
+        int entryId;
 
-        public Migration(JournalTask.EntryType _entryTypeFr, JournalTask.EntryType _entryTypeTo, int _mainId, DateTimePicker _dateTimePicker)
+        public Migration
+        (
+            JournalTask.EntryType _entryTypeFr,
+            JournalTask.EntryType _entryTypeTo,
+            int _mainId,
+            int _detailId = -1
+,
+            JournalTask.EntryMode _mode = JournalTask.EntryMode.migrate_main)
         {
             InitializeComponent();
 
@@ -26,31 +32,36 @@ namespace BulletJournal
             
             entryTypeFr = _entryTypeFr;
             entryTypeTo = _entryTypeTo;
-            mainId = _mainId;
-            dateTimePicker = _dateTimePicker;
 
-            GridController(entryTypeTo);
+            mode = _mode;
+
+            if (mode == JournalTask.EntryMode.migrate_main)
+                entryId = _mainId;
+            else
+                entryId = _detailId;
+
+            GridController(entryTypeTo, _mainId);
         }
 
-        private void GridController(JournalTask.EntryType _entryType)
+        private void GridController(JournalTask.EntryType _entryType, int _id)
         {
             switch (_entryType)
             {
                 case JournalTask.EntryType.daily:
-                    Populate_DailyContent();
+                    Populate_DailyContent(_id);
                     break;
                 case JournalTask.EntryType.monthly:
-                    Populate_MonthlyContent();
+                    Populate_MonthlyContent(_id);
                     break;
                 case JournalTask.EntryType.future:
-                    Populate_FutureContent();
+                    Populate_FutureContent(_id);
                     break;
                 default:
                     break;
             }
         }
 
-        private void Populate_DailyContent()
+        private void Populate_DailyContent(int _id)
         {
             string command;
             SqlParameter[] parameters;
@@ -72,8 +83,8 @@ namespace BulletJournal
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = mainId }
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
                 };
             }
             else
@@ -92,7 +103,7 @@ namespace BulletJournal
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value } 
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value } 
                 };
             }
 
@@ -105,7 +116,7 @@ namespace BulletJournal
             dataGrid_content.Columns["Contents"].Width = 70;
         }
 
-        private void Populate_MonthlyContent()
+        private void Populate_MonthlyContent(int _id)
         {
             string command;
             SqlParameter[] parameters;
@@ -127,8 +138,8 @@ namespace BulletJournal
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = mainId }
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
                 };
 
             }
@@ -148,7 +159,7 @@ namespace BulletJournal
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value }
                 };
             }
 
@@ -161,7 +172,7 @@ namespace BulletJournal
             dataGrid_content.Columns["Contents"].Width = 70;
         }
 
-        private void Populate_FutureContent()
+        private void Populate_FutureContent(int _id)
         {
             string command;
             SqlParameter[] parameters;
@@ -183,8 +194,8 @@ namespace BulletJournal
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = mainId }
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
                 };
 
             }
@@ -204,7 +215,7 @@ namespace BulletJournal
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value }
                 };
 
             }
@@ -225,13 +236,13 @@ namespace BulletJournal
                 switch (entryTypeTo)
                 {
                     case JournalTask.EntryType.daily:
-                        MigrateDailyToDaily(mainId);
+                        MigrateDailyToDaily(entryId);
                         break;
                     case JournalTask.EntryType.monthly:
-                        MigrateDailyToMonthly(mainId);
+                        MigrateDailyToMonthly(entryId);
                         break;
                     case JournalTask.EntryType.future:
-                        MigrateDailyToFuture(mainId);
+                        MigrateDailyToFuture(entryId);
                         break;
                     default:
                         break;
@@ -242,13 +253,13 @@ namespace BulletJournal
                 switch (entryTypeTo)
                 {
                     case JournalTask.EntryType.daily:
-                        MigrateMonthlyToDaily(mainId);
+                        MigrateMonthlyToDaily(entryId);
                         break;
                     case JournalTask.EntryType.monthly:
-                        MigrateMonthlyToMonthly(mainId);
+                        MigrateMonthlyToMonthly(entryId);
                         break;
                     case JournalTask.EntryType.future:
-                        MigrateMonthlyToFuture(mainId);
+                        MigrateMonthlyToFuture(entryId);
                         break;
                     default:
                         break;
@@ -259,13 +270,13 @@ namespace BulletJournal
                 switch (entryTypeTo)
                 {
                     case JournalTask.EntryType.daily:
-                        MigrateFutureToDaily(mainId);
+                        MigrateFutureToDaily(entryId);
                         break;
                     case JournalTask.EntryType.monthly:
-                        MigrateFutureToMonthly(mainId);
+                        MigrateFutureToMonthly(entryId);
                         break;
                     case JournalTask.EntryType.future:
-                        MigrateFutureToFuture(mainId);
+                        MigrateFutureToFuture(entryId);
                         break;
                     default:
                         break;
@@ -282,7 +293,7 @@ namespace BulletJournal
             
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateDailyToDaily(_id, (int) row.Cells[0].Value);
+                MigrationHelper.MigrateDailyToDaily(_id, (int) row.Cells[0].Value, mode);
             }
         }
 
@@ -290,7 +301,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateDailyToMonthly(_id, (int)row.Cells[0].Value);
+                MigrationHelper.MigrateDailyToMonthly(_id, (int)row.Cells[0].Value, mode);
             }
         }
 
@@ -298,7 +309,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateDailyToFuture(_id, (int)row.Cells[0].Value);
+                MigrationHelper.MigrateDailyToFuture(_id, (int)row.Cells[0].Value, mode);
             }
         }
 
@@ -306,7 +317,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateMonthlyToDaily(_id, (int)row.Cells[0].Value);
+                MigrationHelper.MigrateMonthlyToDaily(_id, (int)row.Cells[0].Value, mode);
             }
         }
 
@@ -314,7 +325,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateMonthlyToMonthly(_id, (int)row.Cells[0].Value);
+                MigrationHelper.MigrateMonthlyToMonthly(_id, (int)row.Cells[0].Value, mode);
             }
         }
 
@@ -322,7 +333,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateMonthlyToFuture(_id, (int)row.Cells[0].Value);
+                MigrationHelper.MigrateMonthlyToFuture(_id, (int)row.Cells[0].Value, mode);
             }
         }
 
@@ -330,7 +341,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateFutureToDaily(_id, (int)row.Cells[0].Value);
+                MigrationHelper.MigrateFutureToDaily(_id, (int)row.Cells[0].Value, mode);
             }
         }
 
@@ -338,7 +349,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateFutureToMonthly(_id, (int)row.Cells[0].Value);
+                MigrationHelper.MigrateFutureToMonthly(_id, (int)row.Cells[0].Value, mode);
             }
         }
 
@@ -346,7 +357,7 @@ namespace BulletJournal
         {
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateFutureToFuture(_id, (int)row.Cells[0].Value);
+                MigrationHelper.MigrateFutureToFuture(_id, (int)row.Cells[0].Value, mode);
             }
         }
 

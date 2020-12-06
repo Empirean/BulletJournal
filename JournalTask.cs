@@ -6,6 +6,8 @@ namespace BulletJournal
 {
     public static class JournalTask
     {
+        public static DateTimePicker currentDay;
+
         public enum TaskType
         {
             tasks,
@@ -27,7 +29,8 @@ namespace BulletJournal
         {
             add,
             edit,
-            migrate
+            migrate_main,
+            migrate_detail
         }
 
         public static int GetTask(string task)
