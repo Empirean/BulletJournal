@@ -18,6 +18,8 @@ namespace BulletJournal
         int dailyMainid;
         int dailyDetailId;
 
+        string title;
+
         public DailyContent(int _id, string _title)
         {
             InitializeComponent();
@@ -90,6 +92,7 @@ namespace BulletJournal
             {
                 // Store collection id and show contextmenu
                 dailyDetailId = JournalTask.ContextMenuHandler(dataGrid_content, contextMenuStrip1, e);
+                title = dataGrid_content.SelectedRows[0].Cells[3].Value.ToString();
             }
         }
 
@@ -138,10 +141,10 @@ namespace BulletJournal
         {
             using (Migration migration = new Migration(JournalTask.EntryType.daily,
                 JournalTask.EntryType.daily,
-
                 dailyMainid,
                 dailyDetailId,
-                JournalTask.EntryMode.migrate_detail))
+                JournalTask.EntryMode.migrate_detail,
+                title))
             {
                 migration.OnMigrated += OnRefreshGrids;
                 migration.ShowDialog();
@@ -155,7 +158,8 @@ namespace BulletJournal
                 JournalTask.EntryType.monthly,
                 dailyMainid,
                 dailyDetailId,
-                JournalTask.EntryMode.migrate_detail))
+                JournalTask.EntryMode.migrate_detail,
+                title))
             {
                 migration.OnMigrated += OnRefreshGrids;
                 migration.ShowDialog();
@@ -169,7 +173,8 @@ namespace BulletJournal
                 JournalTask.EntryType.future,
                 dailyMainid,
                 dailyDetailId,
-                JournalTask.EntryMode.migrate_detail))
+                JournalTask.EntryMode.migrate_detail,
+                title))
             {
                 migration.OnMigrated += OnRefreshGrids;
                 migration.ShowDialog();

@@ -15,6 +15,7 @@ namespace BulletJournal
         JournalTask.EntryType entryType;
 
         int taskId;
+        string title;
 
         public MainForm()
         {
@@ -496,6 +497,8 @@ namespace BulletJournal
             // right click
             if (e.Button == MouseButtons.Right)
             {
+                title = dataGrid_dailyTask.SelectedRows[0].Cells[2].Value.ToString();
+
                 taskId = JournalTask.ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.daily;
 
@@ -548,7 +551,8 @@ namespace BulletJournal
             // right click
             if (e.Button == MouseButtons.Right)
             {
-                
+                title = dataGrid_monthly.SelectedRows[0].Cells[2].Value.ToString();
+
                 taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.monthly;
                 
@@ -574,6 +578,8 @@ namespace BulletJournal
             // right clock
             if (e.Button == MouseButtons.Right)
             {
+                title = dataGrid_futureLog.SelectedRows[0].Cells[2].Value.ToString();
+
                 taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.future;
                 
@@ -753,7 +759,8 @@ namespace BulletJournal
 
         private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (Migration migration = new Migration(entryType, JournalTask.EntryType.daily, taskId))
+            
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.daily, taskId, _title:title))
             {
                 migration.OnMigrated += OnSave;
                 migration.ShowDialog();
@@ -763,7 +770,8 @@ namespace BulletJournal
 
         private void monthlyTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (Migration migration = new Migration(entryType, JournalTask.EntryType.monthly, taskId))
+            
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.monthly, taskId, _title:title))
             {
                 migration.OnMigrated += OnSave;
                 migration.ShowDialog();
@@ -772,7 +780,7 @@ namespace BulletJournal
 
         private void futureLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (Migration migration = new Migration(entryType, JournalTask.EntryType.future, taskId))
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.future, taskId, _title:title))
             {
                 migration.OnMigrated += OnSave;
                 migration.ShowDialog();
