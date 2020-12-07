@@ -480,19 +480,7 @@ namespace BulletJournal
 
         private void dataGrid_dailyTask_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // Left Click
-            if (e.Button == MouseButtons.Left)
-            {
-
-                int colId = (int)dataGrid_dailyTask.SelectedRows[0].Cells[0].Value;
-                string title = dataGrid_dailyTask.SelectedRows[0].Cells[2].Value.ToString();
-
-                using (DailyContent content = new DailyContent(colId, title))
-                {
-                    content.OnRefreshGrid += this.OnSave;
-                    content.ShowDialog();
-                }
-            }
+            
 
             // right click
             if (e.Button == MouseButtons.Right)
@@ -508,19 +496,6 @@ namespace BulletJournal
 
         private void dataGrid_collection_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // Left Click
-            if (e.Button == MouseButtons.Left)
-            {
-
-                int colId = (int)dataGrid_collection.SelectedRows[0].Cells[0].Value;
-                string title = dataGrid_collection.SelectedRows[0].Cells[1].Value.ToString();
-                using (CollectionContent content = new CollectionContent(colId,title))
-                {
-                    content.OnRefreshGrid += this.OnSave;
-                    content.ShowDialog();
-                }
-            }
-
             // Right Click
             if (e.Button == MouseButtons.Right)
             {
@@ -535,18 +510,7 @@ namespace BulletJournal
 
         private void dataGrid_monthly_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // left click
-            if (e.Button == MouseButtons.Left)
-            {
-
-                int colId = (int)dataGrid_monthly.SelectedRows[0].Cells[0].Value;
-                string title = dataGrid_monthly.SelectedRows[0].Cells[2].Value.ToString();
-                using (MonthlyContent content = new MonthlyContent(colId, title))
-                {
-                    content.OnRefreshGrid += this.OnSave;
-                    content.ShowDialog();
-                }
-            }
+            
 
             // right click
             if (e.Button == MouseButtons.Right)
@@ -561,19 +525,7 @@ namespace BulletJournal
 
         private void dataGrid_futureLog_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // left click
-            if (e.Button == MouseButtons.Left)
-            {
-
-                int colId = (int)dataGrid_futureLog.SelectedRows[0].Cells[0].Value;
-                string title = dataGrid_futureLog.SelectedRows[0].Cells[2].Value.ToString();
-
-                using (FutureContent content = new FutureContent(colId, title))
-                {
-                    content.OnRefreshGrid += this.OnSave;
-                    content.ShowDialog();
-                }
-            }
+            
 
             // right clock
             if (e.Button == MouseButtons.Right)
@@ -832,6 +784,65 @@ namespace BulletJournal
         private void txt_dailySearch_TextChanged(object sender, EventArgs e)
         {
             RefreshGrid();
+        }
+
+        private void dataGrid_collection_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // Left Click
+
+
+            int colId = (int)dataGrid_collection.SelectedRows[0].Cells[0].Value;
+            string title = dataGrid_collection.SelectedRows[0].Cells[1].Value.ToString();
+            using (CollectionContent content = new CollectionContent(colId, title))
+            {
+                content.OnRefreshGrid += this.OnSave;
+                content.ShowDialog();
+            }
+            
+        }
+
+        private void dataGrid_futureLog_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // left click
+
+            int colId = (int)dataGrid_futureLog.SelectedRows[0].Cells[0].Value;
+            string title = dataGrid_futureLog.SelectedRows[0].Cells[2].Value.ToString();
+
+            using (FutureContent content = new FutureContent(colId, title))
+            {
+                content.OnRefreshGrid += this.OnSave;
+                content.ShowDialog();
+            }
+            
+        }
+
+        private void dataGrid_monthly_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // left click
+
+            int colId = (int)dataGrid_monthly.SelectedRows[0].Cells[0].Value;
+            string title = dataGrid_monthly.SelectedRows[0].Cells[2].Value.ToString();
+            using (MonthlyContent content = new MonthlyContent(colId, title))
+            {
+                content.OnRefreshGrid += this.OnSave;
+                content.ShowDialog();
+            }
+            
+        }
+
+        private void dataGrid_dailyTask_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Left Click
+
+            int colId = (int)dataGrid_dailyTask.SelectedRows[0].Cells[0].Value;
+            string title = dataGrid_dailyTask.SelectedRows[0].Cells[2].Value.ToString();
+
+            using (DailyContent content = new DailyContent(colId, title))
+            {
+                content.OnRefreshGrid += this.OnSave;
+                content.ShowDialog();
+            }
+            
         }
     }
 }

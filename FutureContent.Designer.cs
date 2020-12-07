@@ -57,7 +57,7 @@ namespace BulletJournal
             this.btn_addCollection.Location = new System.Drawing.Point(487, 461);
             this.btn_addCollection.Name = "btn_addCollection";
             this.btn_addCollection.Size = new System.Drawing.Size(75, 42);
-            this.btn_addCollection.TabIndex = 6;
+            this.btn_addCollection.TabIndex = 1;
             this.btn_addCollection.Text = "Add";
             this.btn_addCollection.UseVisualStyleBackColor = true;
             this.btn_addCollection.Click += new System.EventHandler(this.btn_addCollection_Click);
@@ -76,7 +76,7 @@ namespace BulletJournal
             this.dataGrid_content.RowTemplate.Height = 24;
             this.dataGrid_content.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_content.Size = new System.Drawing.Size(550, 398);
-            this.dataGrid_content.TabIndex = 5;
+            this.dataGrid_content.TabIndex = 2;
             this.dataGrid_content.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseUp);
             // 
             // contextMenuStrip1
@@ -119,27 +119,27 @@ namespace BulletJournal
             this.monthlyTaskToolStripMenuItem,
             this.futureLogToolStripMenuItem});
             this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
-            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
             // 
             // dailyTaskToolStripMenuItem
             // 
             this.dailyTaskToolStripMenuItem.Name = "dailyTaskToolStripMenuItem";
-            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.dailyTaskToolStripMenuItem.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem_Click);
             // 
             // monthlyTaskToolStripMenuItem
             // 
             this.monthlyTaskToolStripMenuItem.Name = "monthlyTaskToolStripMenuItem";
-            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.monthlyTaskToolStripMenuItem.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem_Click);
             // 
             // futureLogToolStripMenuItem
             // 
             this.futureLogToolStripMenuItem.Name = "futureLogToolStripMenuItem";
-            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.futureLogToolStripMenuItem.Text = "Future Log";
             this.futureLogToolStripMenuItem.Click += new System.EventHandler(this.futureLogToolStripMenuItem_Click);
             // 
@@ -150,7 +150,7 @@ namespace BulletJournal
             this.monthlyTaskToolStripMenuItem1,
             this.futureLogToolStripMenuItem1});
             this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
-            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.asNewToolStripMenuItem.Text = "As New";
             // 
             // dailyTaskToolStripMenuItem1
@@ -188,7 +188,7 @@ namespace BulletJournal
             this.txt_futureSearch.Location = new System.Drawing.Point(399, 13);
             this.txt_futureSearch.Name = "txt_futureSearch";
             this.txt_futureSearch.Size = new System.Drawing.Size(163, 22);
-            this.txt_futureSearch.TabIndex = 14;
+            this.txt_futureSearch.TabIndex = 0;
             this.txt_futureSearch.TextChanged += new System.EventHandler(this.txt_futureSearch_TextChanged);
             // 
             // lbl_title

@@ -57,7 +57,7 @@ namespace BulletJournal
             this.dataGrid_content.RowTemplate.Height = 24;
             this.dataGrid_content.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_content.Size = new System.Drawing.Size(550, 398);
-            this.dataGrid_content.TabIndex = 0;
+            this.dataGrid_content.TabIndex = 10;
             this.dataGrid_content.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseUp);
             // 
             // btn_addDaily
@@ -99,7 +99,7 @@ namespace BulletJournal
             this.lbl_title.Location = new System.Drawing.Point(12, 9);
             this.lbl_title.Name = "lbl_title";
             this.lbl_title.Size = new System.Drawing.Size(323, 41);
-            this.lbl_title.TabIndex = 2;
+            this.lbl_title.TabIndex = 10;
             this.lbl_title.Text = "label1";
             // 
             // label5
@@ -108,7 +108,7 @@ namespace BulletJournal
             this.label5.Location = new System.Drawing.Point(341, 16);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 17);
-            this.label5.TabIndex = 12;
+            this.label5.TabIndex = 10;
             this.label5.Text = "Seach:";
             // 
             // txt_collectionSearch
@@ -116,7 +116,7 @@ namespace BulletJournal
             this.txt_collectionSearch.Location = new System.Drawing.Point(399, 13);
             this.txt_collectionSearch.Name = "txt_collectionSearch";
             this.txt_collectionSearch.Size = new System.Drawing.Size(163, 22);
-            this.txt_collectionSearch.TabIndex = 11;
+            this.txt_collectionSearch.TabIndex = 0;
             this.txt_collectionSearch.TextChanged += new System.EventHandler(this.txt_collectionSearch_TextChanged);
             // 
             // CollectionContent

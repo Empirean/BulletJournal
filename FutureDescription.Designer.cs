@@ -56,14 +56,14 @@ namespace BulletJournal
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.ShowUpDown = true;
             this.dateTimePicker1.Size = new System.Drawing.Size(304, 22);
-            this.dateTimePicker1.TabIndex = 18;
+            this.dateTimePicker1.TabIndex = 1;
             // 
             // txt_Desscription
             // 
             this.txt_Desscription.Location = new System.Drawing.Point(105, 112);
             this.txt_Desscription.Name = "txt_Desscription";
             this.txt_Desscription.Size = new System.Drawing.Size(304, 22);
-            this.txt_Desscription.TabIndex = 17;
+            this.txt_Desscription.TabIndex = 0;
             // 
             // label1
             // 
@@ -81,7 +81,7 @@ namespace BulletJournal
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(438, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(438, 30);
             this.menuStrip1.TabIndex = 20;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -90,7 +90,7 @@ namespace BulletJournal
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // saveToolStripMenuItem

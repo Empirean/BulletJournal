@@ -44,7 +44,7 @@ namespace BulletJournal
             this.txt_Desscription.Location = new System.Drawing.Point(105, 112);
             this.txt_Desscription.Name = "txt_Desscription";
             this.txt_Desscription.Size = new System.Drawing.Size(304, 22);
-            this.txt_Desscription.TabIndex = 7;
+            this.txt_Desscription.TabIndex = 0;
             // 
             // label1
             // 
@@ -62,7 +62,7 @@ namespace BulletJournal
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(434, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(434, 30);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -86,7 +86,7 @@ namespace BulletJournal
             this.dateTimePicker1.Location = new System.Drawing.Point(105, 62);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(304, 22);
-            this.dateTimePicker1.TabIndex = 10;
+            this.dateTimePicker1.TabIndex = 1;
             // 
             // label2
             // 

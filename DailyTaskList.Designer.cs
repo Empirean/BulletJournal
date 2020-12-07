@@ -48,7 +48,7 @@ namespace BulletJournal
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(434, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(434, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -57,7 +57,7 @@ namespace BulletJournal
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // saveToolStripMenuItem
@@ -73,7 +73,7 @@ namespace BulletJournal
             this.chk_important.Location = new System.Drawing.Point(107, 142);
             this.chk_important.Name = "chk_important";
             this.chk_important.Size = new System.Drawing.Size(89, 21);
-            this.chk_important.TabIndex = 9;
+            this.chk_important.TabIndex = 2;
             this.chk_important.Text = "Important";
             this.chk_important.UseVisualStyleBackColor = true;
             // 
@@ -88,7 +88,7 @@ namespace BulletJournal
             this.cmb_taskType.Location = new System.Drawing.Point(107, 96);
             this.cmb_taskType.Name = "cmb_taskType";
             this.cmb_taskType.Size = new System.Drawing.Size(315, 24);
-            this.cmb_taskType.TabIndex = 8;
+            this.cmb_taskType.TabIndex = 1;
             // 
             // label3
             // 
@@ -104,7 +104,7 @@ namespace BulletJournal
             this.txt_description.Location = new System.Drawing.Point(107, 57);
             this.txt_description.Name = "txt_description";
             this.txt_description.Size = new System.Drawing.Size(315, 22);
-            this.txt_description.TabIndex = 7;
+            this.txt_description.TabIndex = 0;
             // 
             // label2
             // 

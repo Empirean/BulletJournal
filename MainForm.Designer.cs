@@ -144,7 +144,7 @@
             this.dataGrid_index.RowTemplate.Height = 24;
             this.dataGrid_index.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_index.Size = new System.Drawing.Size(700, 350);
-            this.dataGrid_index.TabIndex = 1;
+            this.dataGrid_index.TabIndex = 10;
             // 
             // tab_Daily_Task
             // 
@@ -164,7 +164,7 @@
             this.btn_addDailyTask.Location = new System.Drawing.Point(641, 371);
             this.btn_addDailyTask.Name = "btn_addDailyTask";
             this.btn_addDailyTask.Size = new System.Drawing.Size(75, 42);
-            this.btn_addDailyTask.TabIndex = 0;
+            this.btn_addDailyTask.TabIndex = 1;
             this.btn_addDailyTask.Text = "Add";
             this.btn_addDailyTask.UseVisualStyleBackColor = true;
             this.btn_addDailyTask.Click += new System.EventHandler(this.btn_addDailyTask_Click);
@@ -173,6 +173,7 @@
             // 
             this.dataGrid_dailyTask.AllowUserToAddRows = false;
             this.dataGrid_dailyTask.AllowUserToDeleteRows = false;
+            this.dataGrid_dailyTask.AllowUserToOrderColumns = true;
             this.dataGrid_dailyTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_dailyTask.Location = new System.Drawing.Point(16, 58);
             this.dataGrid_dailyTask.MultiSelect = false;
@@ -182,7 +183,8 @@
             this.dataGrid_dailyTask.RowTemplate.Height = 24;
             this.dataGrid_dailyTask.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_dailyTask.Size = new System.Drawing.Size(700, 309);
-            this.dataGrid_dailyTask.TabIndex = 0;
+            this.dataGrid_dailyTask.TabIndex = 10;
+            this.dataGrid_dailyTask.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_dailyTask_CellDoubleClick);
             this.dataGrid_dailyTask.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_dailyTask_CellMouseUp);
             // 
             // tab_Monthly_Task
@@ -203,7 +205,7 @@
             this.btn_addMonthlyTask.Location = new System.Drawing.Point(641, 371);
             this.btn_addMonthlyTask.Name = "btn_addMonthlyTask";
             this.btn_addMonthlyTask.Size = new System.Drawing.Size(75, 42);
-            this.btn_addMonthlyTask.TabIndex = 0;
+            this.btn_addMonthlyTask.TabIndex = 1;
             this.btn_addMonthlyTask.Text = "Add";
             this.btn_addMonthlyTask.UseVisualStyleBackColor = true;
             this.btn_addMonthlyTask.Click += new System.EventHandler(this.btn_addMonthlyTask_Click);
@@ -212,6 +214,7 @@
             // 
             this.dataGrid_monthly.AllowUserToAddRows = false;
             this.dataGrid_monthly.AllowUserToDeleteRows = false;
+            this.dataGrid_monthly.AllowUserToOrderColumns = true;
             this.dataGrid_monthly.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_monthly.Location = new System.Drawing.Point(16, 58);
             this.dataGrid_monthly.MultiSelect = false;
@@ -221,7 +224,8 @@
             this.dataGrid_monthly.RowTemplate.Height = 24;
             this.dataGrid_monthly.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_monthly.Size = new System.Drawing.Size(700, 309);
-            this.dataGrid_monthly.TabIndex = 0;
+            this.dataGrid_monthly.TabIndex = 10;
+            this.dataGrid_monthly.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_monthly_CellDoubleClick);
             this.dataGrid_monthly.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_monthly_CellMouseUp);
             // 
             // tab_Future_Log
@@ -243,7 +247,7 @@
             this.btn_addFutureLog.Location = new System.Drawing.Point(641, 371);
             this.btn_addFutureLog.Name = "btn_addFutureLog";
             this.btn_addFutureLog.Size = new System.Drawing.Size(75, 42);
-            this.btn_addFutureLog.TabIndex = 0;
+            this.btn_addFutureLog.TabIndex = 1;
             this.btn_addFutureLog.Text = "Add";
             this.btn_addFutureLog.UseVisualStyleBackColor = true;
             this.btn_addFutureLog.Click += new System.EventHandler(this.btn_addFutureLog_Click);
@@ -252,6 +256,7 @@
             // 
             this.dataGrid_futureLog.AllowUserToAddRows = false;
             this.dataGrid_futureLog.AllowUserToDeleteRows = false;
+            this.dataGrid_futureLog.AllowUserToOrderColumns = true;
             this.dataGrid_futureLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_futureLog.Location = new System.Drawing.Point(16, 58);
             this.dataGrid_futureLog.MultiSelect = false;
@@ -261,7 +266,8 @@
             this.dataGrid_futureLog.RowTemplate.Height = 24;
             this.dataGrid_futureLog.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_futureLog.Size = new System.Drawing.Size(700, 309);
-            this.dataGrid_futureLog.TabIndex = 1;
+            this.dataGrid_futureLog.TabIndex = 10;
+            this.dataGrid_futureLog.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_futureLog_CellDoubleClick);
             this.dataGrid_futureLog.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_futureLog_CellMouseUp);
             // 
             // tab_Collection
@@ -282,7 +288,7 @@
             this.btn_addCollection.Location = new System.Drawing.Point(641, 371);
             this.btn_addCollection.Name = "btn_addCollection";
             this.btn_addCollection.Size = new System.Drawing.Size(75, 42);
-            this.btn_addCollection.TabIndex = 0;
+            this.btn_addCollection.TabIndex = 1;
             this.btn_addCollection.Text = "Add";
             this.btn_addCollection.UseVisualStyleBackColor = true;
             this.btn_addCollection.Click += new System.EventHandler(this.btn_addCollection_Click);
@@ -291,6 +297,7 @@
             // 
             this.dataGrid_collection.AllowUserToAddRows = false;
             this.dataGrid_collection.AllowUserToDeleteRows = false;
+            this.dataGrid_collection.AllowUserToOrderColumns = true;
             this.dataGrid_collection.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_collection.Location = new System.Drawing.Point(16, 58);
             this.dataGrid_collection.MultiSelect = false;
@@ -300,7 +307,8 @@
             this.dataGrid_collection.RowTemplate.Height = 24;
             this.dataGrid_collection.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_collection.Size = new System.Drawing.Size(700, 309);
-            this.dataGrid_collection.TabIndex = 2;
+            this.dataGrid_collection.TabIndex = 10;
+            this.dataGrid_collection.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_collection_CellMouseDoubleClick);
             this.dataGrid_collection.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_collection_CellMouseUp);
             // 
             // menuStrip1
@@ -310,7 +318,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(813, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(813, 30);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -320,7 +328,7 @@
             this.btn_refresh,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // btn_refresh
@@ -377,27 +385,27 @@
             this.monthlyTaskToolStripMenuItem,
             this.futureLogToolStripMenuItem});
             this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
-            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
             // 
             // dailyTaskToolStripMenuItem
             // 
             this.dailyTaskToolStripMenuItem.Name = "dailyTaskToolStripMenuItem";
-            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.dailyTaskToolStripMenuItem.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem_Click);
             // 
             // monthlyTaskToolStripMenuItem
             // 
             this.monthlyTaskToolStripMenuItem.Name = "monthlyTaskToolStripMenuItem";
-            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.monthlyTaskToolStripMenuItem.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem_Click);
             // 
             // futureLogToolStripMenuItem
             // 
             this.futureLogToolStripMenuItem.Name = "futureLogToolStripMenuItem";
-            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.futureLogToolStripMenuItem.Text = "Future Log";
             this.futureLogToolStripMenuItem.Click += new System.EventHandler(this.futureLogToolStripMenuItem_Click);
             // 
@@ -408,7 +416,7 @@
             this.monthlyTaskToolStripMenuItem1,
             this.futureLogToolStripMenuItem1});
             this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
-            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.asNewToolStripMenuItem.Text = "As New";
             // 
             // dailyTaskToolStripMenuItem1
@@ -437,7 +445,7 @@
             this.txt_collectionSearch.Location = new System.Drawing.Point(478, 17);
             this.txt_collectionSearch.Name = "txt_collectionSearch";
             this.txt_collectionSearch.Size = new System.Drawing.Size(238, 22);
-            this.txt_collectionSearch.TabIndex = 3;
+            this.txt_collectionSearch.TabIndex = 0;
             this.txt_collectionSearch.TextChanged += new System.EventHandler(this.txt_collectionSearch_TextChanged);
             // 
             // label2
@@ -463,7 +471,7 @@
             this.txt_futureSearch.Location = new System.Drawing.Point(478, 17);
             this.txt_futureSearch.Name = "txt_futureSearch";
             this.txt_futureSearch.Size = new System.Drawing.Size(238, 22);
-            this.txt_futureSearch.TabIndex = 5;
+            this.txt_futureSearch.TabIndex = 0;
             this.txt_futureSearch.TextChanged += new System.EventHandler(this.txt_futureSearch_TextChanged);
             // 
             // label4
@@ -480,7 +488,7 @@
             this.txt_monthlySearch.Location = new System.Drawing.Point(478, 17);
             this.txt_monthlySearch.Name = "txt_monthlySearch";
             this.txt_monthlySearch.Size = new System.Drawing.Size(238, 22);
-            this.txt_monthlySearch.TabIndex = 7;
+            this.txt_monthlySearch.TabIndex = 0;
             this.txt_monthlySearch.TextChanged += new System.EventHandler(this.txt_monthlySearch_TextChanged);
             // 
             // label5
@@ -497,7 +505,7 @@
             this.txt_dailySearch.Location = new System.Drawing.Point(478, 17);
             this.txt_dailySearch.Name = "txt_dailySearch";
             this.txt_dailySearch.Size = new System.Drawing.Size(238, 22);
-            this.txt_dailySearch.TabIndex = 9;
+            this.txt_dailySearch.TabIndex = 0;
             this.txt_dailySearch.TextChanged += new System.EventHandler(this.txt_dailySearch_TextChanged);
             // 
             // MainForm

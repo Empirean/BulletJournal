@@ -66,7 +66,7 @@ namespace BulletJournal
             this.dataGrid_content.RowTemplate.Height = 24;
             this.dataGrid_content.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_content.Size = new System.Drawing.Size(550, 398);
-            this.dataGrid_content.TabIndex = 1;
+            this.dataGrid_content.TabIndex = 10;
             this.dataGrid_content.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseUp);
             // 
             // btn_addCollection
@@ -74,7 +74,7 @@ namespace BulletJournal
             this.btn_addCollection.Location = new System.Drawing.Point(487, 461);
             this.btn_addCollection.Name = "btn_addCollection";
             this.btn_addCollection.Size = new System.Drawing.Size(75, 42);
-            this.btn_addCollection.TabIndex = 2;
+            this.btn_addCollection.TabIndex = 1;
             this.btn_addCollection.Text = "Add";
             this.btn_addCollection.UseVisualStyleBackColor = true;
             this.btn_addCollection.Click += new System.EventHandler(this.btn_addCollection_Click);
@@ -119,27 +119,27 @@ namespace BulletJournal
             this.monthlyToolStripMenuItem,
             this.futureToolStripMenuItem});
             this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
-            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
             // 
             // dailyToolStripMenuItem
             // 
             this.dailyToolStripMenuItem.Name = "dailyToolStripMenuItem";
-            this.dailyToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.dailyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.dailyToolStripMenuItem.Text = "Daily Task";
             this.dailyToolStripMenuItem.Click += new System.EventHandler(this.dailyToolStripMenuItem_Click);
             // 
             // monthlyToolStripMenuItem
             // 
             this.monthlyToolStripMenuItem.Name = "monthlyToolStripMenuItem";
-            this.monthlyToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.monthlyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.monthlyToolStripMenuItem.Text = "Monthly Task";
             this.monthlyToolStripMenuItem.Click += new System.EventHandler(this.monthlyToolStripMenuItem_Click);
             // 
             // futureToolStripMenuItem
             // 
             this.futureToolStripMenuItem.Name = "futureToolStripMenuItem";
-            this.futureToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.futureToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.futureToolStripMenuItem.Text = "Future Log";
             this.futureToolStripMenuItem.Click += new System.EventHandler(this.futureToolStripMenuItem_Click);
             // 
@@ -150,7 +150,7 @@ namespace BulletJournal
             this.monthlyToolStripMenuItem1,
             this.futureToolStripMenuItem1});
             this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
-            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.asNewToolStripMenuItem.Text = "As New";
             // 
             // dailyToolStripMenuItem1
@@ -188,7 +188,7 @@ namespace BulletJournal
             this.txt_dailySearch.Location = new System.Drawing.Point(399, 13);
             this.txt_dailySearch.Name = "txt_dailySearch";
             this.txt_dailySearch.Size = new System.Drawing.Size(163, 22);
-            this.txt_dailySearch.TabIndex = 17;
+            this.txt_dailySearch.TabIndex = 0;
             this.txt_dailySearch.TextChanged += new System.EventHandler(this.txt_dailySearch_TextChanged);
             // 
             // lbl_title
