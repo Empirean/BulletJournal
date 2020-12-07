@@ -16,15 +16,17 @@ namespace BulletJournal
         JournalTask.EntryType entryTypeTo;
         JournalTask.EntryMode mode;
         int entryId;
+        int mainId;
 
         public Migration
         (
             JournalTask.EntryType _entryTypeFr,
             JournalTask.EntryType _entryTypeTo,
             int _mainId,
-            int _detailId = -1
-,
-            JournalTask.EntryMode _mode = JournalTask.EntryMode.migrate_main)
+            int _detailId = -1,
+            JournalTask.EntryMode _mode = JournalTask.EntryMode.migrate_main,
+            string _title = ""
+        )
         {
             InitializeComponent();
 
@@ -34,13 +36,15 @@ namespace BulletJournal
             entryTypeTo = _entryTypeTo;
 
             mode = _mode;
+            lbl_title.Text = _title;
+            mainId = _mainId;
 
             if (mode == JournalTask.EntryMode.migrate_main)
                 entryId = _mainId;
             else
                 entryId = _detailId;
 
-            GridController(entryTypeTo, _mainId);
+            GridController(entryTypeTo, mainId);
         }
 
         private void GridController(JournalTask.EntryType _entryType, int _id)
@@ -78,13 +82,16 @@ namespace BulletJournal
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
                                    "and a.taskid <> @id " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description " +
                                    "order by format(a.taskdate, 'dd/MM/yyyy'), a.taskid";
 
                 parameters = new SqlParameter[]
                 {
                     new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id },
+                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
                 };
             }
             else
@@ -98,12 +105,15 @@ namespace BulletJournal
                                    "left join dailydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description " +
                                    "order by format(a.taskdate, 'dd/MM/yyyy'), a.taskid";
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value } 
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
+                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
                 };
             }
 
@@ -133,13 +143,16 @@ namespace BulletJournal
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
                                    "and a.taskid <> @id " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
                                    "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
                 parameters = new SqlParameter[]
                 {
                     new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id },
+                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
                 };
 
             }
@@ -154,12 +167,15 @@ namespace BulletJournal
                                    "left join monthlydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
                                    "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value }
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
+                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
                 };
             }
 
@@ -189,13 +205,16 @@ namespace BulletJournal
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
                                    "and a.taskid <> @id " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
                                    "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
                 parameters = new SqlParameter[]
                 {
                     new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id },
+                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
                 };
 
             }
@@ -210,12 +229,15 @@ namespace BulletJournal
                                    "left join futuredetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
                                    "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
                 parameters = new SqlParameter[]
                 {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value }
+                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
+                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
                 };
 
             }
@@ -365,6 +387,12 @@ namespace BulletJournal
         {
             if (OnMigrated != null)
                 OnMigrated();
+        }
+
+        private void txt_migrationSearch_TextChanged(object sender, EventArgs e)
+        {
+
+            GridController(entryTypeTo, mainId);
         }
     }
 }

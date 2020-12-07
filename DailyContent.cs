@@ -61,12 +61,12 @@ namespace BulletJournal
                              "taskdescription as Description " +
                              "from dailydetail " +
                              "where maintaskforeignkey = @id " +
-                             "and taskdescription like @filter " +
+                             "and (taskdescription like @filter " +
                              "or case " +
                              "when tasktype = 0 then 'TASK' " +
                              "when tasktype = 1 then 'EVENT' " +
                              "when tasktype = 2 then 'NOTES' " +
-                             "else 'CLOSED' end like @filter";
+                             "else 'CLOSED' end like @filter)";
 
             SqlParameter[] paramters = new SqlParameter[]
             {
@@ -138,6 +138,7 @@ namespace BulletJournal
         {
             using (Migration migration = new Migration(JournalTask.EntryType.daily,
                 JournalTask.EntryType.daily,
+
                 dailyMainid,
                 dailyDetailId,
                 JournalTask.EntryMode.migrate_detail))

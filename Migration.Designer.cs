@@ -33,6 +33,9 @@ namespace BulletJournal
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGrid_content = new System.Windows.Forms.DataGridView();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_migrationSearch = new System.Windows.Forms.TextBox();
+            this.lbl_title = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_content)).BeginInit();
             this.SuspendLayout();
@@ -44,7 +47,7 @@ namespace BulletJournal
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(726, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(726, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -69,14 +72,40 @@ namespace BulletJournal
             this.dataGrid_content.AllowUserToDeleteRows = false;
             this.dataGrid_content.AllowUserToOrderColumns = true;
             this.dataGrid_content.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGrid_content.Location = new System.Drawing.Point(12, 57);
+            this.dataGrid_content.Location = new System.Drawing.Point(12, 79);
             this.dataGrid_content.Name = "dataGrid_content";
             this.dataGrid_content.ReadOnly = true;
             this.dataGrid_content.RowHeadersWidth = 51;
             this.dataGrid_content.RowTemplate.Height = 24;
             this.dataGrid_content.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid_content.Size = new System.Drawing.Size(700, 350);
+            this.dataGrid_content.Size = new System.Drawing.Size(700, 309);
             this.dataGrid_content.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(416, 43);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 17);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Seach:";
+            // 
+            // txt_migrationSearch
+            // 
+            this.txt_migrationSearch.Location = new System.Drawing.Point(474, 40);
+            this.txt_migrationSearch.Name = "txt_migrationSearch";
+            this.txt_migrationSearch.Size = new System.Drawing.Size(238, 22);
+            this.txt_migrationSearch.TabIndex = 7;
+            this.txt_migrationSearch.TextChanged += new System.EventHandler(this.txt_migrationSearch_TextChanged);
+            // 
+            // lbl_title
+            // 
+            this.lbl_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_title.Location = new System.Drawing.Point(12, 28);
+            this.lbl_title.Name = "lbl_title";
+            this.lbl_title.Size = new System.Drawing.Size(323, 41);
+            this.lbl_title.TabIndex = 17;
+            this.lbl_title.Text = "label1";
             // 
             // Migration
             // 
@@ -84,6 +113,9 @@ namespace BulletJournal
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(726, 465);
             this.Controls.Add(this.dataGrid_content);
+            this.Controls.Add(this.lbl_title);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txt_migrationSearch);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
@@ -105,5 +137,8 @@ namespace BulletJournal
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGrid_content;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txt_migrationSearch;
+        private System.Windows.Forms.Label lbl_title;
     }
 }

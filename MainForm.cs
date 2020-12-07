@@ -344,8 +344,8 @@ namespace BulletJournal
                                    "left join dailydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
-                                   "and a.description like @filter " +
-                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description " +
                                    "order by format(a.taskdate, 'dd/MM/yyyy'), a.taskid";
 
@@ -379,8 +379,8 @@ namespace BulletJournal
                                    "left join monthlydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
-                                   "and a.description like @filter " +
-                                   "or format(a.taskdate, 'yyyy MMMM') like @filter " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'yyyy MMMM') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
                                    "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
@@ -411,8 +411,8 @@ namespace BulletJournal
                                    "left join futuredetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
-                                   "and a.description like @filter " +
-                                   "or format(a.taskdate, 'yyyy MMMM') like @filter " +
+                                   "and (a.description like @filter " +
+                                   "or format(a.taskdate, 'yyyy MMMM') like @filter) " +
                                    "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
                                    "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
