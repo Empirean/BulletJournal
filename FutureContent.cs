@@ -18,7 +18,7 @@ namespace BulletJournal
         int futureMainid;
         int futureDetailId;
 
-        public FutureContent(int _id)
+        public FutureContent(int _id, string _title)
         {
             InitializeComponent();
 
@@ -27,6 +27,7 @@ namespace BulletJournal
 
             // SaveId
             futureMainid = _id;
+            lbl_title.Text = _title;
 
             // Fill Grid
             Populate_Content(futureMainid);
@@ -61,11 +62,18 @@ namespace BulletJournal
                              "else 'CLOSED' end as [Type], " +
                              "taskdescription as Description " +
                              "from futuredetail " +
-                             "where maintaskforeignkey = @id";
+                             "where maintaskforeignkey = @id " +
+                             "and taskdescription like @filter " +
+                             "or case " +
+                             "when tasktype = 0 then 'TASK' " +
+                             "when tasktype = 1 then 'EVENT' " +
+                             "when tasktype = 2 then 'NOTES' " +
+                             "else 'CLOSED' end like @filter";
 
             SqlParameter[] paramters = new SqlParameter[]
             {
-                new SqlParameter("@id", SqlDbType.Int) { Value = _id}
+                new SqlParameter("@id", SqlDbType.Int) { Value = _id},
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_futureSearch.Text + '%' }
             };
 
             dataGrid_content.DataSource = db.GenericQueryAction(command, paramters);
@@ -197,6 +205,11 @@ namespace BulletJournal
                 futureDescription.OnFutureMainSave += OnRefreshGrids;
                 futureDescription.ShowDialog();
             }
+        }
+
+        private void txt_futureSearch_TextChanged(object sender, EventArgs e)
+        {
+            OnFutureSaved();
         }
     }
 }

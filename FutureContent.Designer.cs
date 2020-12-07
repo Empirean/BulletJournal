@@ -45,6 +45,9 @@ namespace BulletJournal
             this.dailyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txt_futureSearch = new System.Windows.Forms.TextBox();
+            this.lbl_title = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_content)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -84,19 +87,19 @@ namespace BulletJournal
             this.deleteToolStripMenuItem,
             this.migrateToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 104);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(131, 76);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -106,7 +109,7 @@ namespace BulletJournal
             this.toExistingToolStripMenuItem,
             this.asNewToolStripMenuItem});
             this.migrateToolStripMenuItem.Name = "migrateToolStripMenuItem";
-            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
             this.migrateToolStripMenuItem.Text = "Migrate";
             // 
             // toExistingToolStripMenuItem
@@ -116,7 +119,7 @@ namespace BulletJournal
             this.monthlyTaskToolStripMenuItem,
             this.futureLogToolStripMenuItem});
             this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
-            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
             // 
             // dailyTaskToolStripMenuItem
@@ -147,39 +150,69 @@ namespace BulletJournal
             this.monthlyTaskToolStripMenuItem1,
             this.futureLogToolStripMenuItem1});
             this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
-            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.asNewToolStripMenuItem.Text = "As New";
             // 
             // dailyTaskToolStripMenuItem1
             // 
             this.dailyTaskToolStripMenuItem1.Name = "dailyTaskToolStripMenuItem1";
-            this.dailyTaskToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.dailyTaskToolStripMenuItem1.Size = new System.Drawing.Size(177, 26);
             this.dailyTaskToolStripMenuItem1.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem1.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem1_Click);
             // 
             // monthlyTaskToolStripMenuItem1
             // 
             this.monthlyTaskToolStripMenuItem1.Name = "monthlyTaskToolStripMenuItem1";
-            this.monthlyTaskToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.monthlyTaskToolStripMenuItem1.Size = new System.Drawing.Size(177, 26);
             this.monthlyTaskToolStripMenuItem1.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem1.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem1_Click);
             // 
             // futureLogToolStripMenuItem1
             // 
             this.futureLogToolStripMenuItem1.Name = "futureLogToolStripMenuItem1";
-            this.futureLogToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.futureLogToolStripMenuItem1.Size = new System.Drawing.Size(177, 26);
             this.futureLogToolStripMenuItem1.Text = "Future Log";
             this.futureLogToolStripMenuItem1.Click += new System.EventHandler(this.futureLogToolStripMenuItem1_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(341, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 17);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Seach:";
+            // 
+            // txt_futureSearch
+            // 
+            this.txt_futureSearch.Location = new System.Drawing.Point(399, 13);
+            this.txt_futureSearch.Name = "txt_futureSearch";
+            this.txt_futureSearch.Size = new System.Drawing.Size(163, 22);
+            this.txt_futureSearch.TabIndex = 14;
+            this.txt_futureSearch.TextChanged += new System.EventHandler(this.txt_futureSearch_TextChanged);
+            // 
+            // lbl_title
+            // 
+            this.lbl_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_title.Location = new System.Drawing.Point(12, 9);
+            this.lbl_title.Name = "lbl_title";
+            this.lbl_title.Size = new System.Drawing.Size(323, 41);
+            this.lbl_title.TabIndex = 13;
+            this.lbl_title.Text = "label1";
             // 
             // FutureContent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(573, 524);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txt_futureSearch);
+            this.Controls.Add(this.lbl_title);
             this.Controls.Add(this.btn_addCollection);
             this.Controls.Add(this.dataGrid_content);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimizeBox = false;
             this.Name = "FutureContent";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -187,6 +220,7 @@ namespace BulletJournal
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_content)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -206,5 +240,8 @@ namespace BulletJournal
         private System.Windows.Forms.ToolStripMenuItem dailyTaskToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem monthlyTaskToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem futureLogToolStripMenuItem1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txt_futureSearch;
+        private System.Windows.Forms.Label lbl_title;
     }
 }

@@ -484,8 +484,9 @@ namespace BulletJournal
             {
 
                 int colId = (int)dataGrid_dailyTask.SelectedRows[0].Cells[0].Value;
+                string title = dataGrid_dailyTask.SelectedRows[0].Cells[2].Value.ToString();
 
-                using (DailyContent content = new DailyContent(colId))
+                using (DailyContent content = new DailyContent(colId, title))
                 {
                     content.OnRefreshGrid += this.OnSave;
                     content.ShowDialog();
@@ -509,8 +510,8 @@ namespace BulletJournal
             {
 
                 int colId = (int)dataGrid_collection.SelectedRows[0].Cells[0].Value;
-
-                using (CollectionContent content = new CollectionContent(colId))
+                string title = dataGrid_collection.SelectedRows[0].Cells[1].Value.ToString();
+                using (CollectionContent content = new CollectionContent(colId,title))
                 {
                     content.OnRefreshGrid += this.OnSave;
                     content.ShowDialog();
@@ -536,8 +537,8 @@ namespace BulletJournal
             {
 
                 int colId = (int)dataGrid_monthly.SelectedRows[0].Cells[0].Value;
-
-                using (MonthlyContent content = new MonthlyContent(colId))
+                string title = dataGrid_monthly.SelectedRows[0].Cells[2].Value.ToString();
+                using (MonthlyContent content = new MonthlyContent(colId, title))
                 {
                     content.OnRefreshGrid += this.OnSave;
                     content.ShowDialog();
@@ -561,8 +562,9 @@ namespace BulletJournal
             {
 
                 int colId = (int)dataGrid_futureLog.SelectedRows[0].Cells[0].Value;
+                string title = dataGrid_futureLog.SelectedRows[0].Cells[2].Value.ToString();
 
-                using (FutureContent content = new FutureContent(colId))
+                using (FutureContent content = new FutureContent(colId, title))
                 {
                     content.OnRefreshGrid += this.OnSave;
                     content.ShowDialog();

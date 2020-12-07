@@ -20,7 +20,7 @@ namespace BulletJournal
         int collectionDetailId;
 
 
-        public CollectionContent(int _id)
+        public CollectionContent(int _id, string _title)
         {
             InitializeComponent();
 
@@ -29,6 +29,7 @@ namespace BulletJournal
 
             // SaveId
             collectionMainid = _id;
+            lbl_title.Text = _title;
 
             // Fill Grid
             Populate_Content(collectionMainid);
@@ -41,11 +42,13 @@ namespace BulletJournal
                              "collectionid, " +
                              "description as Collection " +
                              "from collectiondetail " +
-                             "where maintaskforeignkey = @id";
+                             "where maintaskforeignkey = @id " +
+                             "and description like @filter";
 
             SqlParameter[] paramters = new SqlParameter[]
             {
-                new SqlParameter("@id", SqlDbType.Int) { Value = _id}
+                new SqlParameter("@id", SqlDbType.Int) { Value = _id},
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_collectionSearch.Text + '%' }
             };
 
             dataGrid_content.DataSource = db.GenericQueryAction(command, paramters);
@@ -113,6 +116,12 @@ namespace BulletJournal
         {
             if (OnRefreshGrid != null)
                 OnRefreshGrid();
+        }
+
+        private void txt_collectionSearch_TextChanged(object sender, EventArgs e)
+        {
+            OnCollectionSaved();
+
         }
     }
 }
