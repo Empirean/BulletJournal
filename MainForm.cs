@@ -844,5 +844,17 @@ namespace BulletJournal
             }
             
         }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 1)
+                txt_dailySearch.Focus();
+            if (tabControl1.SelectedIndex == 2)
+                txt_monthlySearch.Focus();
+            if (tabControl1.SelectedIndex == 3)
+                txt_futureSearch.Focus();
+            if (tabControl1.SelectedIndex == 4)
+                txt_collectionSearch.Focus();
+        }
     }
 }
