@@ -344,12 +344,15 @@ namespace BulletJournal
                                    "left join dailydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
+                                   "and a.description like @filter " +
+                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter " +
                                    "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description " +
                                    "order by format(a.taskdate, 'dd/MM/yyyy'), a.taskid";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_dailySearch.Text + '%' }
             };
 
 
@@ -376,12 +379,15 @@ namespace BulletJournal
                                    "left join monthlydetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
+                                   "and a.description like @filter " +
+                                   "or format(a.taskdate, 'yyyy MMMM') like @filter " +
                                    "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
                                    "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_monthlySearch.Text + '%' }
             };
 
 
@@ -405,12 +411,15 @@ namespace BulletJournal
                                    "left join futuredetail as b " +
                                    "on a.taskid = b.maintaskforeignkey " +
                                    "where a.taskdate >= @taskdate " +
+                                   "and a.description like @filter " +
+                                   "or format(a.taskdate, 'yyyy MMMM') like @filter " +
                                    "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
                                    "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value }
+                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_futureSearch.Text + '%' }
             };
 
 
@@ -432,10 +441,12 @@ namespace BulletJournal
                                    "from collectionmain as a " +
                                    "left join collectiondetail as b " +
                                    "on a.collectionid = b.maintaskforeignkey " +
+                                   "where a.collectionname like @filter " +
                                    "group by a.collectionid, a.collectionname";
 
             SqlParameter[] parameters = new SqlParameter[]
             {
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_collectionSearch.Text + '%' }
             };
 
 
@@ -791,6 +802,26 @@ namespace BulletJournal
                 dailyDescription.OnFutureMainSave += OnSave;
                 dailyDescription.ShowDialog();
             }
+        }
+
+        private void txt_collectionSearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshGrid();
+        }
+
+        private void txt_futureSearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshGrid();
+        }
+
+        private void txt_monthlySearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshGrid();
+        }
+
+        private void txt_dailySearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshGrid();
         }
     }
 }
