@@ -36,15 +36,23 @@
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.dataGrid_index = new System.Windows.Forms.DataGridView();
             this.tab_Daily_Task = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txt_dailySearch = new System.Windows.Forms.TextBox();
             this.btn_addDailyTask = new System.Windows.Forms.Button();
             this.dataGrid_dailyTask = new System.Windows.Forms.DataGridView();
             this.tab_Monthly_Task = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txt_monthlySearch = new System.Windows.Forms.TextBox();
             this.btn_addMonthlyTask = new System.Windows.Forms.Button();
             this.dataGrid_monthly = new System.Windows.Forms.DataGridView();
             this.tab_Future_Log = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txt_futureSearch = new System.Windows.Forms.TextBox();
             this.btn_addFutureLog = new System.Windows.Forms.Button();
             this.dataGrid_futureLog = new System.Windows.Forms.DataGridView();
             this.tab_Collection = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_collectionSearch = new System.Windows.Forms.TextBox();
             this.btn_addCollection = new System.Windows.Forms.Button();
             this.dataGrid_collection = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -63,14 +71,6 @@
             this.dailyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.txt_collectionSearch = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txt_futureSearch = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txt_monthlySearch = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txt_dailySearch = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tab_index.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_index)).BeginInit();
@@ -160,6 +160,23 @@
             this.tab_Daily_Task.Text = "Daily Task";
             this.tab_Daily_Task.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(410, 20);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 17);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Search:";
+            // 
+            // txt_dailySearch
+            // 
+            this.txt_dailySearch.Location = new System.Drawing.Point(478, 17);
+            this.txt_dailySearch.Name = "txt_dailySearch";
+            this.txt_dailySearch.Size = new System.Drawing.Size(238, 22);
+            this.txt_dailySearch.TabIndex = 0;
+            this.txt_dailySearch.TextChanged += new System.EventHandler(this.txt_dailySearch_TextChanged);
+            // 
             // btn_addDailyTask
             // 
             this.btn_addDailyTask.Location = new System.Drawing.Point(641, 371);
@@ -200,6 +217,23 @@
             this.tab_Monthly_Task.TabIndex = 2;
             this.tab_Monthly_Task.Text = "Monthly Task";
             this.tab_Monthly_Task.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(410, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 17);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Search:";
+            // 
+            // txt_monthlySearch
+            // 
+            this.txt_monthlySearch.Location = new System.Drawing.Point(478, 17);
+            this.txt_monthlySearch.Name = "txt_monthlySearch";
+            this.txt_monthlySearch.Size = new System.Drawing.Size(238, 22);
+            this.txt_monthlySearch.TabIndex = 0;
+            this.txt_monthlySearch.TextChanged += new System.EventHandler(this.txt_monthlySearch_TextChanged);
             // 
             // btn_addMonthlyTask
             // 
@@ -243,6 +277,23 @@
             this.tab_Future_Log.Text = "Future Log";
             this.tab_Future_Log.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(410, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(57, 17);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Search:";
+            // 
+            // txt_futureSearch
+            // 
+            this.txt_futureSearch.Location = new System.Drawing.Point(478, 17);
+            this.txt_futureSearch.Name = "txt_futureSearch";
+            this.txt_futureSearch.Size = new System.Drawing.Size(238, 22);
+            this.txt_futureSearch.TabIndex = 0;
+            this.txt_futureSearch.TextChanged += new System.EventHandler(this.txt_futureSearch_TextChanged);
+            // 
             // btn_addFutureLog
             // 
             this.btn_addFutureLog.Location = new System.Drawing.Point(641, 371);
@@ -283,6 +334,23 @@
             this.tab_Collection.TabIndex = 4;
             this.tab_Collection.Text = "Collection";
             this.tab_Collection.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(410, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 17);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Search:";
+            // 
+            // txt_collectionSearch
+            // 
+            this.txt_collectionSearch.Location = new System.Drawing.Point(478, 17);
+            this.txt_collectionSearch.Name = "txt_collectionSearch";
+            this.txt_collectionSearch.Size = new System.Drawing.Size(238, 22);
+            this.txt_collectionSearch.TabIndex = 0;
+            this.txt_collectionSearch.TextChanged += new System.EventHandler(this.txt_collectionSearch_TextChanged);
             // 
             // btn_addCollection
             // 
@@ -386,27 +454,27 @@
             this.monthlyTaskToolStripMenuItem,
             this.futureLogToolStripMenuItem});
             this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
-            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
             // 
             // dailyTaskToolStripMenuItem
             // 
             this.dailyTaskToolStripMenuItem.Name = "dailyTaskToolStripMenuItem";
-            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.dailyTaskToolStripMenuItem.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem_Click);
             // 
             // monthlyTaskToolStripMenuItem
             // 
             this.monthlyTaskToolStripMenuItem.Name = "monthlyTaskToolStripMenuItem";
-            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.monthlyTaskToolStripMenuItem.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem_Click);
             // 
             // futureLogToolStripMenuItem
             // 
             this.futureLogToolStripMenuItem.Name = "futureLogToolStripMenuItem";
-            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.futureLogToolStripMenuItem.Text = "Future Log";
             this.futureLogToolStripMenuItem.Click += new System.EventHandler(this.futureLogToolStripMenuItem_Click);
             // 
@@ -417,7 +485,7 @@
             this.monthlyTaskToolStripMenuItem1,
             this.futureLogToolStripMenuItem1});
             this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
-            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.asNewToolStripMenuItem.Text = "As New";
             // 
             // dailyTaskToolStripMenuItem1
@@ -440,74 +508,6 @@
             this.futureLogToolStripMenuItem1.Size = new System.Drawing.Size(177, 26);
             this.futureLogToolStripMenuItem1.Text = "Future Log";
             this.futureLogToolStripMenuItem1.Click += new System.EventHandler(this.futureLogToolStripMenuItem1_Click);
-            // 
-            // txt_collectionSearch
-            // 
-            this.txt_collectionSearch.Location = new System.Drawing.Point(478, 17);
-            this.txt_collectionSearch.Name = "txt_collectionSearch";
-            this.txt_collectionSearch.Size = new System.Drawing.Size(238, 22);
-            this.txt_collectionSearch.TabIndex = 0;
-            this.txt_collectionSearch.TextChanged += new System.EventHandler(this.txt_collectionSearch_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(420, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 17);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Seach:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(420, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(52, 17);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Seach:";
-            // 
-            // txt_futureSearch
-            // 
-            this.txt_futureSearch.Location = new System.Drawing.Point(478, 17);
-            this.txt_futureSearch.Name = "txt_futureSearch";
-            this.txt_futureSearch.Size = new System.Drawing.Size(238, 22);
-            this.txt_futureSearch.TabIndex = 0;
-            this.txt_futureSearch.TextChanged += new System.EventHandler(this.txt_futureSearch_TextChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(420, 20);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 17);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Seach:";
-            // 
-            // txt_monthlySearch
-            // 
-            this.txt_monthlySearch.Location = new System.Drawing.Point(478, 17);
-            this.txt_monthlySearch.Name = "txt_monthlySearch";
-            this.txt_monthlySearch.Size = new System.Drawing.Size(238, 22);
-            this.txt_monthlySearch.TabIndex = 0;
-            this.txt_monthlySearch.TextChanged += new System.EventHandler(this.txt_monthlySearch_TextChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(420, 20);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 17);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Seach:";
-            // 
-            // txt_dailySearch
-            // 
-            this.txt_dailySearch.Location = new System.Drawing.Point(478, 17);
-            this.txt_dailySearch.Name = "txt_dailySearch";
-            this.txt_dailySearch.Size = new System.Drawing.Size(238, 22);
-            this.txt_dailySearch.TabIndex = 0;
-            this.txt_dailySearch.TextChanged += new System.EventHandler(this.txt_dailySearch_TextChanged);
             // 
             // MainForm
             // 
