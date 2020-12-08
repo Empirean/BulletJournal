@@ -179,9 +179,9 @@ namespace BulletJournal
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(335, 16);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 17);
+            this.label5.Size = new System.Drawing.Size(57, 17);
             this.label5.TabIndex = 18;
-            this.label5.Text = "Seach:";
+            this.label5.Text = "Search:";
             // 
             // txt_dailySearch
             // 
