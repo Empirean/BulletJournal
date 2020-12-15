@@ -72,7 +72,7 @@ namespace BulletJournal
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Input validation
-            if (!(JournalTask.IsInputValid(txt_description)))
+            if (!(JournalTask.IsInputInvalid(txt_description)))
                 return;
 
             // Saving on Add Mode

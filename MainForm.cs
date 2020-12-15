@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows.Forms;
 
 
@@ -43,11 +45,12 @@ namespace BulletJournal
 
         public void RefreshGrid()
         {
-            Populate_Collection();
+            // Populate_Collection();
             Populate_dailyTask();
             Populate_futureLog();
             Populate_monthly();
             Populate_index();
+            Populate_Contents();
         }
 
         private void btn_addDailyTask_Click(object sender, EventArgs e)
@@ -61,10 +64,10 @@ namespace BulletJournal
 
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
-            using (CollectionDescription category = new CollectionDescription(JournalTask.EntryMode.add))
+            using (NotesDescription notes = new NotesDescription(JournalTask.EntryMode.add, -1, 0))
             {
-                category.OnCategorySaved += this.OnSave;
-                category.ShowDialog();
+                notes.OnNotesSaved += this.OnSave;
+                notes.ShowDialog();
             }
         }
 
@@ -459,6 +462,38 @@ namespace BulletJournal
             dataGrid_collection.Columns["Contents"].Width = 70;
         }
 
+        private void Populate_Contents()
+        {
+            
+            string command = "select " +
+                            "a.id, " +
+                            "a.notedescription as [Description], " +
+                            "count(b.id) as [Contents] " +
+                            "from notes as a " +
+                            "left join notes as b " +
+                            "on a.id = b.previouslayerid " +
+                            "where a.layerid = @layerid " +
+                            "and a.notedescription like @filter " +
+                            "group by a.id, a.notedescription";
+            
+
+            SqlParameter[] paramters = new SqlParameter[]
+            {
+
+                new SqlParameter("@layerid", SqlDbType.Int) { Value = 0},
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_collectionSearch.Text + '%' }
+            };
+
+            dataGrid_collection.DataSource = db.GenericQueryAction(command, paramters);
+
+            // format grid
+            dataGrid_collection.Columns[0].Visible = false;
+            dataGrid_collection.Columns[0].Width = 1;
+            dataGrid_collection.Columns["Description"].Width = 400;
+            dataGrid_collection.Columns["Contents"].Width = 70;
+
+        }
+
         private void btn_addFutureLog_Click(object sender, EventArgs e)
         {
             using (FutureDescription monthlyDescription = new FutureDescription(JournalTask.EntryMode.add))
@@ -503,7 +538,7 @@ namespace BulletJournal
                 taskId = JournalTask.ContextMenuHandler(dataGrid_collection, contextMenuStrip1, e);
 
                 contextMenuStrip1.Items["migrate"].Visible = false;
-                entryType = JournalTask.EntryType.collection;
+                entryType = JournalTask.EntryType.notes;
             }
         }
 
@@ -624,33 +659,27 @@ namespace BulletJournal
                 Populate_index();
             }
 
-            if (entryType == JournalTask.EntryType.collection)
+            if (entryType == JournalTask.EntryType.notes)
             {
-                string mainCommand = "delete from collectionmain " +
-                                       "where collectionid = @taskId";
+                string command = "delete from notes " +
+                                 "where id = @ids";
 
-                SqlParameter[] mainparameters = new SqlParameter[]
+                List<int> ids = JournalTask.GetAllNoteId(taskId);
+
+                for (int i = 0; i < ids.Count; i++)
                 {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
-
-                };
-
-                db.GenericNonQueryAction(mainCommand, mainparameters);
-
-                string detailCommand = "delete from collectiondetail " +
-                                       "where maintaskforeignkey = @taskId";
-
-                SqlParameter[] detailParameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
-
-                };
-
-                db.GenericNonQueryAction(detailCommand, detailParameters);
+                    SqlParameter[] parameter = new SqlParameter[]
+                    {
+                        new SqlParameter("@ids", SqlDbType.Int) { Value = ids[i]}
+                    };
+                    
+                    db.GenericNonQueryAction(command, parameter);
+                }
 
                 RefreshGrid();
             }
         }
+
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -681,13 +710,13 @@ namespace BulletJournal
                 }
             }
 
-            if (entryType == JournalTask.EntryType.collection)
+            if (entryType == JournalTask.EntryType.notes)
             {
                 
-                using (CollectionDescription collectionDescription = new CollectionDescription( JournalTask.EntryMode.edit, taskId))
+                using (NotesDescription notesDescription = new NotesDescription( JournalTask.EntryMode.edit, taskId, 0))
                 {
-                    collectionDescription.OnCategorySaved += OnSave;
-                    collectionDescription.ShowDialog();
+                    notesDescription.OnNotesSaved += OnSave;
+                    notesDescription.ShowDialog();
                 }
 
             }
@@ -788,15 +817,13 @@ namespace BulletJournal
 
         private void dataGrid_collection_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // Left Click
-
 
             int colId = (int)dataGrid_collection.SelectedRows[0].Cells[0].Value;
             string title = dataGrid_collection.SelectedRows[0].Cells[1].Value.ToString();
-            using (CollectionContent content = new CollectionContent(colId, title))
+            using (NotesContent notes = new NotesContent(colId, 1, title))
             {
-                content.OnRefreshGrid += this.OnSave;
-                content.ShowDialog();
+                notes.OnRefreshGrid += this.OnSave;
+                notes.ShowDialog();
             }
             
         }
@@ -855,6 +882,14 @@ namespace BulletJournal
                 txt_futureSearch.Focus();
             if (tabControl1.SelectedIndex == 4)
                 txt_collectionSearch.Focus();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (Maintenance maintenance = new Maintenance())
+            {
+                maintenance.ShowDialog();
+            }
         }
     }
 }

@@ -63,7 +63,7 @@ namespace BulletJournal
         {
 
             // Input validation
-            if (!(JournalTask.IsInputValid(txt_category)))
+            if (!(JournalTask.IsInputInvalid(txt_category)))
                 return;
 
             // Saving on Add Mode

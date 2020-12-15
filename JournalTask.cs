@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace BulletJournal
@@ -21,7 +25,7 @@ namespace BulletJournal
             daily,
             monthly,
             future,
-            collection,
+            notes,
             none
         }
 
@@ -57,7 +61,7 @@ namespace BulletJournal
             return i;
         }
 
-        public static bool IsInputValid(TextBox textbox)
+        public static bool IsInputInvalid(TextBox textbox)
         {
             if (textbox.Text.Trim().Length > 0)
                 return true;
@@ -83,6 +87,62 @@ namespace BulletJournal
             }
 
             return (int)datagrid.SelectedRows[0].Cells[0].Value;
+        }
+
+
+        public static List<int> GetAllNoteId(int _id)
+        {
+            // return list is what is returned
+            List<int> returnList = new List<int>();
+
+            // add the first id
+            returnList.Add(_id);
+
+            // look up list for ids on succeeding layers
+            List<int> lookUplist = GetNoteIds(_id);
+
+            // when there are still ids to find keep going
+            while (lookUplist.Count > 0)
+            {
+                returnList.AddRange(lookUplist);
+                List<int> tempList = new List<int>(); 
+                tempList.AddRange(lookUplist);
+                lookUplist.Clear();
+
+                foreach (int tempItem in tempList)
+                {
+                    lookUplist.AddRange( GetNoteIds(tempItem));
+                }
+                tempList.Clear();
+                
+            }
+
+            return returnList;
+        }
+
+        public static List<int> GetNoteIds(int _id)
+        {
+            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            List<int> returnList = new List<int>();
+
+            string command = "select id " +
+                             "from notes " +
+                             "where previouslayerid = @id";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
+            };
+
+            DataTable dataTable = db.GenericQueryAction(command, parameters);
+
+            foreach (DataRow dataRow in dataTable.AsEnumerable().ToList())
+            {
+                returnList.Add(dataRow.Field<int>("id"));
+            }
+
+            return returnList;
         }
     }
 }
