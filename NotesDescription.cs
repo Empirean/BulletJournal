@@ -71,15 +71,17 @@ namespace BulletJournal
             if (mode == JournalTask.EntryMode.add)
             {
                 string command = "insert into notes " +
-                                 "(notedescription, layerid, previouslayerid) " +
+                                 "(notedescription, layerid, previouslayerid, dateadded, datechanged) " +
                                  "values " +
-                                 "(@desc, @layerid, @prevlayer) ";
+                                 "(@desc, @layerid, @prevlayer, @dateadded, @datechanged) ";
 
                 SqlParameter[] parameter = new SqlParameter[]
                 {
                     new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_notes.Text },
                     new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer },
-                    new SqlParameter("@prevlayer", SqlDbType.Int) { Value = id }
+                    new SqlParameter("@prevlayer", SqlDbType.Int) { Value = id },
+                    new SqlParameter("@dateadded", SqlDbType.DateTime) { Value = DateTime.Now },
+                    new SqlParameter("@datechanged", SqlDbType.DateTime) {  Value = DateTime.Now }
                 };
 
                 db.GenericNonQueryAction(command, parameter);
@@ -91,13 +93,15 @@ namespace BulletJournal
             {
                 string command = "update notes " +
                                  "set " +
-                                 "notedescription = @desc " +
+                                 "notedescription = @desc, " +
+                                 "datechanged = @datechanged " +
                                  "where id = @id";
 
                 SqlParameter[] parameters = new SqlParameter[]
                 {
                     new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_notes.Text },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = id }
+                    new SqlParameter("@id", SqlDbType.Int) { Value = id },
+                    new SqlParameter("@datechanged", SqlDbType.DateTime) { Value = DateTime.Now }
                 };
 
                 db.GenericNonQueryAction(command, parameters);

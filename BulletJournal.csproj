@@ -67,24 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollectionDescription.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CollectionDescription.Designer.cs">
-      <DependentUpon>CollectionDescription.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CollectionList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CollectionList.Designer.cs">
-      <DependentUpon>CollectionList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CollectionContent.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CollectionContent.Designer.cs">
-      <DependentUpon>CollectionContent.cs</DependentUpon>
-    </Compile>
     <Compile Include="DailyContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,15 +161,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CollectionDescription.resx">
-      <DependentUpon>CollectionDescription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CollectionList.resx">
-      <DependentUpon>CollectionList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CollectionContent.resx">
-      <DependentUpon>CollectionContent.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DailyContent.resx">
       <DependentUpon>DailyContent.cs</DependentUpon>
     </EmbeddedResource>

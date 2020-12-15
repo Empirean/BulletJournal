@@ -33,8 +33,8 @@ namespace BulletJournal
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txt_notes = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.txt_notes = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +45,7 @@ namespace BulletJournal
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(434, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(434, 30);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -54,7 +54,7 @@ namespace BulletJournal
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // saveToolStripMenuItem
@@ -65,21 +65,22 @@ namespace BulletJournal
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // txt_notes
-            // 
-            this.txt_notes.Location = new System.Drawing.Point(106, 78);
-            this.txt_notes.Name = "txt_notes";
-            this.txt_notes.Size = new System.Drawing.Size(304, 22);
-            this.txt_notes.TabIndex = 3;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 78);
+            this.label1.Location = new System.Drawing.Point(17, 55);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 17);
             this.label1.TabIndex = 4;
             this.label1.Text = "Description:";
+            // 
+            // txt_notes
+            // 
+            this.txt_notes.Location = new System.Drawing.Point(106, 55);
+            this.txt_notes.Name = "txt_notes";
+            this.txt_notes.Size = new System.Drawing.Size(304, 93);
+            this.txt_notes.TabIndex = 5;
+            this.txt_notes.Text = "";
             // 
             // NotesDescription
             // 
@@ -107,7 +108,7 @@ namespace BulletJournal
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.TextBox txt_notes;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox txt_notes;
     }
 }

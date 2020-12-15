@@ -436,45 +436,23 @@ namespace BulletJournal
             dataGrid_futureLog.Columns["Contents"].Width = 70;
         }
 
-        public void Populate_Collection()
-        {
-            string commandString = "select " +
-                                   "a.collectionid, " +
-                                   "a.collectionname as Category, " +
-                                   "count(b.collectionid) as [Contents] " +
-                                   "from collectionmain as a " +
-                                   "left join collectiondetail as b " +
-                                   "on a.collectionid = b.maintaskforeignkey " +
-                                   "where a.collectionname like @filter " +
-                                   "group by a.collectionid, a.collectionname";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_collectionSearch.Text + '%' }
-            };
-
-
-            dataGrid_collection.DataSource = db.GenericQueryAction(commandString, parameters);
-
-            dataGrid_collection.Columns[0].Visible = false;
-            dataGrid_collection.Columns[0].Width = 1;
-            dataGrid_collection.Columns["Category"].Width = 400;
-            dataGrid_collection.Columns["Contents"].Width = 70;
-        }
-
         private void Populate_Contents()
         {
             
             string command = "select " +
                             "a.id, " +
                             "a.notedescription as [Description], " +
-                            "count(b.id) as [Contents] " +
+                            "count(b.id) as [Contents], " +
+                            "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date], " +
+                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
                             "from notes as a " +
                             "left join notes as b " +
                             "on a.id = b.previouslayerid " +
                             "where a.layerid = @layerid " +
                             "and a.notedescription like @filter " +
-                            "group by a.id, a.notedescription";
+                            "group by a.id, a.notedescription, " +
+                            "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt'), " +
+                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') ";
             
 
             SqlParameter[] paramters = new SqlParameter[]
@@ -487,10 +465,15 @@ namespace BulletJournal
             dataGrid_collection.DataSource = db.GenericQueryAction(command, paramters);
 
             // format grid
+            dataGrid_collection.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+
             dataGrid_collection.Columns[0].Visible = false;
             dataGrid_collection.Columns[0].Width = 1;
             dataGrid_collection.Columns["Description"].Width = 400;
+            dataGrid_collection.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;            
             dataGrid_collection.Columns["Contents"].Width = 70;
+            dataGrid_collection.Columns["Date"].Width = 150;
+            dataGrid_collection.Columns["Date Changed"].Width = 150;
 
         }
 

@@ -68,6 +68,13 @@ namespace BulletJournal
             return false;
         }
 
+        public static bool IsInputInvalid(RichTextBox textbox)
+        {
+            if (textbox.Text.Trim().Length > 0)
+                return true;
+            return false;
+        }
+
         public static int ContextMenuHandler(DataGridView datagrid, ContextMenuStrip menu, DataGridViewCellMouseEventArgs e)
         {
             try

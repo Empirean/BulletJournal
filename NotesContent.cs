@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace BulletJournal
@@ -37,14 +38,18 @@ namespace BulletJournal
            string command = "select " +
                            "a.id, " +
                            "a.notedescription as [Description], " +
-                           "count(b.id) as [Content] " +
+                           "count(b.id) as [Contents], " +
+                           "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date], " +
+                           "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
                            "from notes as a " +
                            "left join notes as b " +
                            "on a.id = b.previouslayerid " +
                            "where a.layerid = @layerid " +
                            "and a.notedescription like @filter " +
                            "and a.previouslayerid = @id " +
-                           "group by a.id, a.notedescription";
+                           "group by a.id, a.notedescription, " +
+                           "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt'), " +
+                           "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') ";
            
 
             SqlParameter[] paramters = new SqlParameter[]
@@ -57,10 +62,15 @@ namespace BulletJournal
             dataGrid_content.DataSource = db.GenericQueryAction(command, paramters);
 
             // format grid
+            dataGrid_content.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGrid_content.Columns[0].Visible = false;
             dataGrid_content.Columns[0].Width = 1;
-            dataGrid_content.Columns["Description"].Width = 268;
-            
+            dataGrid_content.Columns["Description"].Width = 355;
+            dataGrid_content.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dataGrid_content.Columns["Contents"].Width = 70;
+            dataGrid_content.Columns["Date"].Width = 150;
+            dataGrid_content.Columns["Date Changed"].Width = 150;
+
         }
 
         // Event Publisher
@@ -133,5 +143,6 @@ namespace BulletJournal
                 selectedId = JournalTask.ContextMenuHandler(dataGrid_content, contextMenuStrip1, e);
             }
         }
+
     }
 }
