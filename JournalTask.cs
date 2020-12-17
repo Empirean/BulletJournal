@@ -10,14 +10,14 @@ namespace BulletJournal
 {
     public static class JournalTask
     {
+
         public static DateTimePicker currentDay;
 
         public enum TaskType
         {
             tasks,
             events,
-            notes,
-            closed
+            notes
         }
 
         public enum EntryType
@@ -52,10 +52,6 @@ namespace BulletJournal
             if (task.ToUpper() == "NOTES")
             {
                 i = (int)TaskType.notes;
-            }
-            if (task.ToUpper() == "CLOSED")
-            {
-                i = (int)TaskType.closed;
             }
 
             return i;
@@ -147,6 +143,61 @@ namespace BulletJournal
             foreach (DataRow dataRow in dataTable.AsEnumerable().ToList())
             {
                 returnList.Add(dataRow.Field<int>("id"));
+            }
+
+            return returnList;
+        }
+
+        public static List<int> GetCurrentTaskIds(int _id)
+        {
+            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            List<int> returnList = new List<int>();
+
+            string command = "select id " +
+                             "from currenttasks " +
+                             "where previouslayerid = @id";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
+            };
+
+            DataTable dataTable = db.GenericQueryAction(command, parameters);
+
+            foreach (DataRow dataRow in dataTable.AsEnumerable().ToList())
+            {
+                returnList.Add(dataRow.Field<int>("id"));
+            }
+
+            return returnList;
+        }
+
+        public static List<int> GetAllCurrentTasksId(int _id)
+        {
+            // return list is what is returned
+            List<int> returnList = new List<int>();
+
+            // add the first id
+            returnList.Add(_id);
+
+            // look up list for ids on succeeding layers
+            List<int> lookUplist = GetCurrentTaskIds(_id);
+
+            // when there are still ids to find keep going
+            while (lookUplist.Count > 0)
+            {
+                returnList.AddRange(lookUplist);
+                List<int> tempList = new List<int>();
+                tempList.AddRange(lookUplist);
+                lookUplist.Clear();
+
+                foreach (int tempItem in tempList)
+                {
+                    lookUplist.AddRange(GetCurrentTaskIds(tempItem));
+                }
+                tempList.Clear();
+
             }
 
             return returnList;

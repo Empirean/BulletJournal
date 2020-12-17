@@ -54,11 +54,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txt_collectionSearch = new System.Windows.Forms.TextBox();
             this.btn_addCollection = new System.Windows.Forms.Button();
-            this.dataGrid_collection = new System.Windows.Forms.DataGridView();
+            this.dataGrid_notes = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_refresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,7 +84,7 @@
             this.tab_Future_Log.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_futureLog)).BeginInit();
             this.tab_Collection.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_collection)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_notes)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -328,7 +330,7 @@
             this.tab_Collection.Controls.Add(this.label2);
             this.tab_Collection.Controls.Add(this.txt_collectionSearch);
             this.tab_Collection.Controls.Add(this.btn_addCollection);
-            this.tab_Collection.Controls.Add(this.dataGrid_collection);
+            this.tab_Collection.Controls.Add(this.dataGrid_notes);
             this.tab_Collection.Location = new System.Drawing.Point(4, 25);
             this.tab_Collection.Name = "tab_Collection";
             this.tab_Collection.Size = new System.Drawing.Size(735, 421);
@@ -363,23 +365,23 @@
             this.btn_addCollection.UseVisualStyleBackColor = true;
             this.btn_addCollection.Click += new System.EventHandler(this.btn_addCollection_Click);
             // 
-            // dataGrid_collection
+            // dataGrid_notes
             // 
-            this.dataGrid_collection.AllowUserToAddRows = false;
-            this.dataGrid_collection.AllowUserToDeleteRows = false;
-            this.dataGrid_collection.AllowUserToOrderColumns = true;
-            this.dataGrid_collection.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGrid_collection.Location = new System.Drawing.Point(16, 58);
-            this.dataGrid_collection.MultiSelect = false;
-            this.dataGrid_collection.Name = "dataGrid_collection";
-            this.dataGrid_collection.ReadOnly = true;
-            this.dataGrid_collection.RowHeadersWidth = 51;
-            this.dataGrid_collection.RowTemplate.Height = 24;
-            this.dataGrid_collection.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid_collection.Size = new System.Drawing.Size(700, 309);
-            this.dataGrid_collection.TabIndex = 10;
-            this.dataGrid_collection.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_collection_CellMouseDoubleClick);
-            this.dataGrid_collection.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_collection_CellMouseUp);
+            this.dataGrid_notes.AllowUserToAddRows = false;
+            this.dataGrid_notes.AllowUserToDeleteRows = false;
+            this.dataGrid_notes.AllowUserToOrderColumns = true;
+            this.dataGrid_notes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGrid_notes.Location = new System.Drawing.Point(16, 58);
+            this.dataGrid_notes.MultiSelect = false;
+            this.dataGrid_notes.Name = "dataGrid_notes";
+            this.dataGrid_notes.ReadOnly = true;
+            this.dataGrid_notes.RowHeadersWidth = 51;
+            this.dataGrid_notes.RowTemplate.Height = 24;
+            this.dataGrid_notes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGrid_notes.Size = new System.Drawing.Size(700, 309);
+            this.dataGrid_notes.TabIndex = 10;
+            this.dataGrid_notes.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_collection_CellMouseDoubleClick);
+            this.dataGrid_notes.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_collection_CellMouseUp);
             // 
             // menuStrip1
             // 
@@ -396,7 +398,9 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btn_refresh,
+            this.toolStripMenuItem2,
             this.toolStripMenuItem1,
+            this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
@@ -406,21 +410,34 @@
             // 
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.btn_refresh.Size = new System.Drawing.Size(224, 26);
+            this.btn_refresh.Size = new System.Drawing.Size(204, 26);
             this.btn_refresh.Text = "&Refresh";
             this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(204, 26);
+            this.toolStripMenuItem2.Text = "Control Panel";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(204, 26);
             this.toolStripMenuItem1.Text = "Maintenance";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -456,6 +473,7 @@
             this.migrate.Name = "migrate";
             this.migrate.Size = new System.Drawing.Size(130, 24);
             this.migrate.Text = "Migrate";
+            this.migrate.Visible = false;
             // 
             // toExistingToolStripMenuItem
             // 
@@ -464,7 +482,7 @@
             this.monthlyTaskToolStripMenuItem,
             this.futureLogToolStripMenuItem});
             this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
-            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
             // 
             // dailyTaskToolStripMenuItem
@@ -495,7 +513,7 @@
             this.monthlyTaskToolStripMenuItem1,
             this.futureLogToolStripMenuItem1});
             this.asNewToolStripMenuItem.Name = "asNewToolStripMenuItem";
-            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
+            this.asNewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.asNewToolStripMenuItem.Text = "As New";
             // 
             // dailyTaskToolStripMenuItem1
@@ -528,12 +546,14 @@
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Bullet Journal";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.tabControl1.ResumeLayout(false);
             this.tab_index.ResumeLayout(false);
             this.tab_index.PerformLayout();
@@ -549,7 +569,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_futureLog)).EndInit();
             this.tab_Collection.ResumeLayout(false);
             this.tab_Collection.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_collection)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGrid_notes)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
@@ -575,7 +595,7 @@
         private System.Windows.Forms.Button btn_addFutureLog;
         private System.Windows.Forms.DataGridView dataGrid_futureLog;
         private System.Windows.Forms.Button btn_addCollection;
-        private System.Windows.Forms.DataGridView dataGrid_collection;
+        private System.Windows.Forms.DataGridView dataGrid_notes;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem btn_refresh;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
@@ -602,6 +622,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txt_dailySearch;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }
 

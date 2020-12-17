@@ -67,6 +67,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlPanel.Designer.cs">
+      <DependentUpon>ControlPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CurrentTaskContents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CurrentTaskContents.Designer.cs">
+      <DependentUpon>CurrentTaskContents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CurrentTaskDescription.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CurrentTaskDescription.Designer.cs">
+      <DependentUpon>CurrentTaskDescription.cs</DependentUpon>
+    </Compile>
     <Compile Include="DailyContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +179,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ControlPanel.resx">
+      <DependentUpon>ControlPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CurrentTaskContents.resx">
+      <DependentUpon>CurrentTaskContents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CurrentTaskDescription.resx">
+      <DependentUpon>CurrentTaskDescription.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DailyContent.resx">
       <DependentUpon>DailyContent.cs</DependentUpon>
     </EmbeddedResource>

@@ -39,7 +39,7 @@ namespace BulletJournal
                            "a.id, " +
                            "a.notedescription as [Description], " +
                            "count(b.id) as [Contents], " +
-                           "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date], " +
+                           "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
                            "from notes as a " +
                            "left join notes as b " +
@@ -68,8 +68,10 @@ namespace BulletJournal
             dataGrid_content.Columns["Description"].Width = 355;
             dataGrid_content.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGrid_content.Columns["Contents"].Width = 70;
-            dataGrid_content.Columns["Date"].Width = 150;
+            dataGrid_content.Columns["Date Added"].Width = 150;
+            dataGrid_content.Columns["Date Added"].Visible = Properties.Settings.Default.NotesDateAdded;
             dataGrid_content.Columns["Date Changed"].Width = 150;
+            dataGrid_content.Columns["Date Changed"].Visible = Properties.Settings.Default.NotesDateChanged; ;
 
         }
 
@@ -99,11 +101,7 @@ namespace BulletJournal
 
         private void btn_addDaily_Click(object sender, System.EventArgs e)
         {
-            using (NotesDescription notes = new NotesDescription(JournalTask.EntryMode.add, id, layer))
-            {
-                notes.OnNotesSaved += this.OnNotesSaved;
-                notes.ShowDialog();
-            }
+            Add_Notes();
         }
 
         private void editToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -144,5 +142,22 @@ namespace BulletJournal
             }
         }
 
+
+        private void Add_Notes()
+        {
+            using (NotesDescription notes = new NotesDescription(JournalTask.EntryMode.add, id, layer))
+            {
+                notes.OnNotesSaved += this.OnNotesSaved;
+                notes.ShowDialog();
+            }
+        }
+
+        private void NotesContent_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.D)
+            {
+                Add_Notes();
+            }
+        }
     }
 }
