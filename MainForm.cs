@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Windows.Forms;
 
 
@@ -44,12 +43,10 @@ namespace BulletJournal
 
         public void RefreshGrid()
         {
-            Populate_futureLog();
-            //Populate_monthly();
-            //Populate_index();
             Populate_Notes();
             Populate_CurrentTasks();
             Populate_MonthlyTasks();
+            Populate_FutureTasks();
         }
 
         private void btn_addDailyTask_Click(object sender, EventArgs e)
@@ -328,71 +325,6 @@ namespace BulletJournal
 
         }
 
-        public void Populate_monthly()
-        {
-
-            string command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from monthlymain as a " +
-                                   "left join monthlydetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'yyyy MMMM') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
-                                   "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
-                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_monthlySearch.Text + '%' }
-            };
-
-
-            dataGrid_monthly.DataSource = db.GenericQueryAction(command, parameters);
-
-            dataGrid_monthly.Columns[0].Visible = false;
-            dataGrid_monthly.Columns[0].Width = 1;
-            dataGrid_monthly.Columns["Date"].Width = 90;
-            dataGrid_monthly.Columns["Description"].Width = 310;
-            dataGrid_monthly.Columns["Contents"].Width = 70;
-        }
-
-        public void Populate_futureLog()
-        {
-            string command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from futuremain as a " +
-                                   "left join futuredetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'yyyy MMMM') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
-                                   "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
-                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_futureSearch.Text + '%' }
-            };
-
-
-            dataGrid_futureLog.DataSource = db.GenericQueryAction(command, parameters);
-
-            dataGrid_futureLog.Columns[0].Visible = false;
-            dataGrid_futureLog.Columns[0].Width = 1;
-            dataGrid_futureLog.Columns["Date"].Width = 90;
-            dataGrid_futureLog.Columns["Description"].Width = 310;
-            dataGrid_futureLog.Columns["Contents"].Width = 70;
-        }
-
         private void Populate_Notes()
         {
             
@@ -592,6 +524,76 @@ namespace BulletJournal
 
         }
 
+        private void Populate_FutureTasks()
+        {
+
+            string command = "select " +
+                            "a.id, " +
+                            "a.iscompleted as [Status], " +
+                            "case " +
+                            "when a.taskisimportant = 1 " +
+                            "then '*' " +
+                            "else '' end as [I], " +
+                            "case " +
+                            "when a.tasktype = 0 then 'TASK' " +
+                            "when a.tasktype = 1 then 'EVENT' " +
+                            "when a.tasktype = 2 then 'NOTES' " +
+                            "else 'CLOSED' end as [Type], " +
+                            "a.description as [Description], " +
+                            "count(b.id) as [Contents], " +
+                            "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
+                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
+                            "from futuretasks as a " +
+                            "left join futuretasks as b " +
+                            "on a.id = b.previouslayerid " +
+                            "where a.layerid = @layerid " +
+                            "and a.description like @filter " +
+                            "and a.datecompleted is null " +
+                            "group by a.id, " +
+                            "a.iscompleted, " +
+                            "a.description, " +
+                            "case " +
+                            "when a.tasktype = 0 then 'TASK' " +
+                            "when a.tasktype = 1 then 'EVENT' " +
+                            "when a.tasktype = 2 then 'NOTES' " +
+                            "else 'CLOSED' end, " +
+                            "case " +
+                            "when a.taskisimportant = 1 " +
+                            "then '*' " +
+                            "else '' end, " +
+                            "a.description, " +
+                            "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt'), " +
+                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt')";
+
+
+            SqlParameter[] paramters = new SqlParameter[]
+            {
+
+                new SqlParameter("@layerid", SqlDbType.Int) { Value = 0},
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_dailySearch.Text + '%' }
+            };
+
+            dataGrid_futureLog.DataSource = db.GenericQueryAction(command, paramters);
+
+            // format grid
+            dataGrid_futureLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            dataGrid_futureLog.Columns[0].Visible = false;
+            dataGrid_futureLog.Columns[0].Width = 1;
+            dataGrid_futureLog.Columns["Status"].Width = 50;
+            dataGrid_futureLog.Columns["I"].Width = 30;
+            dataGrid_futureLog.Columns["I"].Visible = Properties.Settings.Default.FutureTaskIsImportant;
+            dataGrid_futureLog.Columns["Type"].Width = 60;
+            dataGrid_futureLog.Columns["Type"].Visible = Properties.Settings.Default.FutureTaskType;
+            dataGrid_futureLog.Columns["Description"].Width = 350;
+            dataGrid_futureLog.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dataGrid_futureLog.Columns["Contents"].Width = 70;
+            dataGrid_futureLog.Columns["Date Added"].Width = 150;
+            dataGrid_futureLog.Columns["Date Added"].Visible = Properties.Settings.Default.FutureDateAdded;
+            dataGrid_futureLog.Columns["Date Changed"].Width = 150;
+            dataGrid_futureLog.Columns["Date Changed"].Visible = Properties.Settings.Default.FutureDateChanged;
+
+        }
+
         private void btn_addFutureLog_Click(object sender, EventArgs e)
         {
             Add_Future();
@@ -712,7 +714,39 @@ namespace BulletJournal
 
         private void dataGrid_futureLog_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            
+
+
+            if (e.Button == MouseButtons.Left)
+            {
+                if (e.ColumnIndex == 1)
+                {
+                    taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
+                    contextMenuStrip1.Hide();
+
+                    string command = "update futuretasks " +
+                                 "set " +
+                                 "iscompleted = @iscompleted, " +
+                                 "datecompleted = @completeddate " +
+                                 "where id = @id";
+
+                    List<int> ids = JournalTask.GetAllFutureTasksId(taskId);
+
+                    for (int i = 0; i < ids.Count; i++)
+                    {
+                        SqlParameter[] parameter = new SqlParameter[]
+                        {
+                            new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
+                            new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
+                            new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
+                        };
+
+                        db.GenericNonQueryAction(command, parameter);
+                    }
+
+                    RefreshGrid();
+                }
+
+            }
 
             // right clock
             if (e.Button == MouseButtons.Right)
@@ -770,27 +804,20 @@ namespace BulletJournal
             if (entryType == JournalTask.EntryType.future)
             {
 
-                SqlParameter[] mainParameters = new SqlParameter[]
+                string command = "delete from futuretasks " +
+                                   "where id = @ids";
+
+                List<int> ids = JournalTask.GetAllFutureTasksId(taskId);
+
+                for (int i = 0; i < ids.Count; i++)
                 {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+                    SqlParameter[] parameter = new SqlParameter[]
+                    {
+                        new SqlParameter("@ids", SqlDbType.Int) { Value = ids[i]}
+                    };
 
-                };
-
-                string mainString = "delete from futuremain " +
-                                       "where taskid = @taskId";
-
-                db.GenericNonQueryAction(mainString, mainParameters);
-
-                SqlParameter[] detailParameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
-
-                };
-
-                string detailString = "delete from futuredetail " +
-                                "where maintaskforeignkey = @taskId";
-
-                db.GenericNonQueryAction(detailString, detailParameters);
+                    db.GenericNonQueryAction(command, parameter);
+                }
 
                 RefreshGrid();
             }
@@ -830,19 +857,19 @@ namespace BulletJournal
             
             if (entryType == JournalTask.EntryType.monthly)
             {
-                using (MonthlyTaskDescription currentTaskDescription = new MonthlyTaskDescription(JournalTask.EntryMode.edit, taskId, 0))
+                using (MonthlyTaskDescription monthlyTaskDescription = new MonthlyTaskDescription(JournalTask.EntryMode.edit, taskId, 0))
                 {
-                    currentTaskDescription.OnMonthlyTaskSaved += OnSave;
-                    currentTaskDescription.ShowDialog();
+                    monthlyTaskDescription.OnMonthlyTaskSaved += OnSave;
+                    monthlyTaskDescription.ShowDialog();
                 }
             }
 
             if (entryType == JournalTask.EntryType.future)
             {
-                using (FutureDescription futureDescription = new FutureDescription(JournalTask.EntryMode.edit, taskId))
+                using (FutureTaskDescription futureTaskDescription = new FutureTaskDescription(JournalTask.EntryMode.edit, taskId, 0))
                 {
-                    futureDescription.OnFutureMainSave += this.OnSave;
-                    futureDescription.ShowDialog();
+                    futureTaskDescription.OnFutureTaskSaved += OnSave;
+                    futureTaskDescription.ShowDialog();
                 }
             }
 
@@ -917,11 +944,13 @@ namespace BulletJournal
 
         private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            /*
             using (MonthlyDescription dailyDescription = new MonthlyDescription(JournalTask.EntryMode.migrate_main, taskId, _entryType: entryType))
             {
                 dailyDescription.OnMonthlyMainSave += OnSave;
                 dailyDescription.ShowDialog();
             }
+            */
         }
 
         private void futureLogToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -968,17 +997,17 @@ namespace BulletJournal
 
         private void dataGrid_futureLog_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // left click
-
+            // Left Click
             int colId = (int)dataGrid_futureLog.SelectedRows[0].Cells[0].Value;
-            string title = dataGrid_futureLog.SelectedRows[0].Cells[2].Value.ToString();
+            string title = dataGrid_futureLog.SelectedRows[0].Cells[4].Value.ToString();
 
-            using (FutureContent content = new FutureContent(colId, title))
+
+            using (FutureTaskContents monthlyTasksContent = new FutureTaskContents(colId, 1, title))
             {
-                content.OnRefreshGrid += this.OnSave;
-                content.ShowDialog();
+                monthlyTasksContent.OnRefreshGrid += this.OnSave;
+                monthlyTasksContent.ShowDialog();
             }
-            
+
         }
 
         private void dataGrid_monthly_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -1082,10 +1111,10 @@ namespace BulletJournal
 
         private void Add_Future()
         {
-            using (FutureDescription futureDescription = new FutureDescription(JournalTask.EntryMode.add))
+            using (FutureTaskDescription monthlyTaskDescription = new FutureTaskDescription(JournalTask.EntryMode.add, -1, 0))
             {
-                futureDescription.OnFutureMainSave += this.OnSave;
-                futureDescription.ShowDialog();
+                monthlyTaskDescription.OnFutureTaskSaved += this.OnSave;
+                monthlyTaskDescription.ShowDialog();
             }
         }
         

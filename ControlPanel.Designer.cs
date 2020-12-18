@@ -43,16 +43,22 @@ namespace BulletJournal
             this.chk_monthlyIsImportant = new System.Windows.Forms.CheckBox();
             this.chk_monthlyDateAdded = new System.Windows.Forms.CheckBox();
             this.chk_monthlyDateChanged = new System.Windows.Forms.CheckBox();
+            this.grp_futureLogs = new System.Windows.Forms.GroupBox();
+            this.chk_futureTaskType = new System.Windows.Forms.CheckBox();
+            this.chk_futureIsImportant = new System.Windows.Forms.CheckBox();
+            this.chk_futureDateAdded = new System.Windows.Forms.CheckBox();
+            this.chk_futureDateChenged = new System.Windows.Forms.CheckBox();
             this.grp_notes.SuspendLayout();
             this.grp_dailyTask.SuspendLayout();
             this.grp_monthlyTasks.SuspendLayout();
+            this.grp_futureLogs.SuspendLayout();
             this.SuspendLayout();
             // 
             // grp_notes
             // 
             this.grp_notes.Controls.Add(this.chk_noteDateAdded);
             this.grp_notes.Controls.Add(this.chk_noteDateChanged);
-            this.grp_notes.Location = new System.Drawing.Point(30, 217);
+            this.grp_notes.Location = new System.Drawing.Point(331, 210);
             this.grp_notes.Name = "grp_notes";
             this.grp_notes.Size = new System.Drawing.Size(257, 119);
             this.grp_notes.TabIndex = 0;
@@ -195,11 +201,69 @@ namespace BulletJournal
             this.chk_monthlyDateChanged.UseVisualStyleBackColor = true;
             this.chk_monthlyDateChanged.CheckedChanged += new System.EventHandler(this.chk_monthlyDateChanged_CheckedChanged);
             // 
+            // grp_futureLogs
+            // 
+            this.grp_futureLogs.Controls.Add(this.chk_futureTaskType);
+            this.grp_futureLogs.Controls.Add(this.chk_futureIsImportant);
+            this.grp_futureLogs.Controls.Add(this.chk_futureDateAdded);
+            this.grp_futureLogs.Controls.Add(this.chk_futureDateChenged);
+            this.grp_futureLogs.Location = new System.Drawing.Point(37, 210);
+            this.grp_futureLogs.Name = "grp_futureLogs";
+            this.grp_futureLogs.Size = new System.Drawing.Size(257, 154);
+            this.grp_futureLogs.TabIndex = 5;
+            this.grp_futureLogs.TabStop = false;
+            this.grp_futureLogs.Text = "Future Tasks";
+            // 
+            // chk_futureTaskType
+            // 
+            this.chk_futureTaskType.AutoSize = true;
+            this.chk_futureTaskType.Location = new System.Drawing.Point(7, 123);
+            this.chk_futureTaskType.Name = "chk_futureTaskType";
+            this.chk_futureTaskType.Size = new System.Drawing.Size(186, 21);
+            this.chk_futureTaskType.TabIndex = 3;
+            this.chk_futureTaskType.Text = "Show Task Type Column";
+            this.chk_futureTaskType.UseVisualStyleBackColor = true;
+            this.chk_futureTaskType.CheckedChanged += new System.EventHandler(this.chk_futureTaskType_CheckedChanged);
+            // 
+            // chk_futureIsImportant
+            // 
+            this.chk_futureIsImportant.AutoSize = true;
+            this.chk_futureIsImportant.Location = new System.Drawing.Point(7, 95);
+            this.chk_futureIsImportant.Name = "chk_futureIsImportant";
+            this.chk_futureIsImportant.Size = new System.Drawing.Size(162, 21);
+            this.chk_futureIsImportant.TabIndex = 2;
+            this.chk_futureIsImportant.Text = "Show Important Task";
+            this.chk_futureIsImportant.UseVisualStyleBackColor = true;
+            this.chk_futureIsImportant.CheckedChanged += new System.EventHandler(this.chk_futureIsImportant_CheckedChanged);
+            // 
+            // chk_futureDateAdded
+            // 
+            this.chk_futureDateAdded.AutoSize = true;
+            this.chk_futureDateAdded.Location = new System.Drawing.Point(7, 67);
+            this.chk_futureDateAdded.Name = "chk_futureDateAdded";
+            this.chk_futureDateAdded.Size = new System.Drawing.Size(194, 21);
+            this.chk_futureDateAdded.TabIndex = 1;
+            this.chk_futureDateAdded.Text = "Show Date Added Column";
+            this.chk_futureDateAdded.UseVisualStyleBackColor = true;
+            this.chk_futureDateAdded.CheckedChanged += new System.EventHandler(this.chk_futureDateAdded_CheckedChanged);
+            // 
+            // chk_futureDateChenged
+            // 
+            this.chk_futureDateChenged.AutoSize = true;
+            this.chk_futureDateChenged.Location = new System.Drawing.Point(7, 39);
+            this.chk_futureDateChenged.Name = "chk_futureDateChenged";
+            this.chk_futureDateChenged.Size = new System.Drawing.Size(210, 21);
+            this.chk_futureDateChenged.TabIndex = 0;
+            this.chk_futureDateChenged.Text = "Show Date Changed Column";
+            this.chk_futureDateChenged.UseVisualStyleBackColor = true;
+            this.chk_futureDateChenged.CheckedChanged += new System.EventHandler(this.chk_futureDateChenged_CheckedChanged);
+            // 
             // ControlPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(613, 449);
+            this.Controls.Add(this.grp_futureLogs);
             this.Controls.Add(this.grp_monthlyTasks);
             this.Controls.Add(this.grp_dailyTask);
             this.Controls.Add(this.grp_notes);
@@ -215,6 +279,8 @@ namespace BulletJournal
             this.grp_dailyTask.PerformLayout();
             this.grp_monthlyTasks.ResumeLayout(false);
             this.grp_monthlyTasks.PerformLayout();
+            this.grp_futureLogs.ResumeLayout(false);
+            this.grp_futureLogs.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -234,5 +300,10 @@ namespace BulletJournal
         private System.Windows.Forms.CheckBox chk_monthlyIsImportant;
         private System.Windows.Forms.CheckBox chk_monthlyDateAdded;
         private System.Windows.Forms.CheckBox chk_monthlyDateChanged;
+        private System.Windows.Forms.GroupBox grp_futureLogs;
+        private System.Windows.Forms.CheckBox chk_futureTaskType;
+        private System.Windows.Forms.CheckBox chk_futureIsImportant;
+        private System.Windows.Forms.CheckBox chk_futureDateAdded;
+        private System.Windows.Forms.CheckBox chk_futureDateChenged;
     }
 }

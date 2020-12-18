@@ -153,5 +153,53 @@ namespace BulletJournal.Properties {
                 this["MonthlyTaskType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FutureDateAdded {
+            get {
+                return ((bool)(this["FutureDateAdded"]));
+            }
+            set {
+                this["FutureDateAdded"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FutureDateChanged {
+            get {
+                return ((bool)(this["FutureDateChanged"]));
+            }
+            set {
+                this["FutureDateChanged"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FutureTaskIsImportant {
+            get {
+                return ((bool)(this["FutureTaskIsImportant"]));
+            }
+            set {
+                this["FutureTaskIsImportant"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FutureTaskType {
+            get {
+                return ((bool)(this["FutureTaskType"]));
+            }
+            set {
+                this["FutureTaskType"] = value;
+            }
+        }
     }
 }

@@ -97,6 +97,18 @@
     <Compile Include="FutureDescription.Designer.cs">
       <DependentUpon>FutureDescription.cs</DependentUpon>
     </Compile>
+    <Compile Include="FutureTaskContents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FutureTaskContents.Designer.cs">
+      <DependentUpon>FutureTaskContents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FutureTaskDescription.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FutureTaskDescription.Designer.cs">
+      <DependentUpon>FutureTaskDescription.cs</DependentUpon>
+    </Compile>
     <Compile Include="FutureTaskList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,18 +128,6 @@
       <DependentUpon>Migration.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationHelper.cs" />
-    <Compile Include="MonthlyContent.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MonthlyContent.Designer.cs">
-      <DependentUpon>MonthlyContent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MonthlyDescription.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MonthlyDescription.Designer.cs">
-      <DependentUpon>MonthlyDescription.cs</DependentUpon>
-    </Compile>
     <Compile Include="DBTools.cs" />
     <Compile Include="JournalDatabaseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -146,12 +146,6 @@
     </Compile>
     <Compile Include="MonthlyTaskDescription.Designer.cs">
       <DependentUpon>MonthlyTaskDescription.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MonthlyTaskList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MonthlyTaskList.Designer.cs">
-      <DependentUpon>MonthlyTaskList.cs</DependentUpon>
     </Compile>
     <Compile Include="MonthlyTasksContent.cs">
       <SubType>Form</SubType>
@@ -188,6 +182,12 @@
     <EmbeddedResource Include="FutureDescription.resx">
       <DependentUpon>FutureDescription.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FutureTaskContents.resx">
+      <DependentUpon>FutureTaskContents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FutureTaskDescription.resx">
+      <DependentUpon>FutureTaskDescription.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FutureTaskList.resx">
       <DependentUpon>FutureTaskList.cs</DependentUpon>
     </EmbeddedResource>
@@ -197,20 +197,11 @@
     <EmbeddedResource Include="Migration.resx">
       <DependentUpon>Migration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MonthlyContent.resx">
-      <DependentUpon>MonthlyContent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MonthlyDescription.resx">
-      <DependentUpon>MonthlyDescription.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MonthlyTaskDescription.resx">
       <DependentUpon>MonthlyTaskDescription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MonthlyTaskList.resx">
-      <DependentUpon>MonthlyTaskList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MonthlyTasksContent.resx">
       <DependentUpon>MonthlyTasksContent.cs</DependentUpon>

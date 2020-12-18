@@ -199,11 +199,13 @@ namespace BulletJournal
 
         private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            /*
             using (MonthlyDescription monthlyDescription = new MonthlyDescription(JournalTask.EntryMode.migrate_detail, futureMainid, futureDetailId, JournalTask.EntryType.future))
             {
                 monthlyDescription.OnMonthlyMainSave += OnRefreshGrids;
                 monthlyDescription.ShowDialog();
             }
+            */
         }
 
         private void futureLogToolStripMenuItem1_Click(object sender, EventArgs e)
