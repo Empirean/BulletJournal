@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace BulletJournal
@@ -24,7 +16,7 @@ namespace BulletJournal
 
         private void Populate_Notes()
         {
-            string command = "select * from currenttasks";
+            string command = "select * from monthlytasks";
             SqlParameter[] parameter = new SqlParameter[]
             {
 

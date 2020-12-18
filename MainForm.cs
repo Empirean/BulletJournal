@@ -44,12 +44,12 @@ namespace BulletJournal
 
         public void RefreshGrid()
         {
-            // Populate_dailyTask();
             Populate_futureLog();
-            Populate_monthly();
-            Populate_index();
+            //Populate_monthly();
+            //Populate_index();
             Populate_Notes();
             Populate_CurrentTasks();
+            Populate_MonthlyTasks();
         }
 
         private void btn_addDailyTask_Click(object sender, EventArgs e)
@@ -328,40 +328,6 @@ namespace BulletJournal
 
         }
 
-        public void Populate_dailyTask()
-        {
-            string command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'dd/MM/yyyy') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from dailymain as a " +
-                                   "left join dailydetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description " +
-                                   "order by format(a.taskdate, 'dd/MM/yyyy'), a.taskid";
-
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@taskdate", SqlDbType.Date) { Value = dateTimePicker.Value },
-                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_dailySearch.Text + '%' }
-            };
-
-
-            dataGrid_dailyTask.DataSource = db.GenericQueryAction(command, parameters);
-
-            dataGrid_dailyTask.Columns[0].Visible = false;
-            dataGrid_dailyTask.Columns[0].Width = 1;
-            dataGrid_dailyTask.Columns["Date"].Width = 70;
-            dataGrid_dailyTask.Columns["Description"].Width = 332;
-            dataGrid_dailyTask.Columns["Contents"].Width = 70;
-        }
-
-        
-
         public void Populate_monthly()
         {
 
@@ -549,6 +515,83 @@ namespace BulletJournal
 
         }
 
+        private void Populate_MonthlyTasks()
+        {
+
+            string command = "select " +
+                            "a.id, " +
+                            "a.iscompleted as [Status], " +
+                            "case " +
+                            "when a.taskisimportant = 1 " +
+                            "then '*' " +
+                            "else '' end as [I], " +
+                            "case " +
+                            "when a.tasktype = 0 then 'TASK' " +
+                            "when a.tasktype = 1 then 'EVENT' " +
+                            "when a.tasktype = 2 then 'NOTES' " +
+                            "else 'CLOSED' end as [Type], " +
+                            "a.description as [Description], " +
+                            "count(b.id) as [Contents], " +
+                            "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
+                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
+                            "from monthlytasks as a " +
+                            "left join monthlytasks as b " +
+                            "on a.id = b.previouslayerid " +
+                            "where a.layerid = @layerid " +
+                            "and a.description like @filter " +
+                            "and a.datecompleted is null " +
+                            "group by a.id, " +
+                            "a.iscompleted, " +
+                            "a.description, " +
+                            "case " +
+                            "when a.tasktype = 0 then 'TASK' " +
+                            "when a.tasktype = 1 then 'EVENT' " +
+                            "when a.tasktype = 2 then 'NOTES' " +
+                            "else 'CLOSED' end, " +
+                            "case " +
+                            "when a.taskisimportant = 1 " +
+                            "then '*' " +
+                            "else '' end, " +
+                            "a.description, " +
+                            "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt'), " +
+                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt')";
+
+
+            SqlParameter[] paramters = new SqlParameter[]
+            {
+
+                new SqlParameter("@layerid", SqlDbType.Int) { Value = 0},
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_dailySearch.Text + '%' }
+            };
+
+            dataGrid_monthly.DataSource = db.GenericQueryAction(command, paramters);
+
+            // format grid
+            dataGrid_monthly.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+
+            dataGrid_monthly.Columns[0].Visible = false;
+            dataGrid_monthly.Columns[0].Width = 1;
+            dataGrid_monthly.Columns["Status"].Width = 50;
+
+            dataGrid_monthly.Columns["I"].Width = 30;
+            dataGrid_monthly.Columns["I"].Visible = Properties.Settings.Default.MonthlyTaskIsImportant;
+
+            dataGrid_monthly.Columns["Type"].Width = 60;
+            dataGrid_monthly.Columns["Type"].Visible = Properties.Settings.Default.MonthlyTaskType;
+
+            dataGrid_monthly.Columns["Description"].Width = 350;
+            dataGrid_monthly.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            dataGrid_monthly.Columns["Contents"].Width = 70;
+
+            dataGrid_monthly.Columns["Date Added"].Width = 150;
+            dataGrid_monthly.Columns["Date Added"].Visible = Properties.Settings.Default.MonthlyDateAdded;
+
+            dataGrid_monthly.Columns["Date Changed"].Width = 150;
+            dataGrid_monthly.Columns["Date Changed"].Visible = Properties.Settings.Default.MonthlyDateChanged;
+
+        }
+
         private void btn_addFutureLog_Click(object sender, EventArgs e)
         {
             Add_Future();
@@ -622,7 +665,39 @@ namespace BulletJournal
 
         private void dataGrid_monthly_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-            
+
+            if (e.Button == MouseButtons.Left)
+            {
+                if (e.ColumnIndex == 1)
+                {
+                    taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
+                    contextMenuStrip1.Hide();
+
+                    string command = "update monthlytasks " +
+                                 "set " +
+                                 "iscompleted = @iscompleted, " +
+                                 "datecompleted = @completeddate " +
+                                 "where id = @id";
+
+                    List<int> ids = JournalTask.GetAllMonthlyTasksId(taskId);
+
+                    for (int i = 0; i < ids.Count; i++)
+                    {
+                        SqlParameter[] parameter = new SqlParameter[]
+                        {
+                            new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
+                            new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
+                            new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
+                        };
+
+                        db.GenericNonQueryAction(command, parameter);
+                    }
+
+                    RefreshGrid();
+                }
+
+            }
+
 
             // right click
             if (e.Button == MouseButtons.Right)
@@ -675,27 +750,20 @@ namespace BulletJournal
             if (entryType == JournalTask.EntryType.monthly)
             {
 
-                SqlParameter[] mainParameters = new SqlParameter[]
+                string command = "delete from monthlytasks " +
+                                  "where id = @ids";
+
+                List<int> ids = JournalTask.GetAllMonthlyTasksId(taskId);
+
+                for (int i = 0; i < ids.Count; i++)
                 {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
+                    SqlParameter[] parameter = new SqlParameter[]
+                    {
+                        new SqlParameter("@ids", SqlDbType.Int) { Value = ids[i]}
+                    };
 
-                };
-
-                string mainString = "delete from monthlymain " +
-                                       "where taskid = @taskId";
-
-                db.GenericNonQueryAction(mainString, mainParameters);
-
-                SqlParameter[] detailParameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskId", SqlDbType.Int) { Value = taskId }
-
-                };
-
-                string detailString = "delete from monthlydetail " +
-                                "where maintaskforeignkey = @taskId";
-
-                db.GenericNonQueryAction(detailString, detailParameters);
+                    db.GenericNonQueryAction(command, parameter);
+                }
 
                 RefreshGrid();
             }
@@ -724,8 +792,7 @@ namespace BulletJournal
 
                 db.GenericNonQueryAction(detailString, detailParameters);
 
-                Populate_futureLog();
-                Populate_index();
+                RefreshGrid();
             }
 
             if (entryType == JournalTask.EntryType.notes)
@@ -763,10 +830,10 @@ namespace BulletJournal
             
             if (entryType == JournalTask.EntryType.monthly)
             {
-                using (MonthlyDescription monthlyDescription = new MonthlyDescription(JournalTask.EntryMode.edit, taskId))
+                using (MonthlyTaskDescription currentTaskDescription = new MonthlyTaskDescription(JournalTask.EntryMode.edit, taskId, 0))
                 {
-                    monthlyDescription.OnMonthlyMainSave += this.OnSave;
-                    monthlyDescription.ShowDialog();
+                    currentTaskDescription.OnMonthlyTaskSaved += OnSave;
+                    currentTaskDescription.ShowDialog();
                 }
             }
 
@@ -839,11 +906,13 @@ namespace BulletJournal
 
         private void dailyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            /*
             using (DailyDescription dailyDescription = new DailyDescription(JournalTask.EntryMode.migrate_main, taskId, _entryType: entryType))
             {
                 dailyDescription.OnDailyMainSave += OnSave;
                 dailyDescription.ShowDialog();
             }
+            */
         }
 
         private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -914,16 +983,17 @@ namespace BulletJournal
 
         private void dataGrid_monthly_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            // left click
+            // Left Click
+            int colId = (int) dataGrid_monthly.SelectedRows[0].Cells[0].Value;
+            string title = dataGrid_monthly.SelectedRows[0].Cells[4].Value.ToString();
 
-            int colId = (int)dataGrid_monthly.SelectedRows[0].Cells[0].Value;
-            string title = dataGrid_monthly.SelectedRows[0].Cells[2].Value.ToString();
-            using (MonthlyContent content = new MonthlyContent(colId, title))
+
+            using (MonthlyTasksContent monthlyTasksContent = new MonthlyTasksContent(colId, 1, title))
             {
-                content.OnRefreshGrid += this.OnSave;
-                content.ShowDialog();
+                monthlyTasksContent.OnRefreshGrid += this.OnSave;
+                monthlyTasksContent.ShowDialog();
             }
-            
+
         }
 
         private void dataGrid_dailyTask_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -933,10 +1003,10 @@ namespace BulletJournal
             string title = dataGrid_dailyTask.SelectedRows[0].Cells[4].Value.ToString();
 
 
-            using (CurrentTaskContents notes = new CurrentTaskContents(colId, 1, title))
+            using (CurrentTaskContents currentTasksContent = new CurrentTaskContents(colId, 1, title))
             {
-                notes.OnRefreshGrid += this.OnSave;
-                notes.ShowDialog();
+                currentTasksContent.OnRefreshGrid += this.OnSave;
+                currentTasksContent.ShowDialog();
             }
 
         }
@@ -1003,10 +1073,10 @@ namespace BulletJournal
 
         private void Add_Monthly()
         {
-            using (MonthlyDescription monthlyDescription = new MonthlyDescription(JournalTask.EntryMode.add))
+            using (MonthlyTaskDescription monthlyTaskDescription = new MonthlyTaskDescription(JournalTask.EntryMode.add, -1, 0))
             {
-                monthlyDescription.OnMonthlyMainSave += this.OnSave;
-                monthlyDescription.ShowDialog();
+                monthlyTaskDescription.OnMonthlyTaskSaved += this.OnSave;
+                monthlyTaskDescription.ShowDialog();
             }
         }
 

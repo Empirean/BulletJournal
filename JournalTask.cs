@@ -202,5 +202,61 @@ namespace BulletJournal
 
             return returnList;
         }
+
+        public static List<int> GetMonthlyTaskIds(int _id)
+        {
+            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            List<int> returnList = new List<int>();
+
+            string command = "select id " +
+                             "from monthlytasks " +
+                             "where previouslayerid = @id";
+
+            SqlParameter[] parameters = new SqlParameter[]
+            {
+                    new SqlParameter("@id", SqlDbType.Int) { Value = _id }
+            };
+
+            DataTable dataTable = db.GenericQueryAction(command, parameters);
+
+            foreach (DataRow dataRow in dataTable.AsEnumerable().ToList())
+            {
+                returnList.Add(dataRow.Field<int>("id"));
+            }
+
+            return returnList;
+        }
+
+        public static List<int> GetAllMonthlyTasksId(int _id)
+        {
+            // return list is what is returned
+            List<int> returnList = new List<int>();
+
+            // add the first id
+            returnList.Add(_id);
+
+            // look up list for ids on succeeding layers
+            List<int> lookUplist = GetMonthlyTaskIds(_id);
+
+            // when there are still ids to find keep going
+            while (lookUplist.Count > 0)
+            {
+                returnList.AddRange(lookUplist);
+                List<int> tempList = new List<int>();
+                tempList.AddRange(lookUplist);
+                lookUplist.Clear();
+
+                foreach (int tempItem in tempList)
+                {
+                    lookUplist.AddRange(GetMonthlyTaskIds(tempItem));
+                }
+                tempList.Clear();
+
+            }
+
+            return returnList;
+        }
+
     }
 }

@@ -105,5 +105,53 @@ namespace BulletJournal.Properties {
                 this["DailyTaskType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MonthlyDateAdded {
+            get {
+                return ((bool)(this["MonthlyDateAdded"]));
+            }
+            set {
+                this["MonthlyDateAdded"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MonthlyDateChanged {
+            get {
+                return ((bool)(this["MonthlyDateChanged"]));
+            }
+            set {
+                this["MonthlyDateChanged"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MonthlyTaskIsImportant {
+            get {
+                return ((bool)(this["MonthlyTaskIsImportant"]));
+            }
+            set {
+                this["MonthlyTaskIsImportant"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MonthlyTaskType {
+            get {
+                return ((bool)(this["MonthlyTaskType"]));
+            }
+            set {
+                this["MonthlyTaskType"] = value;
+            }
+        }
     }
 }

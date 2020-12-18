@@ -1,7 +1,7 @@
 ﻿
 namespace BulletJournal
 {
-    partial class CurrentTaskContents
+    partial class MonthlyTasksContent
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,7 @@ namespace BulletJournal
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CurrentTaskContents));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MonthlyTasksContent));
             this.label5 = new System.Windows.Forms.Label();
             this.txt_collectionSearch = new System.Windows.Forms.TextBox();
             this.lbl_title = new System.Windows.Forms.Label();
@@ -50,7 +50,7 @@ namespace BulletJournal
             this.label5.Location = new System.Drawing.Point(336, 18);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(57, 17);
-            this.label5.TabIndex = 18;
+            this.label5.TabIndex = 23;
             this.label5.Text = "Search:";
             // 
             // txt_collectionSearch
@@ -58,7 +58,7 @@ namespace BulletJournal
             this.txt_collectionSearch.Location = new System.Drawing.Point(400, 15);
             this.txt_collectionSearch.Name = "txt_collectionSearch";
             this.txt_collectionSearch.Size = new System.Drawing.Size(163, 22);
-            this.txt_collectionSearch.TabIndex = 16;
+            this.txt_collectionSearch.TabIndex = 21;
             // 
             // lbl_title
             // 
@@ -66,7 +66,7 @@ namespace BulletJournal
             this.lbl_title.Location = new System.Drawing.Point(13, 11);
             this.lbl_title.Name = "lbl_title";
             this.lbl_title.Size = new System.Drawing.Size(323, 41);
-            this.lbl_title.TabIndex = 19;
+            this.lbl_title.TabIndex = 24;
             this.lbl_title.Text = "label1";
             // 
             // btn_addDaily
@@ -74,7 +74,7 @@ namespace BulletJournal
             this.btn_addDaily.Location = new System.Drawing.Point(488, 463);
             this.btn_addDaily.Name = "btn_addDaily";
             this.btn_addDaily.Size = new System.Drawing.Size(75, 42);
-            this.btn_addDaily.TabIndex = 17;
+            this.btn_addDaily.TabIndex = 22;
             this.btn_addDaily.Text = "Add";
             this.btn_addDaily.UseVisualStyleBackColor = true;
             this.btn_addDaily.Click += new System.EventHandler(this.btn_addDaily_Click);
@@ -101,7 +101,7 @@ namespace BulletJournal
             this.dataGrid_content.RowTemplate.Height = 24;
             this.dataGrid_content.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_content.Size = new System.Drawing.Size(550, 398);
-            this.dataGrid_content.TabIndex = 20;
+            this.dataGrid_content.TabIndex = 25;
             this.dataGrid_content.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_content_CellDoubleClick);
             this.dataGrid_content.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseUp);
             // 
@@ -128,11 +128,11 @@ namespace BulletJournal
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
-            // CurrentTaskContents
+            // MonthlyTasksContent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 516);
+            this.ClientSize = new System.Drawing.Size(580, 520);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txt_collectionSearch);
             this.Controls.Add(this.lbl_title);
@@ -141,11 +141,11 @@ namespace BulletJournal
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "CurrentTaskContents";
+            this.Name = "MonthlyTasksContent";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Daily Tasks";
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.CurrentTaskContents_KeyUp);
+            this.Text = "Monthly Tasks";
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MonthlyTasksContent_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_content)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);

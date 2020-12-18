@@ -188,11 +188,13 @@ namespace BulletJournal
 
         private void dailyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            /*
             using (DailyDescription dailyDescription = new DailyDescription(JournalTask.EntryMode.migrate_detail, futureMainid, futureDetailId, JournalTask.EntryType.future))
             {
                 dailyDescription.OnDailyMainSave += OnRefreshGrids;
                 dailyDescription.ShowDialog();
             }
+            */
         }
 
         private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)

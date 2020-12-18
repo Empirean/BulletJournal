@@ -6,11 +6,11 @@ using System.Windows.Forms;
 
 namespace BulletJournal
 {
-    public partial class CurrentTaskDescription : Form
+    public partial class MonthlyTaskDescription : Form
     {
 
         public delegate void EventHandler();
-        public event EventHandler OnCurrentTaskSaved;
+        public event EventHandler OnMonthlyTaskSaved;
 
         // database tools
         DBTools db;
@@ -22,10 +22,9 @@ namespace BulletJournal
         // mode
         JournalTask.EntryMode mode;
 
-        public CurrentTaskDescription(JournalTask.EntryMode _entryMode, int _id, int _layer)
+        public MonthlyTaskDescription(JournalTask.EntryMode _entryMode, int _id, int _layer)
         {
             InitializeComponent();
-
 
             // initialize db
             db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
@@ -44,13 +43,13 @@ namespace BulletJournal
             if (mode == JournalTask.EntryMode.edit)
             {
 
-                this.Text = "Edit Daily Task";
+                this.Text = "Edit Monthly Task";
 
                 // Query the category name
                 string command = "select description, " +
                                  "taskisimportant," +
                                  "tasktype " +
-                                 "from currenttasks " +
+                                 "from monthlytasks " +
                                  "where id = @id";
                 SqlParameter[] parameters = new SqlParameter[]
                 {
@@ -65,7 +64,6 @@ namespace BulletJournal
                 cmb_taskType.SelectedIndex = dataRow.Field<int>("tasktype");
                 chk_taskIsImportant.Checked = dataRow.Field<bool>("taskisimportant");
             }
-
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -78,7 +76,7 @@ namespace BulletJournal
             // add
             if (mode == JournalTask.EntryMode.add)
             {
-                string command = "insert into currenttasks " +
+                string command = "insert into monthlytasks " +
                                  "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
                                  "values " +
                                  "(@desc, @layerid, @prevlayer, @dateadded, @datechanged, @taskisimportant, @tasktype) ";
@@ -101,7 +99,7 @@ namespace BulletJournal
             // edit
             if (mode == JournalTask.EntryMode.edit)
             {
-                string command = "update currenttasks " +
+                string command = "update monthlytasks " +
                                  "set " +
                                  "description = @desc, " +
                                  "datechanged = @datechanged," +
@@ -119,24 +117,23 @@ namespace BulletJournal
                 };
 
                 db.GenericNonQueryAction(command, parameters);
-            } 
+            }
 
             // Cleanup
             txt_currentTaskDescription.Text = "";
 
             // Broadcast the event
-            OnCurrentTaskSave();
+            OnMonthlyTaskSave();
 
             // Close when on edit mode
             if (mode == JournalTask.EntryMode.edit)
                 this.Close();
         }
 
-        protected virtual void OnCurrentTaskSave()
+        protected virtual void OnMonthlyTaskSave()
         {
-            if (OnCurrentTaskSaved != null)
-                OnCurrentTaskSaved();
+            if (OnMonthlyTaskSaved != null)
+                OnMonthlyTaskSaved();
         }
-
     }
 }

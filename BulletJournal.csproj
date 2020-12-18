@@ -85,24 +85,6 @@
     <Compile Include="CurrentTaskDescription.Designer.cs">
       <DependentUpon>CurrentTaskDescription.cs</DependentUpon>
     </Compile>
-    <Compile Include="DailyContent.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DailyContent.Designer.cs">
-      <DependentUpon>DailyContent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DailyDescription.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DailyDescription.Designer.cs">
-      <DependentUpon>DailyDescription.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DailyTaskList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DailyTaskList.Designer.cs">
-      <DependentUpon>DailyTaskList.cs</DependentUpon>
-    </Compile>
     <Compile Include="FutureContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,11 +141,23 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MonthlyTaskDescription.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MonthlyTaskDescription.Designer.cs">
+      <DependentUpon>MonthlyTaskDescription.cs</DependentUpon>
+    </Compile>
     <Compile Include="MonthlyTaskList.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MonthlyTaskList.Designer.cs">
       <DependentUpon>MonthlyTaskList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MonthlyTasksContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MonthlyTasksContent.Designer.cs">
+      <DependentUpon>MonthlyTasksContent.cs</DependentUpon>
     </Compile>
     <Compile Include="NotesContent.cs">
       <SubType>Form</SubType>
@@ -187,15 +181,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CurrentTaskDescription.resx">
       <DependentUpon>CurrentTaskDescription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DailyContent.resx">
-      <DependentUpon>DailyContent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DailyDescription.resx">
-      <DependentUpon>DailyDescription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DailyTaskList.resx">
-      <DependentUpon>DailyTaskList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FutureContent.resx">
       <DependentUpon>FutureContent.cs</DependentUpon>
@@ -221,8 +206,14 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MonthlyTaskDescription.resx">
+      <DependentUpon>MonthlyTaskDescription.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MonthlyTaskList.resx">
       <DependentUpon>MonthlyTaskList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MonthlyTasksContent.resx">
+      <DependentUpon>MonthlyTasksContent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NotesContent.resx">
       <DependentUpon>NotesContent.cs</DependentUpon>
