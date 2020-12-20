@@ -904,7 +904,7 @@ namespace BulletJournal
         private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            using (Migration migration = new Migration(entryType, JournalTask.EntryType.daily, taskId, _title:title))
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.daily, taskId, title, 0))
             {
                 migration.OnMigrated += OnSave;
                 migration.ShowDialog();
@@ -915,7 +915,7 @@ namespace BulletJournal
         private void monthlyTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            using (Migration migration = new Migration(entryType, JournalTask.EntryType.monthly, taskId, _title:title))
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.monthly, taskId, title, 0))
             {
                 migration.OnMigrated += OnSave;
                 migration.ShowDialog();
@@ -924,7 +924,7 @@ namespace BulletJournal
 
         private void futureLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (Migration migration = new Migration(entryType, JournalTask.EntryType.future, taskId, _title:title))
+            using (Migration migration = new Migration(entryType, JournalTask.EntryType.future, taskId, title, 0))
             {
                 migration.OnMigrated += OnSave;
                 migration.ShowDialog();
@@ -933,32 +933,30 @@ namespace BulletJournal
 
         private void dailyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            /*
-            using (DailyDescription dailyDescription = new DailyDescription(JournalTask.EntryMode.migrate_main, taskId, _entryType: entryType))
+            
+            using (CurrentTaskDescription dailyDescription = new CurrentTaskDescription(JournalTask.EntryMode.migrate, taskId, 0, entryType))
             {
-                dailyDescription.OnDailyMainSave += OnSave;
+                dailyDescription.OnCurrentTaskSaved += OnSave;
                 dailyDescription.ShowDialog();
             }
-            */
+            
         }
 
         private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            /*
-            using (MonthlyDescription dailyDescription = new MonthlyDescription(JournalTask.EntryMode.migrate_main, taskId, _entryType: entryType))
+            using (MonthlyTaskDescription monthlyDescription = new MonthlyTaskDescription(JournalTask.EntryMode.migrate, taskId, 0, entryType))
             {
-                dailyDescription.OnMonthlyMainSave += OnSave;
-                dailyDescription.ShowDialog();
+                monthlyDescription.OnMonthlyTaskSaved += OnSave;
+                monthlyDescription.ShowDialog();
             }
-            */
         }
 
         private void futureLogToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            using (FutureDescription dailyDescription = new FutureDescription(JournalTask.EntryMode.migrate_main, taskId, _entryType: entryType))
+            using (FutureTaskDescription futureDescription = new FutureTaskDescription(JournalTask.EntryMode.migrate, taskId, 0, entryType))
             {
-                dailyDescription.OnFutureMainSave += OnSave;
-                dailyDescription.ShowDialog();
+                futureDescription.OnFutureTaskSaved += OnSave;
+                futureDescription.ShowDialog();
             }
         }
 

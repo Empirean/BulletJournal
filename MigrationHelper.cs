@@ -1,361 +1,270 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace BulletJournal
 {
     public static class MigrationHelper
     {
-
-        public static void MigrateDailyToDaily(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
+        
+        public static void MigrateDailyToDaily(int _sourceId, int _targetId)
         {
             DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
 
-            string command;
-            SqlParameter[] parameters;
+            int layer = GetDailyLayer(_targetId);
 
-            if (_mode == JournalTask.EntryMode.migrate_main)
+            string insertCommand = "insert into currenttasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from currenttasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
             {
-                command = "insert into dailydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from dailydetail " +
-                            "where maintaskforeignkey = @id)";
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-            else
+            db.GenericNonQueryAction(insertCommand, insertParameter);
+        }
+
+        public static void MigrateDailyToMonthly(int _sourceId, int _targetId)
+        {
+
+            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            int layer = GetMonthlyLayer(_targetId);
+
+            string insertCommand = "insert into monthlytasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from currenttasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
             {
-                command = "insert into dailydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from dailydetail " +
-                            "where taskid = @id)";
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
+            db.GenericNonQueryAction(insertCommand, insertParameter);
+        }
 
-            db.GenericNonQueryAction(command, parameters);
+        public static void MigrateDailyToFuture(int _sourceId, int _targetId)
+        {
+            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            int layer = GetFutureLayer(_targetId);
+
+            string insertCommand = "insert into futuretasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from currenttasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
+            {
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
+
+            db.GenericNonQueryAction(insertCommand, insertParameter);
 
         }
 
-        public static void MigrateDailyToMonthly(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
+        public static void MigrateMonthlyToDaily(int _sourceId, int _targetId)
         {
             DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
 
-            string command;
-            SqlParameter[] parameters;
+            int layer = GetDailyLayer(_targetId);
 
-            if (_mode == JournalTask.EntryMode.migrate_main)
+            string insertCommand = "insert into currenttasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from monthlytasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
             {
-                command = "insert into monthlydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from dailydetail " +
-                            "where maintaskforeignkey = @id)";
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-            else
-            {
-                command = "insert into monthlydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from dailydetail " +
-                            "where taskid = @id)";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-
-            db.GenericNonQueryAction(command, parameters);
+            db.GenericNonQueryAction(insertCommand, insertParameter);
 
         }
 
-        public static void MigrateDailyToFuture(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
+        public static void MigrateMonthlyToMonthly(int _sourceId, int _targetId)
+        {
+
+            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            int layer = GetMonthlyLayer(_targetId);
+
+            string insertCommand = "insert into monthlytasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from monthlytasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
+            {
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
+
+            db.GenericNonQueryAction(insertCommand, insertParameter);
+        }
+
+        public static void MigrateMonthlyToFuture(int _sourceId, int _targetId)
         {
             DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
-            
-            string command;
-            SqlParameter[] parameters;
 
-            if (_mode == JournalTask.EntryMode.migrate_main)
+            int layer = GetFutureLayer(_targetId);
+
+            string insertCommand = "insert into futuretasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from monthlytasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
             {
-                command = "insert into futuredetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from dailydetail " +
-                            "where maintaskforeignkey = @id)";
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-            else
-            {
-                command = "insert into futuredetail " +
-                           "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                           "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                           "from dailydetail " +
-                           "where taskid = @id)";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-
-
-            db.GenericNonQueryAction(command, parameters);
+            db.GenericNonQueryAction(insertCommand, insertParameter);
 
         }
 
-        public static void MigrateMonthlyToDaily(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
+        public static void MigrateFutureToDaily(int _sourceId, int _targetId)
+        {
+
+            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            int layer = GetDailyLayer(_targetId);
+
+            string insertCommand = "insert into currenttasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from futuretasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
+            {
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
+
+            db.GenericNonQueryAction(insertCommand, insertParameter);
+        }
+
+        public static void MigrateFutureToMonthly(int _sourceId, int _targetId)
+        {
+
+            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+
+            int layer = GetMonthlyLayer(_targetId);
+
+            string insertCommand = "insert into monthlytasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from futuretasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
+            {
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
+
+            db.GenericNonQueryAction(insertCommand, insertParameter);
+        }
+
+        public static void MigrateFutureToFuture(int _sourceId, int _targetId)
         {
             DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
 
-            string command;
-            SqlParameter[] parameters;
+            int layer = GetFutureLayer(_targetId);
 
-            if (_mode == JournalTask.EntryMode.migrate_main)
+            string insertCommand = "insert into futuretasks " +
+                                   "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                   "(select description, @layerid, @previouslayerid, dateadded, datechanged, taskisimportant, tasktype " +
+                                   "from futuretasks " +
+                                   "where id = @id) ";
+
+            SqlParameter[] insertParameter = new SqlParameter[]
             {
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId},
+                new SqlParameter("@layerid", SqlDbType.Int) {  Value = layer + 1},
+                new SqlParameter("@previouslayerid", SqlDbType.Int) {  Value = _targetId},
+            };
 
-                command = "insert into dailydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from monthlydetail " +
-                            "where maintaskforeignkey = @id)";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-
-            }
-            else
-            {
-                command = "insert into dailydetail " +
-                             "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                             "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                             "from monthlydetail " +
-                             "where taskid = @id)";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-
-            }
-
-
-            db.GenericNonQueryAction(command, parameters);
+            db.GenericNonQueryAction(insertCommand, insertParameter);
 
         }
 
-        public static void MigrateMonthlyToMonthly(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
+        public static int GetDailyLayer(int _id)
         {
             DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            string queryCommand = "select layerid " +
+                             "from currenttasks " +
+                             "where id = @id";
 
-            string command;
-            SqlParameter[] parameters;
-
-            if (_mode == JournalTask.EntryMode.migrate_main)
+            SqlParameter[] queryParameter = new SqlParameter[]
             {
-                command = "insert into monthlydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from monthlydetail " +
-                            "where maintaskforeignkey = @id)";
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
+            };
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-            else
-            {
-                command = "insert into monthlydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from monthlydetail " +
-                            "where taskid = @id)";
+            DataTable dataTable = db.GenericQueryAction(queryCommand, queryParameter);
+            DataRow dataRow = dataTable.AsEnumerable().ToList()[0];
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-
-
-            db.GenericNonQueryAction(command, parameters);
-
+            return dataRow.Field<int>("layerid");
         }
 
-        public static void MigrateMonthlyToFuture(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
+        public static int GetMonthlyLayer(int _id)
         {
             DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            string queryCommand = "select layerid " +
+                             "from monthlytasks " +
+                             "where id = @id";
 
-            string command;
-            SqlParameter[] parameters;
-
-            if (_mode == JournalTask.EntryMode.migrate_main)
+            SqlParameter[] queryParameter = new SqlParameter[]
             {
-                command = "insert into futuredetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from monthlydetail " +
-                            "where maintaskforeignkey = @id)";
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
+            };
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-            else
-            {
-                command = "insert into futuredetail " +
-                           "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                           "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                           "from monthlydetail " +
-                           "where taskid = @id)";
+            DataTable dataTable = db.GenericQueryAction(queryCommand, queryParameter);
+            DataRow dataRow = dataTable.AsEnumerable().ToList()[0];
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-
-            db.GenericNonQueryAction(command, parameters);
-
+            return dataRow.Field<int>("layerid");
         }
 
-        public static void MigrateFutureToDaily(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
+        public static int GetFutureLayer(int _id)
         {
             DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            string queryCommand = "select layerid " +
+                             "from futuretasks " +
+                             "where id = @id";
 
-            string command;
-            SqlParameter[] parameters;
-
-            if (_mode == JournalTask.EntryMode.migrate_main)
+            SqlParameter[] queryParameter = new SqlParameter[]
             {
-                command = "insert into dailydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from futuredetail " +
-                            "where maintaskforeignkey = @id)";
+                new SqlParameter("@id", SqlDbType.Int) {  Value = _id}
+            };
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-            else
-            {
-                command = "insert into dailydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from futuredetail " +
-                            "where taskid = @id)";
+            DataTable dataTable = db.GenericQueryAction(queryCommand, queryParameter);
+            DataRow dataRow = dataTable.AsEnumerable().ToList()[0];
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-
-
-
-            db.GenericNonQueryAction(command, parameters);
-
-        }
-
-        public static void MigrateFutureToMonthly(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
-        {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
-
-            string command;
-            SqlParameter[] parameters;
-
-            if (_mode == JournalTask.EntryMode.migrate_main)
-            {
-                command = "insert into monthlydetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from futuredetail " +
-                            "where maintaskforeignkey = @id)";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-
-            }
-            else
-            {
-                command = "insert into monthlydetail " +
-                         "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                         "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                         "from futuredetail " +
-                         "where taskid = @id)";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-
-
-            db.GenericNonQueryAction(command, parameters);
-
-        }
-
-        public static void MigrateFutureToFuture(int _sourceId, int _targetId, JournalTask.EntryMode _mode)
-        {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
-
-            string command;
-            SqlParameter[] parameters;
-
-            if (_mode == JournalTask.EntryMode.migrate_main)
-            {
-                command = "insert into futuredetail " +
-                            "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                            "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                            "from futuredetail " +
-                            "where maintaskforeignkey = @id)";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-            else
-            {
-                command = "insert into futuredetail " +
-                           "(tasktype, taskdescription, taskisimportant, maintaskforeignkey) " +
-                           "(select tasktype, taskdescription, taskisimportant, " + _targetId.ToString() + " " +
-                           "from futuredetail " +
-                           "where taskid = @id)";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@id", SqlDbType.Int) {  Value = _sourceId}
-                };
-            }
-
-            db.GenericNonQueryAction(command, parameters);
-
+            return dataRow.Field<int>("layerid");
         }
     }
 }

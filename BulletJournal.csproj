@@ -85,18 +85,6 @@
     <Compile Include="CurrentTaskDescription.Designer.cs">
       <DependentUpon>CurrentTaskDescription.cs</DependentUpon>
     </Compile>
-    <Compile Include="FutureContent.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FutureContent.Designer.cs">
-      <DependentUpon>FutureContent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FutureDescription.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FutureDescription.Designer.cs">
-      <DependentUpon>FutureDescription.cs</DependentUpon>
-    </Compile>
     <Compile Include="FutureTaskContents.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,12 +96,6 @@
     </Compile>
     <Compile Include="FutureTaskDescription.Designer.cs">
       <DependentUpon>FutureTaskDescription.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FutureTaskList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FutureTaskList.Designer.cs">
-      <DependentUpon>FutureTaskList.cs</DependentUpon>
     </Compile>
     <Compile Include="Maintenance.cs">
       <SubType>Form</SubType>
@@ -176,20 +158,11 @@
     <EmbeddedResource Include="CurrentTaskDescription.resx">
       <DependentUpon>CurrentTaskDescription.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FutureContent.resx">
-      <DependentUpon>FutureContent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FutureDescription.resx">
-      <DependentUpon>FutureDescription.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FutureTaskContents.resx">
       <DependentUpon>FutureTaskContents.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FutureTaskDescription.resx">
       <DependentUpon>FutureTaskDescription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FutureTaskList.resx">
-      <DependentUpon>FutureTaskList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Maintenance.resx">
       <DependentUpon>Maintenance.cs</DependentUpon>

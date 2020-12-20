@@ -14,37 +14,34 @@ namespace BulletJournal
 
         JournalTask.EntryType entryTypeFr;
         JournalTask.EntryType entryTypeTo;
-        JournalTask.EntryMode mode;
-        int entryId;
-        int mainId;
+
+        int sourceId;
+        int layer;
+        int currentId;
 
         public Migration
         (
             JournalTask.EntryType _entryTypeFr,
             JournalTask.EntryType _entryTypeTo,
-            int _mainId,
-            int _detailId = -1,
-            JournalTask.EntryMode _mode = JournalTask.EntryMode.migrate_main,
-            string _title = ""
+            int _sourceId,
+            string _title, 
+            int _layer,
+            int _currentId = 0
         )
         {
             InitializeComponent();
 
             db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
-            
+
             entryTypeFr = _entryTypeFr;
             entryTypeTo = _entryTypeTo;
+            sourceId = _sourceId;
+            layer = _layer;
+            currentId = _currentId;
 
-            mode = _mode;
             lbl_title.Text = _title;
-            mainId = _mainId;
+            GridController(entryTypeTo, sourceId);
 
-            if (mode == JournalTask.EntryMode.migrate_main)
-                entryId = _mainId;
-            else
-                entryId = _detailId;
-
-            GridController(entryTypeTo, mainId);
         }
 
         private void GridController(JournalTask.EntryType _entryType, int _id)
@@ -70,122 +67,155 @@ namespace BulletJournal
             string command;
             SqlParameter[] parameters;
 
-            if (entryTypeFr == entryTypeTo)
-            {
-                command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'dd/MM/yyyy') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from dailymain as a " +
-                                   "left join dailydetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and a.taskid <> @id " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description " +
-                                   "order by format(a.taskdate, 'dd/MM/yyyy'), a.taskid";
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = _id },
-                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
-                };
-            }
-            else
-            {
-                command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'dd/MM/yyyy') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from dailymain as a " +
-                                   "left join dailydetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'dd/MM/yyyy') ,a.description " +
-                                   "order by format(a.taskdate, 'dd/MM/yyyy'), a.taskid";
+            command = "select " +
+                        "a.id, " +
+                        "case " +
+                        "when a.taskisimportant = 1 " +
+                        "then '*' " +
+                        "else '' end as [I], " +
+                        "case " +
+                        "when a.tasktype = 0 then 'TASK' " +
+                        "when a.tasktype = 1 then 'EVENT' " +
+                        "when a.tasktype = 2 then 'NOTES' " +
+                        "else 'CLOSED' end as [Type], " +
+                        "a.description as [Description], " +
+                        "count(b.id) as [Contents], " +
+                        "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
+                        "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
+                        "from currenttasks as a " +
+                        "left join currenttasks as b " +
+                        "on a.id = b.previouslayerid " +
+                        "where a.layerid = @layerid " +
+                        "and a.description like @filter " +
+                        "and a.previouslayerid = case " +
+                        "when @layerid = 0 " +
+                        "then a.previouslayerid " +
+                        "else @currentid end " +
+                        //"and a.id <> @sourceid " +
+                        "and a.datecompleted is null " +
+                        "group by a.id, " +
+                        "a.description, " +
+                        "case " +
+                        "when a.tasktype = 0 then 'TASK' " +
+                        "when a.tasktype = 1 then 'EVENT' " +
+                        "when a.tasktype = 2 then 'NOTES' " +
+                        "else 'CLOSED' end, " +
+                        "case " +
+                        "when a.taskisimportant = 1 " +
+                        "then '*' " +
+                        "else '' end, " +
+                        "a.description, " +
+                        "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt'), " +
+                        "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt')";
 
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
-                };
-            }
+            parameters = new SqlParameter[]
+            {
+                new SqlParameter("@layerid", SqlDbType.Int) { Value = layer},
+                new SqlParameter("@sourceid", SqlDbType.Int) { Value = sourceId },
+                new SqlParameter("@currentId", SqlDbType.Int) { Value = currentId },
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
+            };
 
             dataGrid_content.DataSource = db.GenericQueryAction(command, parameters);
-
             dataGrid_content.Columns[0].Visible = false;
             dataGrid_content.Columns[0].Width = 1;
-            dataGrid_content.Columns["Date"].Width = 70;
-            dataGrid_content.Columns["Description"].Width = 332;
-            dataGrid_content.Columns["Contents"].Width = 70;
-        }
 
+            dataGrid_content.Columns["I"].Width = 30;
+            dataGrid_content.Columns["I"].Visible = Properties.Settings.Default.DailyTaskIsImportant;
+
+            dataGrid_content.Columns["Type"].Width = 60;
+            dataGrid_content.Columns["Type"].Visible = Properties.Settings.Default.DailyTaskType;
+
+            dataGrid_content.Columns["Description"].Width = 400;
+            dataGrid_content.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            dataGrid_content.Columns["Contents"].Width = 70;
+
+            dataGrid_content.Columns["Date Added"].Width = 150;
+            dataGrid_content.Columns["Date Added"].Visible = Properties.Settings.Default.DailyDateAdded;
+
+            dataGrid_content.Columns["Date Changed"].Width = 150;
+            dataGrid_content.Columns["Date Changed"].Visible = Properties.Settings.Default.DailyDateChanged;
+
+        }
+        
         private void Populate_MonthlyContent(int _id)
         {
             string command;
             SqlParameter[] parameters;
 
-            if (entryTypeFr == entryTypeTo)
+
+            command = "select " +
+                        "a.id, " +
+                        "case " +
+                        "when a.taskisimportant = 1 " +
+                        "then '*' " +
+                        "else '' end as [I], " +
+                        "case " +
+                        "when a.tasktype = 0 then 'TASK' " +
+                        "when a.tasktype = 1 then 'EVENT' " +
+                        "when a.tasktype = 2 then 'NOTES' " +
+                        "else 'CLOSED' end as [Type], " +
+                        "a.description as [Description], " +
+                        "count(b.id) as [Contents], " +
+                        "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
+                        "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
+                        "from monthlytasks as a " +
+                        "left join monthlytasks as b " +
+                        "on a.id = b.previouslayerid " +
+                        "where a.layerid = @layerid " +
+                        "and a.description like @filter " +
+                        "and a.previouslayerid = case " +
+                        "when @layerid = 0 " +
+                        "then a.previouslayerid " +
+                        "else @currentid end " +
+                        //"and a.id <> @sourceid " +
+                        "and a.datecompleted is null " +
+                        "group by a.id, " +
+                        "a.description, " +
+                        "case " +
+                        "when a.tasktype = 0 then 'TASK' " +
+                        "when a.tasktype = 1 then 'EVENT' " +
+                        "when a.tasktype = 2 then 'NOTES' " +
+                        "else 'CLOSED' end, " +
+                        "case " +
+                        "when a.taskisimportant = 1 " +
+                        "then '*' " +
+                        "else '' end, " +
+                        "a.description, " +
+                        "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt'), " +
+                        "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt')";
+
+            parameters = new SqlParameter[]
             {
-                command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from monthlymain as a " +
-                                   "left join monthlydetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and a.taskid <> @id " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
-                                   "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = _id },
-                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
-                };
-
-            }
-            else
-            {
-                command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from monthlymain as a " +
-                                   "left join monthlydetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
-                                   "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
-                };
-            }
+                new SqlParameter("@layerid", SqlDbType.Int) { Value = layer},
+                new SqlParameter("@sourceid", SqlDbType.Int) { Value = sourceId },
+                new SqlParameter("@currentId", SqlDbType.Int) { Value = currentId },
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
+            };
 
             dataGrid_content.DataSource = db.GenericQueryAction(command, parameters);
-
             dataGrid_content.Columns[0].Visible = false;
             dataGrid_content.Columns[0].Width = 1;
-            dataGrid_content.Columns["Date"].Width = 90;
-            dataGrid_content.Columns["Description"].Width = 310;
+
+            dataGrid_content.Columns["I"].Width = 30;
+            dataGrid_content.Columns["I"].Visible = Properties.Settings.Default.DailyTaskIsImportant;
+
+            dataGrid_content.Columns["Type"].Width = 60;
+            dataGrid_content.Columns["Type"].Visible = Properties.Settings.Default.DailyTaskType;
+
+            dataGrid_content.Columns["Description"].Width = 400;
+            dataGrid_content.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
             dataGrid_content.Columns["Contents"].Width = 70;
+
+            dataGrid_content.Columns["Date Added"].Width = 150;
+            dataGrid_content.Columns["Date Added"].Visible = Properties.Settings.Default.DailyDateAdded;
+
+            dataGrid_content.Columns["Date Changed"].Width = 150;
+            dataGrid_content.Columns["Date Changed"].Visible = Properties.Settings.Default.DailyDateChanged;
+
         }
 
         private void Populate_FutureContent(int _id)
@@ -193,62 +223,77 @@ namespace BulletJournal
             string command;
             SqlParameter[] parameters;
 
-            if (entryTypeTo == entryTypeFr)
+
+            command = "select " +
+                        "a.id, " +
+                        "case " +
+                        "when a.taskisimportant = 1 " +
+                        "then '*' " +
+                        "else '' end as [I], " +
+                        "case " +
+                        "when a.tasktype = 0 then 'TASK' " +
+                        "when a.tasktype = 1 then 'EVENT' " +
+                        "when a.tasktype = 2 then 'NOTES' " +
+                        "else 'CLOSED' end as [Type], " +
+                        "a.description as [Description], " +
+                        "count(b.id) as [Contents], " +
+                        "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
+                        "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
+                        "from futuretasks as a " +
+                        "left join futuretasks as b " +
+                        "on a.id = b.previouslayerid " +
+                        "where a.layerid = @layerid " +
+                        "and a.description like @filter " +
+                        "and a.previouslayerid = case " +
+                        "when @layerid = 0 " +
+                        "then a.previouslayerid " +
+                        "else @currentid end " +
+                        //"and a.id <> @sourceid " +
+                        "and a.datecompleted is null " +
+                        "group by a.id, " +
+                        "a.description, " +
+                        "case " +
+                        "when a.tasktype = 0 then 'TASK' " +
+                        "when a.tasktype = 1 then 'EVENT' " +
+                        "when a.tasktype = 2 then 'NOTES' " +
+                        "else 'CLOSED' end, " +
+                        "case " +
+                        "when a.taskisimportant = 1 " +
+                        "then '*' " +
+                        "else '' end, " +
+                        "a.description, " +
+                        "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt'), " +
+                        "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt')";
+
+            parameters = new SqlParameter[]
             {
-                command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from futuremain as a " +
-                                   "left join futuredetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and a.taskid <> @id " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
-                                   "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@id", SqlDbType.Int) { Value = _id },
-                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
-                };
-
-            }
-            else
-            {
-                command = "select " +
-                                   "a.taskid, " +
-                                   "format(a.taskdate, 'yyyy MMMM') as [Date], " +
-                                   "a.description as Description, " +
-                                   "count(b.taskid) as [Contents] " +
-                                   "from futuremain as a " +
-                                   "left join futuredetail as b " +
-                                   "on a.taskid = b.maintaskforeignkey " +
-                                   "where a.taskdate >= @taskdate " +
-                                   "and (a.description like @filter " +
-                                   "or format(a.taskdate, 'dd/MM/yyyy') like @filter) " +
-                                   "group by a.taskid, format(a.taskdate, 'yyyy MMMM') ,a.description " +
-                                   "order by format(a.taskdate, 'yyyy MMMM'), a.taskid";
-
-                parameters = new SqlParameter[]
-                {
-                    new SqlParameter("@taskdate", SqlDbType.Date) { Value = JournalTask.currentDay.Value },
-                    new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
-                };
-
-            }
+                new SqlParameter("@layerid", SqlDbType.Int) { Value = layer},
+                new SqlParameter("@sourceid", SqlDbType.Int) { Value = sourceId },
+                new SqlParameter("@currentId", SqlDbType.Int) { Value = currentId },
+                new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
+            };
 
             dataGrid_content.DataSource = db.GenericQueryAction(command, parameters);
-
             dataGrid_content.Columns[0].Visible = false;
             dataGrid_content.Columns[0].Width = 1;
-            dataGrid_content.Columns["Date"].Width = 90;
-            dataGrid_content.Columns["Description"].Width = 310;
+
+            dataGrid_content.Columns["I"].Width = 30;
+            dataGrid_content.Columns["I"].Visible = Properties.Settings.Default.DailyTaskIsImportant;
+
+            dataGrid_content.Columns["Type"].Width = 60;
+            dataGrid_content.Columns["Type"].Visible = Properties.Settings.Default.DailyTaskType;
+
+            dataGrid_content.Columns["Description"].Width = 400;
+            dataGrid_content.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
             dataGrid_content.Columns["Contents"].Width = 70;
+
+            dataGrid_content.Columns["Date Added"].Width = 150;
+            dataGrid_content.Columns["Date Added"].Visible = Properties.Settings.Default.DailyDateAdded;
+
+            dataGrid_content.Columns["Date Changed"].Width = 150;
+            dataGrid_content.Columns["Date Changed"].Visible = Properties.Settings.Default.DailyDateChanged;
+
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -258,13 +303,13 @@ namespace BulletJournal
                 switch (entryTypeTo)
                 {
                     case JournalTask.EntryType.daily:
-                        MigrateDailyToDaily(entryId);
+                        MigrateDailyToDaily(sourceId);
                         break;
                     case JournalTask.EntryType.monthly:
-                        MigrateDailyToMonthly(entryId);
+                        MigrateDailyToMonthly(sourceId);
                         break;
                     case JournalTask.EntryType.future:
-                        MigrateDailyToFuture(entryId);
+                        MigrateDailyToFuture(sourceId);
                         break;
                     default:
                         break;
@@ -275,13 +320,13 @@ namespace BulletJournal
                 switch (entryTypeTo)
                 {
                     case JournalTask.EntryType.daily:
-                        MigrateMonthlyToDaily(entryId);
+                        MigrateMonthlyToDaily(sourceId);
                         break;
                     case JournalTask.EntryType.monthly:
-                        MigrateMonthlyToMonthly(entryId);
+                        MigrateMonthlyToMonthly(sourceId);
                         break;
                     case JournalTask.EntryType.future:
-                        MigrateMonthlyToFuture(entryId);
+                        MigrateMonthlyToFuture(sourceId);
                         break;
                     default:
                         break;
@@ -292,13 +337,13 @@ namespace BulletJournal
                 switch (entryTypeTo)
                 {
                     case JournalTask.EntryType.daily:
-                        MigrateFutureToDaily(entryId);
+                        MigrateFutureToDaily(sourceId);
                         break;
                     case JournalTask.EntryType.monthly:
-                        MigrateFutureToMonthly(entryId);
+                        MigrateFutureToMonthly(sourceId);
                         break;
                     case JournalTask.EntryType.future:
-                        MigrateFutureToFuture(entryId);
+                        MigrateFutureToFuture(sourceId);
                         break;
                     default:
                         break;
@@ -315,72 +360,89 @@ namespace BulletJournal
             
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateDailyToDaily(_id, (int) row.Cells[0].Value, mode);
+                MigrationHelper.MigrateDailyToDaily(_id, (int) row.Cells[0].Value);
             }
+            
         }
 
         private void MigrateDailyToMonthly(int _id)
         {
+            
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateDailyToMonthly(_id, (int)row.Cells[0].Value, mode);
+                MigrationHelper.MigrateDailyToMonthly(_id, (int)row.Cells[0].Value);
             }
+            
         }
 
         private void MigrateDailyToFuture(int _id)
         {
+            
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateDailyToFuture(_id, (int)row.Cells[0].Value, mode);
+                MigrationHelper.MigrateDailyToFuture(_id, (int)row.Cells[0].Value);
             }
+            
         }
 
         private void MigrateMonthlyToDaily(int _id)
         {
+            
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateMonthlyToDaily(_id, (int)row.Cells[0].Value, mode);
+                MigrationHelper.MigrateMonthlyToDaily(_id, (int)row.Cells[0].Value);
             }
+            
         }
 
         private void MigrateMonthlyToMonthly(int _id)
         {
+            
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateMonthlyToMonthly(_id, (int)row.Cells[0].Value, mode);
+                MigrationHelper.MigrateMonthlyToMonthly(_id, (int)row.Cells[0].Value);
             }
+            
         }
 
         private void MigrateMonthlyToFuture(int _id)
         {
+            
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateMonthlyToFuture(_id, (int)row.Cells[0].Value, mode);
+                MigrationHelper.MigrateMonthlyToFuture(_id, (int)row.Cells[0].Value);
             }
+            
         }
 
         private void MigrateFutureToDaily(int _id)
         {
+            
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateFutureToDaily(_id, (int)row.Cells[0].Value, mode);
+                MigrationHelper.MigrateFutureToDaily(_id, (int)row.Cells[0].Value);
             }
+            
         }
 
         private void MigrateFutureToMonthly(int _id)
         {
+            
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateFutureToMonthly(_id, (int)row.Cells[0].Value, mode);
+                MigrationHelper.MigrateFutureToMonthly(_id, (int)row.Cells[0].Value);
             }
+            
         }
 
         private void MigrateFutureToFuture(int _id)
         {
+            
             foreach (DataGridViewRow row in dataGrid_content.SelectedRows)
             {
-                MigrationHelper.MigrateFutureToFuture(_id, (int)row.Cells[0].Value, mode);
+                MigrationHelper.MigrateFutureToFuture(_id, (int)row.Cells[0].Value);
             }
+            
         }
 
         protected virtual void OnMigrate()
@@ -392,7 +454,21 @@ namespace BulletJournal
         private void txt_migrationSearch_TextChanged(object sender, EventArgs e)
         {
 
-            GridController(entryTypeTo, mainId);
+            GridController(entryTypeTo, sourceId);
+        }
+
+        private void dataGrid_content_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if ((int) dataGrid_content.SelectedRows[0].Cells[4].Value == 0)
+                return;
+            string title = dataGrid_content.SelectedRows[0].Cells[3].Value.ToString();
+            int nextId = (int)dataGrid_content.SelectedRows[0].Cells[0].Value;
+            using (Migration migration = new Migration(entryTypeFr, entryTypeTo, sourceId, title, layer + 1, nextId))
+            {
+                migration.OnMigrated += OnMigrate;
+                migration.ShowDialog();
+
+            }
         }
     }
 }

@@ -473,7 +473,6 @@
             this.migrate.Name = "migrate";
             this.migrate.Size = new System.Drawing.Size(130, 24);
             this.migrate.Text = "Migrate";
-            this.migrate.Visible = false;
             // 
             // toExistingToolStripMenuItem
             // 
@@ -484,25 +483,26 @@
             this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
             this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
+            
             // 
             // dailyTaskToolStripMenuItem
             // 
             this.dailyTaskToolStripMenuItem.Name = "dailyTaskToolStripMenuItem";
-            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.dailyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.dailyTaskToolStripMenuItem.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem_Click);
             // 
             // monthlyTaskToolStripMenuItem
             // 
             this.monthlyTaskToolStripMenuItem.Name = "monthlyTaskToolStripMenuItem";
-            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.monthlyTaskToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.monthlyTaskToolStripMenuItem.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem_Click);
             // 
             // futureLogToolStripMenuItem
             // 
             this.futureLogToolStripMenuItem.Name = "futureLogToolStripMenuItem";
-            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.futureLogToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.futureLogToolStripMenuItem.Text = "Future Log";
             this.futureLogToolStripMenuItem.Click += new System.EventHandler(this.futureLogToolStripMenuItem_Click);
             // 
@@ -519,21 +519,21 @@
             // dailyTaskToolStripMenuItem1
             // 
             this.dailyTaskToolStripMenuItem1.Name = "dailyTaskToolStripMenuItem1";
-            this.dailyTaskToolStripMenuItem1.Size = new System.Drawing.Size(177, 26);
+            this.dailyTaskToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.dailyTaskToolStripMenuItem1.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem1.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem1_Click);
             // 
             // monthlyTaskToolStripMenuItem1
             // 
             this.monthlyTaskToolStripMenuItem1.Name = "monthlyTaskToolStripMenuItem1";
-            this.monthlyTaskToolStripMenuItem1.Size = new System.Drawing.Size(177, 26);
+            this.monthlyTaskToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.monthlyTaskToolStripMenuItem1.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem1.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem1_Click);
             // 
             // futureLogToolStripMenuItem1
             // 
             this.futureLogToolStripMenuItem1.Name = "futureLogToolStripMenuItem1";
-            this.futureLogToolStripMenuItem1.Size = new System.Drawing.Size(177, 26);
+            this.futureLogToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.futureLogToolStripMenuItem1.Text = "Future Log";
             this.futureLogToolStripMenuItem1.Click += new System.EventHandler(this.futureLogToolStripMenuItem1_Click);
             // 

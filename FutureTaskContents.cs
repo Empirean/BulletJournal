@@ -18,6 +18,7 @@ namespace BulletJournal
         int layer;
 
         int selectedId;
+        string title;
 
         public FutureTaskContents(int _id, int _layer, string _title)
         {
@@ -156,9 +157,7 @@ namespace BulletJournal
         private void dataGrid_content_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
 
-            int colId = (int)dataGrid_content.SelectedRows[0].Cells[0].Value;
-            string title = dataGrid_content.SelectedRows[0].Cells[4].Value.ToString();
-            using (FutureTaskContents notes = new FutureTaskContents(colId, layer + 1, title))
+            using (FutureTaskContents notes = new FutureTaskContents(selectedId, layer + 1, title))
             {
                 notes.OnRefreshGrid += this.OnCurrentTaskSaved;
                 notes.ShowDialog();
@@ -203,12 +202,14 @@ namespace BulletJournal
             {
                 // Store collection id and show contextmenu
                 selectedId = JournalTask.ContextMenuHandler(dataGrid_content, contextMenuStrip1, e);
+                title = dataGrid_content.SelectedRows[0].Cells[4].Value.ToString();
             }
 
             if (e.Button == MouseButtons.Left)
             {
 
                 selectedId = JournalTask.ContextMenuHandler(dataGrid_content, contextMenuStrip1, e);
+                title = dataGrid_content.SelectedRows[0].Cells[4].Value.ToString();
                 contextMenuStrip1.Hide();
             }
 
@@ -236,6 +237,60 @@ namespace BulletJournal
 
                 OnFutureTaskSave();
                 
+            }
+        }
+
+        private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (CurrentTaskDescription dailyDescription = new CurrentTaskDescription(JournalTask.EntryMode.migrate, selectedId, 0, JournalTask.EntryType.future))
+            {
+                dailyDescription.OnCurrentTaskSaved += OnFutureTaskSave;
+                dailyDescription.ShowDialog();
+            }
+        }
+
+        private void monthlyTaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (MonthlyTaskDescription monthlyDescription = new MonthlyTaskDescription(JournalTask.EntryMode.migrate, selectedId, 0, JournalTask.EntryType.future))
+            {
+                monthlyDescription.OnMonthlyTaskSaved += OnFutureTaskSave;
+                monthlyDescription.ShowDialog();
+            }
+        }
+
+        private void futureLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FutureTaskDescription futureDescription = new FutureTaskDescription(JournalTask.EntryMode.migrate, selectedId, 0, JournalTask.EntryType.future))
+            {
+                futureDescription.OnFutureTaskSaved += OnFutureTaskSave;
+                futureDescription.ShowDialog();
+            }
+        }
+
+        private void dailyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(JournalTask.EntryType.future, JournalTask.EntryType.daily, selectedId, title, 0))
+            {
+                migration.OnMigrated += OnFutureTaskSave;
+                migration.ShowDialog();
+            }
+        }
+
+        private void monthlyTaskToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(JournalTask.EntryType.future, JournalTask.EntryType.monthly, selectedId, title, 0))
+            {
+                migration.OnMigrated += OnFutureTaskSave;
+                migration.ShowDialog();
+            }
+        }
+
+        private void futureLogToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (Migration migration = new Migration(JournalTask.EntryType.future, JournalTask.EntryType.future, selectedId, title, 0))
+            {
+                migration.OnMigrated += OnFutureTaskSave;
+                migration.ShowDialog();
             }
         }
     }

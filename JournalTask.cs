@@ -33,8 +33,7 @@ namespace BulletJournal
         {
             add,
             edit,
-            migrate_main,
-            migrate_detail
+            migrate
         }
 
         public static int GetTask(string task)

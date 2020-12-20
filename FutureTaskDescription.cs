@@ -20,8 +20,9 @@ namespace BulletJournal
 
         // mode
         JournalTask.EntryMode mode;
+        JournalTask.EntryType entryType;
 
-        public FutureTaskDescription(JournalTask.EntryMode _entryMode, int _id, int _layer)
+        public FutureTaskDescription(JournalTask.EntryMode _entryMode, int _id, int _layer, JournalTask.EntryType _entryType = JournalTask.EntryType.none)
         {
             InitializeComponent();
 
@@ -34,6 +35,7 @@ namespace BulletJournal
 
             // store mode
             mode = _entryMode;
+            entryType = _entryType;
 
             cmb_taskType.SelectedIndex = 0;
 
@@ -118,6 +120,45 @@ namespace BulletJournal
                 db.GenericNonQueryAction(command, parameters);
             }
 
+            // migrate
+            if (mode == JournalTask.EntryMode.migrate)
+            {
+                string command = "insert into futuretasks " +
+                                 "(description, layerid, previouslayerid, dateadded, datechanged, taskisimportant, tasktype) " +
+                                 "output inserted.id " +
+                                 "values " +
+                                 "(@desc, @layerid, @prevlayer, @dateadded, @datechanged, @taskisimportant, @tasktype) ";
+
+                SqlParameter[] parameter = new SqlParameter[]
+                {
+                    new SqlParameter("@desc", SqlDbType.NVarChar) { Value = txt_currentTaskDescription.Text },
+                    new SqlParameter("@layerid", SqlDbType.Int) {  Value = 0 },
+                    new SqlParameter("@prevlayer", SqlDbType.Int) { Value = -1 },
+                    new SqlParameter("@dateadded", SqlDbType.DateTime) { Value = DateTime.Now },
+                    new SqlParameter("@datechanged", SqlDbType.DateTime) {  Value = DateTime.Now },
+                    new SqlParameter("@taskisimportant", SqlDbType.Bit) {  Value = chk_taskIsImportant.Checked },
+                    new SqlParameter("@tasktype", SqlDbType.Int) {  Value = JournalTask.GetTask( cmb_taskType.Text) }
+                };
+
+                int insertedId = db.GenericScalarAction(command, parameter);
+
+                switch (entryType)
+                {
+                    case JournalTask.EntryType.daily:
+                        MigrationHelper.MigrateDailyToFuture(id, insertedId);
+                        break;
+                    case JournalTask.EntryType.monthly:
+                        MigrationHelper.MigrateMonthlyToFuture(id, insertedId);
+                        break;
+                    case JournalTask.EntryType.future:
+                        MigrationHelper.MigrateFutureToFuture(id, insertedId);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
             // Cleanup
             txt_currentTaskDescription.Text = "";
 
@@ -125,7 +166,7 @@ namespace BulletJournal
             OnFutureTaskSave();
 
             // Close when on edit mode
-            if (mode == JournalTask.EntryMode.edit)
+            if (mode != JournalTask.EntryMode.add)
                 this.Close();
         }
 
