@@ -74,6 +74,7 @@
             this.dailyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tab_index.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_index)).BeginInit();
@@ -399,6 +400,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btn_refresh,
             this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
             this.toolStripMenuItem1,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
@@ -410,7 +412,7 @@
             // 
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.btn_refresh.Size = new System.Drawing.Size(204, 26);
+            this.btn_refresh.Size = new System.Drawing.Size(224, 26);
             this.btn_refresh.Text = "&Refresh";
             this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
@@ -418,26 +420,26 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(204, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
             this.toolStripMenuItem2.Text = "Control Panel";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(204, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.toolStripMenuItem1.Text = "Maintenance";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -483,7 +485,6 @@
             this.toExistingToolStripMenuItem.Name = "toExistingToolStripMenuItem";
             this.toExistingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.toExistingToolStripMenuItem.Text = "To Existing";
-            
             // 
             // dailyTaskToolStripMenuItem
             // 
@@ -536,6 +537,12 @@
             this.futureLogToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.futureLogToolStripMenuItem1.Text = "Future Log";
             this.futureLogToolStripMenuItem1.Click += new System.EventHandler(this.futureLogToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(224, 26);
+            this.toolStripMenuItem3.Text = "History";
             // 
             // MainForm
             // 
@@ -624,6 +631,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }
 

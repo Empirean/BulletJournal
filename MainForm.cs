@@ -372,7 +372,7 @@ namespace BulletJournal
 
         private void Populate_CurrentTasks()
         {
-
+            
             string command = "select " +
                             "a.id, " +
                             "a.iscompleted as [Status], " +
@@ -386,7 +386,8 @@ namespace BulletJournal
                             "when a.tasktype = 2 then 'NOTES' " +
                             "else 'CLOSED' end as [Type], " +
                             "a.description as [Description], " +
-                            "count(b.id) as [Contents], " +
+                            "sum(case when b.datecompleted is null and b.id is not null then 1 " +
+                            "else 0 end) as [Contents], " +
                             "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
                             "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
                             "from currenttasks as a " +
@@ -409,8 +410,7 @@ namespace BulletJournal
                             "else '' end, " +
                             "a.description, " +
                             "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt'), " +
-                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt')";
-
+                            "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') ";
 
             SqlParameter[] paramters = new SqlParameter[]
             {
@@ -423,7 +423,7 @@ namespace BulletJournal
 
             // format grid
             dataGrid_dailyTask.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-
+            
             dataGrid_dailyTask.Columns[0].Visible = false;
             dataGrid_dailyTask.Columns[0].Width = 1;
             dataGrid_dailyTask.Columns["Status"].Width = 50;
@@ -444,7 +444,7 @@ namespace BulletJournal
 
             dataGrid_dailyTask.Columns["Date Changed"].Width = 150;
             dataGrid_dailyTask.Columns["Date Changed"].Visible = Properties.Settings.Default.DailyDateChanged;
-
+            
         }
 
         private void Populate_MonthlyTasks()
@@ -463,7 +463,8 @@ namespace BulletJournal
                             "when a.tasktype = 2 then 'NOTES' " +
                             "else 'CLOSED' end as [Type], " +
                             "a.description as [Description], " +
-                            "count(b.id) as [Contents], " +
+                            "sum(case when b.datecompleted is null and b.id is not null then 1 " +
+                            "else 0 end) as [Contents], " +
                             "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
                             "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
                             "from monthlytasks as a " +
@@ -540,7 +541,8 @@ namespace BulletJournal
                             "when a.tasktype = 2 then 'NOTES' " +
                             "else 'CLOSED' end as [Type], " +
                             "a.description as [Description], " +
-                            "count(b.id) as [Contents], " +
+                            "sum(case when b.datecompleted is null and b.id is not null then 1 " +
+                            "else 0 end) as [Contents], " +
                             "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
                             "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
                             "from futuretasks as a " +

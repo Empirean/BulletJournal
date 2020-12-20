@@ -63,7 +63,8 @@ namespace BulletJournal
                             "when a.tasktype = 2 then 'NOTES' " +
                             "else 'CLOSED' end as [Type], " +
                             "a.description as [Description], " +
-                            "count(b.id) as [Contents], " +
+                            "sum(case when b.datecompleted is null and b.id is not null then 1 " +
+                            "else 0 end) as [Contents], " +
                             "format(a.dateadded, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Added], " +
                             "format(a.datechanged, 'dd/MM/yyyy, hh:mm:ss tt') as [Date Changed] " +
                             "from currenttasks as a " +
