@@ -210,35 +210,12 @@ namespace BulletJournal
             {
 
                 selectedId = JournalTask.ContextMenuHandler(dataGrid_content, contextMenuStrip1, e);
-                title = dataGrid_content.SelectedRows[0].Cells[4].Value.ToString();
+                if (selectedId != 0)
+                    title = dataGrid_content.SelectedRows[0].Cells[4].Value.ToString();
                 contextMenuStrip1.Hide();
             }
 
-            if (e.Button == MouseButtons.Left && e.ColumnIndex == 1)
-            {
-                string command = "update futuretasks " +
-                                 "set " +
-                                 "iscompleted = @iscompleted, " +
-                                 "datecompleted = @completeddate " +
-                                 "where id = @id";
-                
-                List<int> ids = JournalTask.GetAllFutureTasksId(selectedId);
-
-                for (int i = 0; i < ids.Count; i++)
-                {
-                    SqlParameter[] parameter = new SqlParameter[]
-                    {
-                    new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
-                    new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
-                    new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
-                    };
-
-                    db.GenericNonQueryAction(command, parameter);
-                }
-
-                OnFutureTaskSave();
-                
-            }
+            
         }
 
         private void dailyTaskToolStripMenuItem_Click(object sender, EventArgs e)
@@ -292,6 +269,37 @@ namespace BulletJournal
             {
                 migration.OnMigrated += OnFutureTaskSave;
                 migration.ShowDialog();
+            }
+        }
+
+        private void dataGrid_content_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            selectedId = JournalTask.ContentClickHandler(dataGrid_content, e);
+
+            if (e.ColumnIndex == 1)
+            {
+                string command = "update futuretasks " +
+                                 "set " +
+                                 "iscompleted = @iscompleted, " +
+                                 "datecompleted = @completeddate " +
+                                 "where id = @id";
+
+                List<int> ids = JournalTask.GetAllFutureTasksId(selectedId);
+
+                for (int i = 0; i < ids.Count; i++)
+                {
+                    SqlParameter[] parameter = new SqlParameter[]
+                    {
+                    new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
+                    new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
+                    new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
+                    };
+
+                    db.GenericNonQueryAction(command, parameter);
+                }
+
+                OnFutureTaskSave();
+
             }
         }
     }

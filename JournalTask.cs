@@ -86,11 +86,26 @@ namespace BulletJournal
             }
             catch (Exception)
             {
+                return 0;
             }
 
             return (int)datagrid.SelectedRows[0].Cells[0].Value;
         }
 
+
+        public static int ContentClickHandler(DataGridView datagrid, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                datagrid.Rows[e.RowIndex].Selected = true;
+            }
+            catch
+            {
+
+            }
+
+            return (int)datagrid.SelectedRows[0].Cells[0].Value;
+        }
 
         public static List<int> GetAllNoteId(int _id)
         {

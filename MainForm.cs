@@ -611,34 +611,13 @@ namespace BulletJournal
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (e.ColumnIndex == 1)
-                {
-                    taskId = JournalTask.ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
-                    contextMenuStrip1.Hide();
+                taskId = JournalTask.ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
+                if (taskId != 0)
+                    title = dataGrid_dailyTask.SelectedRows[0].Cells[2].Value.ToString();
 
-                    string command = "update currenttasks " +
-                                 "set " +
-                                 "iscompleted = @iscompleted, " +
-                                 "datecompleted = @completeddate " +
-                                 "where id = @id";
+                entryType = JournalTask.EntryType.daily;
+                contextMenuStrip1.Hide();
 
-                    List<int> ids = JournalTask.GetAllCurrentTasksId(taskId);
-
-                    for (int i = 0; i < ids.Count; i++)
-                    {
-                        SqlParameter[] parameter = new SqlParameter[]
-                        {
-                    new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
-                    new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
-                    new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
-                        };
-
-                        db.GenericNonQueryAction(command, parameter);
-                    }
-
-                    RefreshGrid();
-                }
-                
             }
 
             // right click
@@ -672,36 +651,14 @@ namespace BulletJournal
 
             if (e.Button == MouseButtons.Left)
             {
-                if (e.ColumnIndex == 1)
-                {
-                    taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
-                    contextMenuStrip1.Hide();
+                taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
+                if (taskId != 0)
+                    title = dataGrid_monthly.SelectedRows[0].Cells[2].Value.ToString();
 
-                    string command = "update monthlytasks " +
-                                 "set " +
-                                 "iscompleted = @iscompleted, " +
-                                 "datecompleted = @completeddate " +
-                                 "where id = @id";
-
-                    List<int> ids = JournalTask.GetAllMonthlyTasksId(taskId);
-
-                    for (int i = 0; i < ids.Count; i++)
-                    {
-                        SqlParameter[] parameter = new SqlParameter[]
-                        {
-                            new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
-                            new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
-                            new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
-                        };
-
-                        db.GenericNonQueryAction(command, parameter);
-                    }
-
-                    RefreshGrid();
-                }
+                entryType = JournalTask.EntryType.monthly;
+                contextMenuStrip1.Hide();
 
             }
-
 
             // right click
             if (e.Button == MouseButtons.Right)
@@ -717,36 +674,14 @@ namespace BulletJournal
         private void dataGrid_futureLog_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
 
-
             if (e.Button == MouseButtons.Left)
             {
-                if (e.ColumnIndex == 1)
-                {
-                    taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
-                    contextMenuStrip1.Hide();
+                taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
+                if (taskId != 0)
+                    title = dataGrid_futureLog.SelectedRows[0].Cells[2].Value.ToString();
 
-                    string command = "update futuretasks " +
-                                 "set " +
-                                 "iscompleted = @iscompleted, " +
-                                 "datecompleted = @completeddate " +
-                                 "where id = @id";
-
-                    List<int> ids = JournalTask.GetAllFutureTasksId(taskId);
-
-                    for (int i = 0; i < ids.Count; i++)
-                    {
-                        SqlParameter[] parameter = new SqlParameter[]
-                        {
-                            new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
-                            new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
-                            new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
-                        };
-
-                        db.GenericNonQueryAction(command, parameter);
-                    }
-
-                    RefreshGrid();
-                }
+                entryType = JournalTask.EntryType.future;
+                contextMenuStrip1.Hide();
 
             }
 
@@ -1127,5 +1062,96 @@ namespace BulletJournal
             }
         }
 
+        private void dataGrid_dailyTask_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            taskId = JournalTask.ContentClickHandler(dataGrid_dailyTask, e);
+
+            if (e.ColumnIndex == 1)
+            {
+
+                string command = "update currenttasks " +
+                             "set " +
+                             "iscompleted = @iscompleted, " +
+                             "datecompleted = @completeddate " +
+                             "where id = @id";
+
+                List<int> ids = JournalTask.GetAllCurrentTasksId(taskId);
+
+                for (int i = 0; i < ids.Count; i++)
+                {
+                    SqlParameter[] parameter = new SqlParameter[]
+                    {
+                            new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
+                            new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
+                            new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
+                    };
+
+                    db.GenericNonQueryAction(command, parameter);
+                }
+
+                RefreshGrid();
+            }
+        }
+
+        private void dataGrid_monthly_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            taskId = JournalTask.ContentClickHandler(dataGrid_monthly, e);
+
+            if (e.ColumnIndex == 1)
+            {
+                string command = "update monthlytasks " +
+                             "set " +
+                             "iscompleted = @iscompleted, " +
+                             "datecompleted = @completeddate " +
+                             "where id = @id";
+
+                List<int> ids = JournalTask.GetAllMonthlyTasksId(taskId);
+
+                for (int i = 0; i < ids.Count; i++)
+                {
+                    SqlParameter[] parameter = new SqlParameter[]
+                    {
+                            new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
+                            new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
+                            new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
+                    };
+
+                    db.GenericNonQueryAction(command, parameter);
+                }
+
+                RefreshGrid();
+            }
+        }
+
+        private void dataGrid_futureLog_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            taskId = JournalTask.ContentClickHandler(dataGrid_futureLog, e);
+
+            if (e.ColumnIndex == 1)
+            {
+                string command = "update futuretasks " +
+                             "set " +
+                             "iscompleted = @iscompleted, " +
+                             "datecompleted = @completeddate " +
+                             "where id = @id";
+
+                List<int> ids = JournalTask.GetAllFutureTasksId(taskId);
+
+                for (int i = 0; i < ids.Count; i++)
+                {
+                    SqlParameter[] parameter = new SqlParameter[]
+                    {
+                            new SqlParameter("@id", SqlDbType.Int) { Value = ids[i]},
+                            new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true},
+                            new SqlParameter("@completeddate", SqlDbType.DateTime) { Value = DateTime.Now}
+                    };
+
+                    db.GenericNonQueryAction(command, parameter);
+                }
+
+                RefreshGrid();
+            }
+        }
     }
 }
