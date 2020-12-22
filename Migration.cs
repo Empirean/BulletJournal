@@ -40,29 +40,29 @@ namespace BulletJournal
             currentId = _currentId;
 
             lbl_title.Text = _title;
-            GridController(entryTypeTo, sourceId);
+            GridController(entryTypeTo);
 
         }
 
-        private void GridController(JournalTask.EntryType _entryType, int _id)
+        private void GridController(JournalTask.EntryType _entryType)
         {
             switch (_entryType)
             {
                 case JournalTask.EntryType.daily:
-                    Populate_DailyContent(_id);
+                    Populate_DailyContent();
                     break;
                 case JournalTask.EntryType.monthly:
-                    Populate_MonthlyContent(_id);
+                    Populate_MonthlyContent();
                     break;
                 case JournalTask.EntryType.future:
-                    Populate_FutureContent(_id);
+                    Populate_FutureContent();
                     break;
                 default:
                     break;
             }
         }
 
-        private void Populate_DailyContent(int _id)
+        private void Populate_DailyContent()
         {
             string command;
             SqlParameter[] parameters;
@@ -93,7 +93,6 @@ namespace BulletJournal
                         "when @layerid = 0 " +
                         "then a.previouslayerid " +
                         "else @currentid end " +
-                        //"and a.id <> @sourceid " +
                         "and a.datecompleted is null " +
                         "group by a.id, " +
                         "a.description, " +
@@ -113,7 +112,6 @@ namespace BulletJournal
             parameters = new SqlParameter[]
             {
                 new SqlParameter("@layerid", SqlDbType.Int) { Value = layer},
-                new SqlParameter("@sourceid", SqlDbType.Int) { Value = sourceId },
                 new SqlParameter("@currentId", SqlDbType.Int) { Value = currentId },
                 new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
             };
@@ -141,7 +139,7 @@ namespace BulletJournal
 
         }
         
-        private void Populate_MonthlyContent(int _id)
+        private void Populate_MonthlyContent()
         {
             string command;
             SqlParameter[] parameters;
@@ -172,7 +170,6 @@ namespace BulletJournal
                         "when @layerid = 0 " +
                         "then a.previouslayerid " +
                         "else @currentid end " +
-                        //"and a.id <> @sourceid " +
                         "and a.datecompleted is null " +
                         "group by a.id, " +
                         "a.description, " +
@@ -192,7 +189,6 @@ namespace BulletJournal
             parameters = new SqlParameter[]
             {
                 new SqlParameter("@layerid", SqlDbType.Int) { Value = layer},
-                new SqlParameter("@sourceid", SqlDbType.Int) { Value = sourceId },
                 new SqlParameter("@currentId", SqlDbType.Int) { Value = currentId },
                 new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
             };
@@ -220,7 +216,7 @@ namespace BulletJournal
 
         }
 
-        private void Populate_FutureContent(int _id)
+        private void Populate_FutureContent()
         {
             string command;
             SqlParameter[] parameters;
@@ -251,7 +247,6 @@ namespace BulletJournal
                         "when @layerid = 0 " +
                         "then a.previouslayerid " +
                         "else @currentid end " +
-                        //"and a.id <> @sourceid " +
                         "and a.datecompleted is null " +
                         "group by a.id, " +
                         "a.description, " +
@@ -271,7 +266,6 @@ namespace BulletJournal
             parameters = new SqlParameter[]
             {
                 new SqlParameter("@layerid", SqlDbType.Int) { Value = layer},
-                new SqlParameter("@sourceid", SqlDbType.Int) { Value = sourceId },
                 new SqlParameter("@currentId", SqlDbType.Int) { Value = currentId },
                 new SqlParameter("@filter", SqlDbType.NVarChar) { Value = '%' + txt_migrationSearch.Text + '%' }
             };
@@ -457,7 +451,7 @@ namespace BulletJournal
         private void txt_migrationSearch_TextChanged(object sender, EventArgs e)
         {
 
-            GridController(entryTypeTo, sourceId);
+            GridController(entryTypeTo);
         }
 
         private void dataGrid_content_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

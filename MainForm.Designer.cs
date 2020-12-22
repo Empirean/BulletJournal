@@ -32,8 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_index = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.dataGrid_index = new System.Windows.Forms.DataGridView();
             this.tab_Daily_Task = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
@@ -75,6 +73,9 @@
             this.dailyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dailyTaskToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.monthlyTaskToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.futureLogToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tab_index.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_index)).BeginInit();
@@ -107,8 +108,6 @@
             // 
             // tab_index
             // 
-            this.tab_index.Controls.Add(this.label1);
-            this.tab_index.Controls.Add(this.dateTimePicker);
             this.tab_index.Controls.Add(this.dataGrid_index);
             this.tab_index.Location = new System.Drawing.Point(4, 25);
             this.tab_index.Name = "tab_index";
@@ -117,23 +116,6 @@
             this.tab_index.TabIndex = 0;
             this.tab_index.Text = "Index";
             this.tab_index.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 387);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(86, 17);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Date Today:";
-            // 
-            // dateTimePicker
-            // 
-            this.dateTimePicker.Location = new System.Drawing.Point(129, 383);
-            this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.Size = new System.Drawing.Size(200, 22);
-            this.dateTimePicker.TabIndex = 0;
-            this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // dataGrid_index
             // 
@@ -415,7 +397,7 @@
             // 
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.btn_refresh.Size = new System.Drawing.Size(204, 26);
+            this.btn_refresh.Size = new System.Drawing.Size(224, 26);
             this.btn_refresh.Text = "&Refresh";
             this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
@@ -423,32 +405,36 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(204, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
             this.toolStripMenuItem2.Text = "Control Panel";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem3
             // 
+            this.toolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dailyTaskToolStripMenuItem2,
+            this.monthlyTaskToolStripMenuItem2,
+            this.futureLogToolStripMenuItem2});
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(204, 26);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(224, 26);
             this.toolStripMenuItem3.Text = "History";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(204, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.toolStripMenuItem1.Text = "Maintenance";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -547,6 +533,27 @@
             this.futureLogToolStripMenuItem1.Text = "Future Log";
             this.futureLogToolStripMenuItem1.Click += new System.EventHandler(this.futureLogToolStripMenuItem1_Click);
             // 
+            // dailyTaskToolStripMenuItem2
+            // 
+            this.dailyTaskToolStripMenuItem2.Name = "dailyTaskToolStripMenuItem2";
+            this.dailyTaskToolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
+            this.dailyTaskToolStripMenuItem2.Text = "Daily Task";
+            this.dailyTaskToolStripMenuItem2.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem2_Click);
+            // 
+            // monthlyTaskToolStripMenuItem2
+            // 
+            this.monthlyTaskToolStripMenuItem2.Name = "monthlyTaskToolStripMenuItem2";
+            this.monthlyTaskToolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
+            this.monthlyTaskToolStripMenuItem2.Text = "Monthly Task";
+            this.monthlyTaskToolStripMenuItem2.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem2_Click);
+            // 
+            // futureLogToolStripMenuItem2
+            // 
+            this.futureLogToolStripMenuItem2.Name = "futureLogToolStripMenuItem2";
+            this.futureLogToolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
+            this.futureLogToolStripMenuItem2.Text = "Future Log";
+            this.futureLogToolStripMenuItem2.Click += new System.EventHandler(this.futureLogToolStripMenuItem2_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -566,7 +573,6 @@
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.tabControl1.ResumeLayout(false);
             this.tab_index.ResumeLayout(false);
-            this.tab_index.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_index)).EndInit();
             this.tab_Daily_Task.ResumeLayout(false);
             this.tab_Daily_Task.PerformLayout();
@@ -613,8 +619,6 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem migrate;
-        private System.Windows.Forms.DateTimePicker dateTimePicker;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem toExistingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dailyTaskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem monthlyTaskToolStripMenuItem;
@@ -635,6 +639,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem dailyTaskToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem monthlyTaskToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem futureLogToolStripMenuItem2;
     }
 }
 

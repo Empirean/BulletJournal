@@ -45,7 +45,7 @@ namespace BulletJournal
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
-            this.txt_collectionSearch = new System.Windows.Forms.TextBox();
+            this.txt_historySearch = new System.Windows.Forms.TextBox();
             this.lbl_title = new System.Windows.Forms.Label();
             this.btn_addDaily = new System.Windows.Forms.Button();
             this.dataGrid_content = new System.Windows.Forms.DataGridView();
@@ -149,12 +149,12 @@ namespace BulletJournal
             this.label5.TabIndex = 23;
             this.label5.Text = "Search:";
             // 
-            // txt_collectionSearch
+            // txt_historySearch
             // 
-            this.txt_collectionSearch.Location = new System.Drawing.Point(402, 17);
-            this.txt_collectionSearch.Name = "txt_collectionSearch";
-            this.txt_collectionSearch.Size = new System.Drawing.Size(163, 22);
-            this.txt_collectionSearch.TabIndex = 21;
+            this.txt_historySearch.Location = new System.Drawing.Point(402, 17);
+            this.txt_historySearch.Name = "txt_historySearch";
+            this.txt_historySearch.Size = new System.Drawing.Size(163, 22);
+            this.txt_historySearch.TabIndex = 21;
             // 
             // lbl_title
             // 
@@ -197,6 +197,11 @@ namespace BulletJournal
             this.dataGrid_content.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid_content.Size = new System.Drawing.Size(550, 398);
             this.dataGrid_content.TabIndex = 25;
+            this.dataGrid_content.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_content_CellContentClick);
+            
+            this.dataGrid_content.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_content_CellDoubleClick);
+            this.dataGrid_content.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGrid_content_CellFormatting);
+            this.dataGrid_content.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseUp);
             // 
             // History
             // 
@@ -204,12 +209,13 @@ namespace BulletJournal
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 520);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.txt_collectionSearch);
+            this.Controls.Add(this.txt_historySearch);
             this.Controls.Add(this.lbl_title);
             this.Controls.Add(this.btn_addDaily);
             this.Controls.Add(this.dataGrid_content);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "History";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -236,7 +242,7 @@ namespace BulletJournal
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txt_collectionSearch;
+        private System.Windows.Forms.TextBox txt_historySearch;
         private System.Windows.Forms.Label lbl_title;
         private System.Windows.Forms.Button btn_addDaily;
         private System.Windows.Forms.DataGridView dataGrid_content;

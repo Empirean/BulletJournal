@@ -138,6 +138,7 @@ namespace BulletJournal
             this.Controls.Add(this.btn_addDaily);
             this.Controls.Add(this.dataGrid_content);
             this.KeyPreview = true;
+            this.MaximizeBox = false;
             this.Name = "NotesContent";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
