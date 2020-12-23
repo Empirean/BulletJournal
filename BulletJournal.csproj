@@ -67,6 +67,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Appearance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Appearance.Designer.cs">
+      <DependentUpon>Appearance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AppearanceSettings.cs" />
+    <Compile Include="ColorAdjust.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorAdjust.Designer.cs">
+      <DependentUpon>ColorAdjust.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,12 +128,6 @@
     <Compile Include="History.Designer.cs">
       <DependentUpon>History.cs</DependentUpon>
     </Compile>
-    <Compile Include="Maintenance.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Maintenance.Designer.cs">
-      <DependentUpon>Maintenance.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +174,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WebForm.Designer.cs">
+      <DependentUpon>WebForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Appearance.resx">
+      <DependentUpon>Appearance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorAdjust.resx">
+      <DependentUpon>ColorAdjust.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ControlPanel.resx">
       <DependentUpon>ControlPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -190,9 +209,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="History.resx">
       <DependentUpon>History.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Maintenance.resx">
-      <DependentUpon>Maintenance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migration.resx">
       <DependentUpon>Migration.cs</DependentUpon>
@@ -221,6 +237,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="WebForm.resx">
+      <DependentUpon>WebForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="JournalDatabaseDataSet.xsc">
       <DependentUpon>JournalDatabaseDataSet.xsd</DependentUpon>
     </None>

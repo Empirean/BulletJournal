@@ -437,7 +437,7 @@ namespace BulletJournal
             {
                 taskId = JournalTask.ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
                 if (taskId != 0)
-                    title = dataGrid_dailyTask.SelectedRows[0].Cells[2].Value.ToString();
+                    title = dataGrid_dailyTask.SelectedRows[0].Cells[4].Value.ToString();
 
                 entryType = JournalTask.EntryType.daily;
                 contextMenuStrip1.Hide();
@@ -447,7 +447,7 @@ namespace BulletJournal
             // right click
             if (e.Button == MouseButtons.Right)
             {
-                title = dataGrid_dailyTask.SelectedRows[0].Cells[2].Value.ToString();
+                title = dataGrid_dailyTask.SelectedRows[0].Cells[4].Value.ToString();
 
                 taskId = JournalTask.ContextMenuHandler(dataGrid_dailyTask, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.daily;
@@ -461,6 +461,8 @@ namespace BulletJournal
             // Right Click
             if (e.Button == MouseButtons.Right)
             {
+
+                title = dataGrid_notes.SelectedRows[0].Cells[1].Value.ToString();
                 // Store id
                 taskId = JournalTask.ContextMenuHandler(dataGrid_notes, contextMenuStrip1, e);
 
@@ -477,7 +479,7 @@ namespace BulletJournal
             {
                 taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
                 if (taskId != 0)
-                    title = dataGrid_monthly.SelectedRows[0].Cells[2].Value.ToString();
+                    title = dataGrid_monthly.SelectedRows[0].Cells[4].Value.ToString();
 
                 entryType = JournalTask.EntryType.monthly;
                 contextMenuStrip1.Hide();
@@ -487,7 +489,7 @@ namespace BulletJournal
             // right click
             if (e.Button == MouseButtons.Right)
             {
-                title = dataGrid_monthly.SelectedRows[0].Cells[2].Value.ToString();
+                title = dataGrid_monthly.SelectedRows[0].Cells[4].Value.ToString();
 
                 taskId = JournalTask.ContextMenuHandler(dataGrid_monthly, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.monthly;
@@ -502,7 +504,7 @@ namespace BulletJournal
             {
                 taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
                 if (taskId != 0)
-                    title = dataGrid_futureLog.SelectedRows[0].Cells[2].Value.ToString();
+                    title = dataGrid_futureLog.SelectedRows[0].Cells[4].Value.ToString();
 
                 entryType = JournalTask.EntryType.future;
                 contextMenuStrip1.Hide();
@@ -512,7 +514,7 @@ namespace BulletJournal
             // right clock
             if (e.Button == MouseButtons.Right)
             {
-                title = dataGrid_futureLog.SelectedRows[0].Cells[2].Value.ToString();
+                title = dataGrid_futureLog.SelectedRows[0].Cells[4].Value.ToString();
 
                 taskId = JournalTask.ContextMenuHandler(dataGrid_futureLog, contextMenuStrip1, e);
                 entryType = JournalTask.EntryType.future;
@@ -739,7 +741,7 @@ namespace BulletJournal
         {
 
             int colId = (int)dataGrid_notes.SelectedRows[0].Cells[0].Value;
-            string title = dataGrid_notes.SelectedRows[0].Cells[1].Value.ToString();
+            title = dataGrid_notes.SelectedRows[0].Cells[1].Value.ToString();
             using (NotesContent notes = new NotesContent(colId, 1, title))
             {
                 notes.OnRefreshGrid += this.OnSave;
@@ -803,14 +805,6 @@ namespace BulletJournal
                 txt_futureSearch.Focus();
             if (tabControl1.SelectedIndex == 4)
                 txt_collectionSearch.Focus();
-        }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            using (Maintenance maintenance = new Maintenance())
-            {
-                maintenance.ShowDialog();
-            }
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -1073,5 +1067,20 @@ namespace BulletJournal
             CheckAllHabits();
         }
 
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using (WebForm web = new WebForm())
+            {
+                web.ShowDialog();
+            }
+        }
+
+        private void quickSearchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (WebForm web = new WebForm(title))
+            {
+                web.ShowDialog();
+            }
+        }
     }
 }

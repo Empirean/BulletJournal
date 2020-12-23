@@ -296,5 +296,13 @@ namespace BulletJournal
                 OnCurrentTaskSave();
             }
         }
+
+        private void quickSearchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (WebForm web = new WebForm(title))
+            {
+                web.ShowDialog();
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace BulletJournal
         int layer;
 
         int selectedId;
+        string title;
 
         public NotesContent(int _id, int _layer , string _title)
         {
@@ -25,7 +26,7 @@ namespace BulletJournal
             db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
 
             lbl_title.Text = _title;
-
+            title = _title;
             id = _id;
             layer = _layer;
 
@@ -91,7 +92,7 @@ namespace BulletJournal
         private void dataGrid_content_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             int colId = (int)dataGrid_content.SelectedRows[0].Cells[0].Value;
-            string title = dataGrid_content.SelectedRows[0].Cells[1].Value.ToString();
+            title = dataGrid_content.SelectedRows[0].Cells[1].Value.ToString();
             using (NotesContent notes = new NotesContent(colId, layer + 1, title))
             {
                 notes.OnRefreshGrid += this.OnNotesSaved;
@@ -157,6 +158,14 @@ namespace BulletJournal
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.D)
             {
                 Add_Notes();
+            }
+        }
+
+        private void quickSearchToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            using (WebForm web = new WebForm(title))
+            {
+                web.ShowDialog();
             }
         }
     }

@@ -49,6 +49,7 @@ namespace BulletJournal
             this.dailyTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quickSearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_content)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -121,21 +122,22 @@ namespace BulletJournal
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem,
             this.deleteToolStripMenuItem,
-            this.migrateToolStripMenuItem});
+            this.migrateToolStripMenuItem,
+            this.quickSearchToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(131, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 128);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -145,7 +147,7 @@ namespace BulletJournal
             this.toExistingToolStripMenuItem,
             this.asNewToolStripMenuItem});
             this.migrateToolStripMenuItem.Name = "migrateToolStripMenuItem";
-            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
             this.migrateToolStripMenuItem.Text = "Migrate";
             // 
             // toExistingToolStripMenuItem
@@ -210,6 +212,13 @@ namespace BulletJournal
             this.futureLogToolStripMenuItem.Text = "Future Log";
             this.futureLogToolStripMenuItem.Click += new System.EventHandler(this.futureLogToolStripMenuItem_Click);
             // 
+            // quickSearchToolStripMenuItem
+            // 
+            this.quickSearchToolStripMenuItem.Name = "quickSearchToolStripMenuItem";
+            this.quickSearchToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.quickSearchToolStripMenuItem.Text = "Quick Search";
+            this.quickSearchToolStripMenuItem.Click += new System.EventHandler(this.quickSearchToolStripMenuItem_Click);
+            // 
             // FutureTaskContents
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -255,5 +264,6 @@ namespace BulletJournal
         private System.Windows.Forms.ToolStripMenuItem dailyTaskToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem monthlyTaskToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem futureLogToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem quickSearchToolStripMenuItem;
     }
 }
