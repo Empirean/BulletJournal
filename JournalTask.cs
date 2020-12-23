@@ -11,8 +11,6 @@ namespace BulletJournal
     public static class JournalTask
     {
 
-        public static DateTimePicker currentDay;
-
         public enum TaskType
         {
             tasks,

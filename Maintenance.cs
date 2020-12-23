@@ -16,7 +16,7 @@ namespace BulletJournal
 
         private void Populate_Notes()
         {
-            string command = "select * from currenttasks";
+            string command = "select * from tracker";
             SqlParameter[] parameter = new SqlParameter[]
             {
 

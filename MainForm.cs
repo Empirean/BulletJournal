@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows.Forms;
 
 
@@ -45,6 +46,7 @@ namespace BulletJournal
             Populate_CurrentTasks();
             Populate_MonthlyTasks();
             Populate_FutureTasks();
+            Populate_Tracker();
         }
 
         private void btn_addDailyTask_Click(object sender, EventArgs e)
@@ -55,6 +57,95 @@ namespace BulletJournal
         private void btn_addCollection_Click(object sender, EventArgs e)
         {
             Add_Notes();
+        }
+
+
+        private void Populate_Tracker()
+        {
+            string command = "select id, " +
+                             "description as [Description] " +
+                             "from habit " +
+                             "where isvisible = 1";
+
+            SqlParameter[] parameter = new SqlParameter[]
+            {
+
+            };
+
+            dataGrid_tracker.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+
+            DataTable trackerTable = db.GenericQueryAction(command, parameter);
+            int daysInMonth = DateTime.DaysInMonth(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month) + 1;
+            for (int i = 1; i < daysInMonth; i++)
+            {
+                trackerTable.Columns.Add(new DataColumn(i.ToString(), typeof(bool)));
+
+            }
+
+            if (dataGrid_tracker.DataSource != null)
+                dataGrid_tracker.Columns["Description"].Frozen = false;
+            dataGrid_tracker.DataSource = trackerTable;
+            
+            dataGrid_tracker.RowHeadersVisible = false;
+            dataGrid_tracker.Columns["id"].Visible = false;
+            dataGrid_tracker.Columns["Description"].Width = 200;
+            dataGrid_tracker.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            
+
+            for (int i = 1; i < daysInMonth; i++)
+            {
+                dataGrid_tracker.Columns[i.ToString()].Width = 25;
+            }
+            CheckAllHabits();
+            dataGrid_tracker.Columns["Description"].Frozen = true;
+        }
+
+        private void CheckAllHabits()
+        {
+            DateTime startDate = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
+            DateTime endDate = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 
+                                   DateTime.DaysInMonth(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month ));
+
+            string command = "select iscompleted, " +
+                             "habitdate, " +
+                             "habitid " +
+                             "from tracker " +
+                             "where habitid in " +
+                             "(select id " +
+                             "from habit " +
+                             "where isvisible = 1) " +
+                             "and habitdate between @startdate and @enddate";
+
+            SqlParameter[] parameter = new SqlParameter[]
+            {
+                new SqlParameter("@startdate", SqlDbType.Date) { Value = startDate},
+                new SqlParameter("@enddate", SqlDbType.Date) { Value = endDate}
+            };
+
+            DataTable dataTable = db.GenericQueryAction(command, parameter);
+
+            foreach (DataRow row in dataTable.AsEnumerable().ToList())
+            {
+                int columnIndex = dataGrid_tracker.Columns[row.Field<DateTime>("habitdate").Day.ToString()].Index;
+                
+                int rowIndex = GetRowId(dataGrid_tracker, row.Field<int>("habitid"));
+
+                dataGrid_tracker.Rows[rowIndex].Cells[columnIndex].Value = row.Field<bool>("iscompleted");
+            }
+
+        }
+
+        private int GetRowId(DataGridView _dataGridView, int _value, string _column = "id")
+        {
+            foreach (DataGridViewRow row in _dataGridView.Rows)
+            {
+                if (row.Cells[_column].Value.Equals( _value))
+                {
+                    return row.Index;
+                }    
+            }
+
+            return 0;
         }
 
         private void Populate_Notes()
@@ -84,13 +175,13 @@ namespace BulletJournal
             };
 
             dataGrid_notes.DataSource = db.GenericQueryAction(command, paramters);
-
+            dataGrid_notes.RowHeadersVisible = false;
             // format grid
             dataGrid_notes.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 
             dataGrid_notes.Columns[0].Visible = false;
             dataGrid_notes.Columns[0].Width = 1;
-            dataGrid_notes.Columns["Description"].Width = 400;
+            dataGrid_notes.Columns["Description"].Width = 450;
             dataGrid_notes.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;            
             dataGrid_notes.Columns["Contents"].Width = 70;
 
@@ -152,6 +243,7 @@ namespace BulletJournal
             };
 
             dataGrid_dailyTask.DataSource = db.GenericQueryAction(command, paramters);
+            dataGrid_dailyTask.RowHeadersVisible = false;
 
             // format grid
             dataGrid_dailyTask.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
@@ -166,7 +258,7 @@ namespace BulletJournal
             dataGrid_dailyTask.Columns["Type"].Width = 60;
             dataGrid_dailyTask.Columns["Type"].Visible = Properties.Settings.Default.DailyTaskType;
 
-            dataGrid_dailyTask.Columns["Description"].Width = 350;
+            dataGrid_dailyTask.Columns["Description"].Width = 400;
             dataGrid_dailyTask.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             dataGrid_dailyTask.Columns["Contents"].Width = 70;
@@ -230,7 +322,7 @@ namespace BulletJournal
             };
 
             dataGrid_monthly.DataSource = db.GenericQueryAction(command, paramters);
-
+            dataGrid_monthly.RowHeadersVisible = false;
             // format grid
             dataGrid_monthly.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 
@@ -244,7 +336,7 @@ namespace BulletJournal
             dataGrid_monthly.Columns["Type"].Width = 60;
             dataGrid_monthly.Columns["Type"].Visible = Properties.Settings.Default.MonthlyTaskType;
 
-            dataGrid_monthly.Columns["Description"].Width = 350;
+            dataGrid_monthly.Columns["Description"].Width = 400;
             dataGrid_monthly.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             dataGrid_monthly.Columns["Contents"].Width = 70;
@@ -308,7 +400,7 @@ namespace BulletJournal
             };
 
             dataGrid_futureLog.DataSource = db.GenericQueryAction(command, paramters);
-
+            dataGrid_futureLog.RowHeadersVisible = false;
             // format grid
             dataGrid_futureLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGrid_futureLog.Columns[0].Visible = false;
@@ -318,7 +410,7 @@ namespace BulletJournal
             dataGrid_futureLog.Columns["I"].Visible = Properties.Settings.Default.FutureTaskIsImportant;
             dataGrid_futureLog.Columns["Type"].Width = 60;
             dataGrid_futureLog.Columns["Type"].Visible = Properties.Settings.Default.FutureTaskType;
-            dataGrid_futureLog.Columns["Description"].Width = 350;
+            dataGrid_futureLog.Columns["Description"].Width = 400;
             dataGrid_futureLog.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGrid_futureLog.Columns["Contents"].Width = 70;
             dataGrid_futureLog.Columns["Date Added"].Width = 150;
@@ -906,5 +998,80 @@ namespace BulletJournal
                 history.ShowDialog();
             }
         }
+
+        private void btn_viewHabit_Click(object sender, EventArgs e)
+        {
+            using (HabitContent habitContent = new HabitContent())
+            {
+                habitContent.OnHabitRegistered += OnSave;
+                habitContent.ShowDialog();
+            }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshGrid();
+        }
+
+        private void dataGrid_tracker_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            taskId = JournalTask.ContentClickHandler(dataGrid_tracker, e);
+
+            // MessageBox.Show(dataGrid_tracker.Columns[e.ColumnIndex].HeaderText);
+            string headerText = dataGrid_tracker.Columns[e.ColumnIndex].HeaderText;
+            DateTime dateTime = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, int.Parse(headerText));
+
+            string command = "select iscompleted from tracker " +
+                             "where habitid = @id " +
+                             "and habitdate = @habitdate";
+
+            SqlParameter[] parameter = new SqlParameter[]
+            {
+                new SqlParameter("@id", SqlDbType.Int) { Value = taskId },
+                new SqlParameter("@habitdate", SqlDbType.DateTime) { Value = dateTime}
+            };
+
+            DataTable dataTable = db.GenericQueryAction(command, parameter);
+
+            if (dataTable.Rows.Count > 0)
+            {
+                bool visibility = dataTable.AsEnumerable().ToList()[0].Field<bool>("iscompleted");
+
+                command = "update tracker " +
+                          "set " +
+                          "iscompleted = @iscompleted " +
+                          "where habitid = @id " +
+                          "and habitdate = @habitdate";
+
+                parameter = new SqlParameter[]
+                {
+                    new SqlParameter("@id", SqlDbType.Int) { Value = taskId },
+                    new SqlParameter("@habitdate", SqlDbType.DateTime) { Value = dateTime},
+                    new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = !visibility }
+                };
+
+                db.GenericNonQueryAction(command, parameter);
+
+            }
+            else
+            {
+                command = "insert into tracker " +
+                          "(habitid, habitdate, iscompleted) " +
+                          "values" +
+                          "(@habitid, @habitdate, @iscompleted)";
+
+                parameter = new SqlParameter[]
+                {
+                    new SqlParameter("@habitid", SqlDbType.Int) { Value = taskId },
+                    new SqlParameter("@iscompleted", SqlDbType.Bit) { Value = true },
+                    new SqlParameter("@habitdate", SqlDbType.Date) { Value = dateTime}
+                };
+
+                db.GenericNonQueryAction(command, parameter);
+            }
+
+            CheckAllHabits();
+        }
+
     }
 }

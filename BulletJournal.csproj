@@ -97,6 +97,18 @@
     <Compile Include="FutureTaskDescription.Designer.cs">
       <DependentUpon>FutureTaskDescription.cs</DependentUpon>
     </Compile>
+    <Compile Include="HabitContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HabitContent.Designer.cs">
+      <DependentUpon>HabitContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HabitDescription.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HabitDescription.Designer.cs">
+      <DependentUpon>HabitDescription.cs</DependentUpon>
+    </Compile>
     <Compile Include="History.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +181,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FutureTaskDescription.resx">
       <DependentUpon>FutureTaskDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HabitContent.resx">
+      <DependentUpon>HabitContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HabitDescription.resx">
+      <DependentUpon>HabitDescription.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="History.resx">
       <DependentUpon>History.cs</DependentUpon>

@@ -100,7 +100,7 @@ namespace BulletJournal
             };
 
             dataGrid_content.DataSource = db.GenericQueryAction(command, paramters);
-
+            dataGrid_content.RowHeadersVisible = false;
             // format grid
             dataGrid_content.Columns[0].Visible = false;
             dataGrid_content.Columns[0].Width = 1;
@@ -112,7 +112,7 @@ namespace BulletJournal
             dataGrid_content.Columns["Type"].Width = 60;
             dataGrid_content.Columns["Type"].Visible = Properties.Settings.Default.DailyTaskType;
 
-            dataGrid_content.Columns["Description"].Width = 350;
+            dataGrid_content.Columns["Description"].Width = 360;
             dataGrid_content.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             dataGrid_content.Columns["Contents"].Width = 70;

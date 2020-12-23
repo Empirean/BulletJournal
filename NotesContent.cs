@@ -60,12 +60,12 @@ namespace BulletJournal
             };
 
             dataGrid_content.DataSource = db.GenericQueryAction(command, paramters);
-
+            dataGrid_content.RowHeadersVisible = false;
             // format grid
             dataGrid_content.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             dataGrid_content.Columns[0].Visible = false;
             dataGrid_content.Columns[0].Width = 1;
-            dataGrid_content.Columns["Description"].Width = 355;
+            dataGrid_content.Columns["Description"].Width = 410;
             dataGrid_content.Columns["Description"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGrid_content.Columns["Contents"].Width = 70;
             dataGrid_content.Columns["Date Added"].Width = 150;
