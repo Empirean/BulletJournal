@@ -79,7 +79,6 @@
             this.dailyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.monthlyTaskToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.futureLogToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.quickSearchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tab_index.SuspendLayout();
@@ -432,7 +431,6 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btn_refresh,
             this.toolStripMenuItem2,
-            this.toolStripMenuItem1,
             this.toolStripMenuItem3,
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
@@ -508,19 +506,19 @@
             this.migrate,
             this.quickSearchToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 128);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(164, 100);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(130, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -530,7 +528,7 @@
             this.toExistingToolStripMenuItem,
             this.asNewToolStripMenuItem});
             this.migrate.Name = "migrate";
-            this.migrate.Size = new System.Drawing.Size(130, 24);
+            this.migrate.Size = new System.Drawing.Size(163, 24);
             this.migrate.Text = "Migrate";
             // 
             // toExistingToolStripMenuItem
@@ -595,17 +593,10 @@
             this.futureLogToolStripMenuItem1.Text = "Future Log";
             this.futureLogToolStripMenuItem1.Click += new System.EventHandler(this.futureLogToolStripMenuItem1_Click);
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.toolStripMenuItem1.Text = "Appearance";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
             // quickSearchToolStripMenuItem
             // 
             this.quickSearchToolStripMenuItem.Name = "quickSearchToolStripMenuItem";
-            this.quickSearchToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.quickSearchToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.quickSearchToolStripMenuItem.Text = "Quick Search";
             this.quickSearchToolStripMenuItem.Click += new System.EventHandler(this.quickSearchToolStripMenuItem_Click);
             // 
@@ -701,7 +692,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txt_habitSearch;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem quickSearchToolStripMenuItem;
     }
 }

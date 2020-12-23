@@ -201,17 +201,5 @@ namespace BulletJournal.Properties {
                 this["FutureTaskType"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Control")]
-        public global::System.Drawing.Color BackColor {
-            get {
-                return ((global::System.Drawing.Color)(this["BackColor"]));
-            }
-            set {
-                this["BackColor"] = value;
-            }
-        }
     }
 }

@@ -1067,13 +1067,6 @@ namespace BulletJournal
             CheckAllHabits();
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            using (WebForm web = new WebForm())
-            {
-                web.ShowDialog();
-            }
-        }
 
         private void quickSearchToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -67,19 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Appearance.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Appearance.Designer.cs">
-      <DependentUpon>Appearance.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AppearanceSettings.cs" />
-    <Compile Include="ColorAdjust.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ColorAdjust.Designer.cs">
-      <DependentUpon>ColorAdjust.cs</DependentUpon>
-    </Compile>
     <Compile Include="ControlPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,12 +167,6 @@
     <Compile Include="WebForm.Designer.cs">
       <DependentUpon>WebForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Appearance.resx">
-      <DependentUpon>Appearance.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ColorAdjust.resx">
-      <DependentUpon>ColorAdjust.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ControlPanel.resx">
       <DependentUpon>ControlPanel.cs</DependentUpon>
     </EmbeddedResource>
