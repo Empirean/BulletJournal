@@ -45,7 +45,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ConnectionString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Data Source=DESKTOP-N2D7LJQ\MSSQLSERVER01;Initial Catalog=C:\USERS\DELL\SOURCE\REPOS\BULLETJOURNAL\JOURNALDATABASE.MDF;Integrated Security=True</Value>
+      <Value Profile="(Default)">Data Source=server; Initial Catalog=;Integrated Security=True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
