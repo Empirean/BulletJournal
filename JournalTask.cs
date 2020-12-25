@@ -137,7 +137,7 @@ namespace BulletJournal
 
         public static List<int> GetNoteIds(int _id)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             List<int> returnList = new List<int>();
 
@@ -162,7 +162,7 @@ namespace BulletJournal
 
         public static List<int> GetCurrentTaskIds(int _id)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             List<int> returnList = new List<int>();
 
@@ -217,7 +217,7 @@ namespace BulletJournal
 
         public static List<int> GetMonthlyTaskIds(int _id)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             List<int> returnList = new List<int>();
 
@@ -272,7 +272,7 @@ namespace BulletJournal
 
         public static List<int> GetFutureTaskIds(int _id)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             List<int> returnList = new List<int>();
 
@@ -328,7 +328,7 @@ namespace BulletJournal
         public static List<int> GetAllIdInLayer(int _layer, JournalTask.EntryType _mode)
         {
             List<int> idInLayer = new List<int>();
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
             string command = "";
             if (_mode == JournalTask.EntryType.daily)
                  command = "select id from currenttasks where layerid = @layerid";
@@ -361,7 +361,7 @@ namespace BulletJournal
 
         public static int GetPreviousLayerId(int _id, JournalTask.EntryType _entryType)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             string command = "";
 

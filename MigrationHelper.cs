@@ -9,7 +9,7 @@ namespace BulletJournal
         
         public static void MigrateDailyToDaily(int _sourceId, int _targetId)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetDailyLayer(_targetId);
 
@@ -32,7 +32,7 @@ namespace BulletJournal
         public static void MigrateDailyToMonthly(int _sourceId, int _targetId)
         {
 
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetMonthlyLayer(_targetId);
 
@@ -54,7 +54,7 @@ namespace BulletJournal
 
         public static void MigrateDailyToFuture(int _sourceId, int _targetId)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetFutureLayer(_targetId);
 
@@ -77,7 +77,7 @@ namespace BulletJournal
 
         public static void MigrateMonthlyToDaily(int _sourceId, int _targetId)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetDailyLayer(_targetId);
 
@@ -101,7 +101,7 @@ namespace BulletJournal
         public static void MigrateMonthlyToMonthly(int _sourceId, int _targetId)
         {
 
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetMonthlyLayer(_targetId);
 
@@ -123,7 +123,7 @@ namespace BulletJournal
 
         public static void MigrateMonthlyToFuture(int _sourceId, int _targetId)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetFutureLayer(_targetId);
 
@@ -147,7 +147,7 @@ namespace BulletJournal
         public static void MigrateFutureToDaily(int _sourceId, int _targetId)
         {
 
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetDailyLayer(_targetId);
 
@@ -170,7 +170,7 @@ namespace BulletJournal
         public static void MigrateFutureToMonthly(int _sourceId, int _targetId)
         {
 
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetMonthlyLayer(_targetId);
 
@@ -192,7 +192,7 @@ namespace BulletJournal
 
         public static void MigrateFutureToFuture(int _sourceId, int _targetId)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             int layer = GetFutureLayer(_targetId);
 
@@ -215,7 +215,7 @@ namespace BulletJournal
 
         public static int GetDailyLayer(int _id)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
             string queryCommand = "select layerid " +
                              "from currenttasks " +
                              "where id = @id";
@@ -233,7 +233,7 @@ namespace BulletJournal
 
         public static int GetMonthlyLayer(int _id)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
             string queryCommand = "select layerid " +
                              "from monthlytasks " +
                              "where id = @id";
@@ -251,7 +251,7 @@ namespace BulletJournal
 
         public static int GetFutureLayer(int _id)
         {
-            DBTools db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            DBTools db = new DBTools(Properties.Settings.Default.ConnectionString);
             string queryCommand = "select layerid " +
                              "from futuretasks " +
                              "where id = @id";

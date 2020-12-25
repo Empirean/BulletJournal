@@ -31,7 +31,7 @@ namespace BulletJournal
         {
             InitializeComponent();
 
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             entryTypeFr = _entryTypeFr;
             entryTypeTo = _entryTypeTo;

@@ -25,7 +25,7 @@ namespace BulletJournal
         {
             InitializeComponent();
 
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            db = new DBTools(Properties.Settings.Default.ConnectionString);
             entryType = _entryType;
             layer = _layer;
             currentId = _currentId;

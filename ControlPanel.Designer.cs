@@ -48,6 +48,7 @@ namespace BulletJournal
             this.chk_futureIsImportant = new System.Windows.Forms.CheckBox();
             this.chk_futureDateAdded = new System.Windows.Forms.CheckBox();
             this.chk_futureDateChenged = new System.Windows.Forms.CheckBox();
+            this.btn_connections = new System.Windows.Forms.Button();
             this.grp_notes.SuspendLayout();
             this.grp_dailyTask.SuspendLayout();
             this.grp_monthlyTasks.SuspendLayout();
@@ -58,9 +59,9 @@ namespace BulletJournal
             // 
             this.grp_notes.Controls.Add(this.chk_noteDateAdded);
             this.grp_notes.Controls.Add(this.chk_noteDateChanged);
-            this.grp_notes.Location = new System.Drawing.Point(331, 210);
+            this.grp_notes.Location = new System.Drawing.Point(324, 210);
             this.grp_notes.Name = "grp_notes";
-            this.grp_notes.Size = new System.Drawing.Size(257, 119);
+            this.grp_notes.Size = new System.Drawing.Size(257, 88);
             this.grp_notes.TabIndex = 0;
             this.grp_notes.TabStop = false;
             this.grp_notes.Text = "Notes";
@@ -207,7 +208,7 @@ namespace BulletJournal
             this.grp_futureLogs.Controls.Add(this.chk_futureIsImportant);
             this.grp_futureLogs.Controls.Add(this.chk_futureDateAdded);
             this.grp_futureLogs.Controls.Add(this.chk_futureDateChenged);
-            this.grp_futureLogs.Location = new System.Drawing.Point(37, 210);
+            this.grp_futureLogs.Location = new System.Drawing.Point(30, 210);
             this.grp_futureLogs.Name = "grp_futureLogs";
             this.grp_futureLogs.Size = new System.Drawing.Size(257, 154);
             this.grp_futureLogs.TabIndex = 5;
@@ -258,11 +259,22 @@ namespace BulletJournal
             this.chk_futureDateChenged.UseVisualStyleBackColor = true;
             this.chk_futureDateChenged.CheckedChanged += new System.EventHandler(this.chk_futureDateChenged_CheckedChanged);
             // 
+            // btn_connections
+            // 
+            this.btn_connections.Location = new System.Drawing.Point(482, 330);
+            this.btn_connections.Name = "btn_connections";
+            this.btn_connections.Size = new System.Drawing.Size(99, 34);
+            this.btn_connections.TabIndex = 6;
+            this.btn_connections.Text = "Connection";
+            this.btn_connections.UseVisualStyleBackColor = true;
+            this.btn_connections.Click += new System.EventHandler(this.btn_connections_Click);
+            // 
             // ControlPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(613, 449);
+            this.ClientSize = new System.Drawing.Size(613, 383);
+            this.Controls.Add(this.btn_connections);
             this.Controls.Add(this.grp_futureLogs);
             this.Controls.Add(this.grp_monthlyTasks);
             this.Controls.Add(this.grp_dailyTask);
@@ -306,5 +318,6 @@ namespace BulletJournal
         private System.Windows.Forms.CheckBox chk_futureIsImportant;
         private System.Windows.Forms.CheckBox chk_futureDateAdded;
         private System.Windows.Forms.CheckBox chk_futureDateChenged;
+        private System.Windows.Forms.Button btn_connections;
     }
 }

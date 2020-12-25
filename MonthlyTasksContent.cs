@@ -25,7 +25,7 @@ namespace BulletJournal
         {
             InitializeComponent();
 
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             lbl_title.Text = _title;
 

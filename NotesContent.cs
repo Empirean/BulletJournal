@@ -23,7 +23,7 @@ namespace BulletJournal
         public NotesContent(int _id, int _layer , string _title)
         {
             InitializeComponent();
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             lbl_title.Text = _title;
             title = _title;

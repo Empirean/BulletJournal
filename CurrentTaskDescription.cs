@@ -29,7 +29,7 @@ namespace BulletJournal
 
 
             // initialize db
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             // store ids
             id = _id;

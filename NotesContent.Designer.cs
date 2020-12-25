@@ -31,6 +31,7 @@ namespace BulletJournal
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NotesContent));
             this.label5 = new System.Windows.Forms.Label();
             this.txt_collectionSearch = new System.Windows.Forms.TextBox();
             this.lbl_title = new System.Windows.Forms.Label();
@@ -113,26 +114,26 @@ namespace BulletJournal
             this.deleteToolStripMenuItem,
             this.quickSearchToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 104);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(164, 76);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // quickSearchToolStripMenuItem
             // 
             this.quickSearchToolStripMenuItem.Name = "quickSearchToolStripMenuItem";
-            this.quickSearchToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.quickSearchToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.quickSearchToolStripMenuItem.Text = "Quick Search";
             this.quickSearchToolStripMenuItem.Click += new System.EventHandler(this.quickSearchToolStripMenuItem_Click);
             // 
@@ -146,6 +147,8 @@ namespace BulletJournal
             this.Controls.Add(this.lbl_title);
             this.Controls.Add(this.btn_addDaily);
             this.Controls.Add(this.dataGrid_content);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "NotesContent";

@@ -24,7 +24,7 @@ namespace BulletJournal
             id = _id;
             entryMode = _entryMode;
 
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            db = new DBTools(Properties.Settings.Default.ConnectionString);
 
 
             if (entryMode == JournalTask.EntryMode.edit)

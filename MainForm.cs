@@ -28,7 +28,7 @@ namespace BulletJournal
         private void MainForm_Load(object sender, EventArgs e)
         {
             
-            db = new DBTools(Properties.Settings.Default.DatabaseConnectionString);
+            db = new DBTools(Properties.Settings.Default.ConnectionString);
 
             RefreshGrid();
         }

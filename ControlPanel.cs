@@ -138,5 +138,13 @@ namespace BulletJournal
             Properties.Settings.Default.FutureTaskType = chk_futureTaskType.Checked;
             Save();
         }
+
+        private void btn_connections_Click(object sender, EventArgs e)
+        {
+            using (ConnectionManager connection = new ConnectionManager())
+            {
+                connection.ShowDialog();
+            }
+        }
     }
 }
