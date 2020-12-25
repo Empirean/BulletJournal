@@ -115,6 +115,7 @@ namespace BulletJournal
             this.dataGrid_content.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_content_CellContentClick);
             this.dataGrid_content.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseDoubleClick);
             this.dataGrid_content.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseUp);
+            this.dataGrid_content.SelectionChanged += new System.EventHandler(this.dataGrid_content_SelectionChanged);
             // 
             // contextMenuStrip1
             // 
@@ -125,19 +126,19 @@ namespace BulletJournal
             this.migrateToolStripMenuItem,
             this.quickSearchToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 128);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(164, 100);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
@@ -147,7 +148,7 @@ namespace BulletJournal
             this.toExistingToolStripMenuItem,
             this.asNewToolStripMenuItem});
             this.migrateToolStripMenuItem.Name = "migrateToolStripMenuItem";
-            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.migrateToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.migrateToolStripMenuItem.Text = "Migrate";
             // 
             // toExistingToolStripMenuItem
@@ -215,7 +216,7 @@ namespace BulletJournal
             // quickSearchToolStripMenuItem
             // 
             this.quickSearchToolStripMenuItem.Name = "quickSearchToolStripMenuItem";
-            this.quickSearchToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+            this.quickSearchToolStripMenuItem.Size = new System.Drawing.Size(163, 24);
             this.quickSearchToolStripMenuItem.Text = "Quick Search";
             this.quickSearchToolStripMenuItem.Click += new System.EventHandler(this.quickSearchToolStripMenuItem_Click);
             // 

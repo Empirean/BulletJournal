@@ -32,6 +32,7 @@ namespace BulletJournal
             layer = _layer;
 
             Populate_Contents(id, layer);
+            
         }
 
         // Event Publisher
@@ -151,6 +152,11 @@ namespace BulletJournal
             {
                 Add_CurrentTask();
             }
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.E && selectedId != 0)
+            {
+                Edit();
+            }
         }
 
         private void dataGrid_content_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -166,6 +172,11 @@ namespace BulletJournal
 
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Edit();
+        }
+
+        private void Edit()
         {
             using (CurrentTaskDescription notesDescription = new CurrentTaskDescription(JournalTask.EntryMode.edit, selectedId, layer))
             {
@@ -303,6 +314,11 @@ namespace BulletJournal
             {
                 web.ShowDialog();
             }
+        }
+
+        private void dataGrid_content_SelectionChanged(object sender, EventArgs e)
+        {
+            selectedId = JournalTask.TabChangeHandler(dataGrid_content);
         }
     }
 }

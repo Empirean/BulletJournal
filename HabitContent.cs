@@ -52,11 +52,7 @@ namespace BulletJournal
 
         private void btn_addDaily_Click(object sender, EventArgs e)
         {
-            using (HabitDescription habitDescription = new HabitDescription(JournalTask.EntryMode.add, -1))
-            {
-                habitDescription.OnHabitSaved += RefreshGrid;
-                habitDescription.ShowDialog();
-            }
+            AddHabits();
         }
 
 
@@ -125,6 +121,11 @@ namespace BulletJournal
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Edit();
+        }
+
+        private void Edit()
+        {
             using (HabitDescription notesDescription = new HabitDescription(JournalTask.EntryMode.edit, selectedId))
             {
                 notesDescription.OnHabitSaved += RefreshGrid;
@@ -147,6 +148,33 @@ namespace BulletJournal
 
 
             RefreshGrid();
+        }
+
+        private void HabitContent_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.D)
+            {
+                AddHabits();
+            }
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.E && selectedId != 0)
+            {
+                Edit();
+            }
+        }
+
+        private void AddHabits()
+        {
+            using (HabitDescription habitDescription = new HabitDescription(JournalTask.EntryMode.add, -1))
+            {
+                habitDescription.OnHabitSaved += RefreshGrid;
+                habitDescription.ShowDialog();
+            }
+        }
+
+        private void dataGrid_content_SelectionChanged(object sender, EventArgs e)
+        {
+            selectedId = JournalTask.TabChangeHandler(dataGrid_content);
         }
     }
 }

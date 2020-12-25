@@ -105,6 +105,7 @@ namespace BulletJournal
             this.dataGrid_content.TabIndex = 15;
             this.dataGrid_content.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseDoubleClick);
             this.dataGrid_content.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_content_CellMouseUp);
+            this.dataGrid_content.SelectionChanged += new System.EventHandler(this.dataGrid_content_SelectionChanged);
             // 
             // contextMenuStrip1
             // 

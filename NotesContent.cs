@@ -107,6 +107,11 @@ namespace BulletJournal
 
         private void editToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
+            Edit();
+        }
+
+        private void Edit()
+        {
             using (NotesDescription notesDescription = new NotesDescription(JournalTask.EntryMode.edit, selectedId, layer))
             {
                 notesDescription.OnNotesSaved += OnNotesSaved;
@@ -159,6 +164,11 @@ namespace BulletJournal
             {
                 Add_Notes();
             }
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.E && selectedId !=0)
+            {
+                Edit();
+            }
         }
 
         private void quickSearchToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -167,6 +177,11 @@ namespace BulletJournal
             {
                 web.ShowDialog();
             }
+        }
+
+        private void dataGrid_content_SelectionChanged(object sender, System.EventArgs e)
+        {
+            selectedId = JournalTask.TabChangeHandler(dataGrid_content);
         }
     }
 }

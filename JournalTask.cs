@@ -68,7 +68,7 @@ namespace BulletJournal
             return false;
         }
 
-        public static int ContextMenuHandler(DataGridView datagrid, ContextMenuStrip menu, DataGridViewCellMouseEventArgs e, string _index = "id")
+        public static int ContextMenuHandler(DataGridView datagrid, ContextMenuStrip menu, DataGridViewCellMouseEventArgs e, string _column = "id")
         {
             try
             {
@@ -87,11 +87,11 @@ namespace BulletJournal
                 return 0;
             }
 
-            return (int)datagrid.SelectedRows[0].Cells[_index].Value;
+            return (int)datagrid.SelectedRows[0].Cells[_column].Value;
         }
 
 
-        public static int ContentClickHandler(DataGridView datagrid, DataGridViewCellEventArgs e, string _index = "id")
+        public static int ContentClickHandler(DataGridView datagrid, DataGridViewCellEventArgs e, string _column = "id")
         {
             try
             {
@@ -99,10 +99,23 @@ namespace BulletJournal
             }
             catch
             {
-
+                return 0;
             }
 
-            return (int)datagrid.SelectedRows[0].Cells[_index].Value;
+            return (int)datagrid.SelectedRows[0].Cells[_column].Value;
+        }
+
+        public static int TabChangeHandler(DataGridView datagrid, string _column = "id")
+        {
+            try
+            {
+                return (int)datagrid.SelectedRows[0].Cells[_column].Value;
+            }
+            catch
+            {
+                return 0;
+            }
+
         }
 
         public static List<int> GetAllNoteId(int _id)

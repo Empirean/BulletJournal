@@ -609,7 +609,12 @@ namespace BulletJournal
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (entryType == JournalTask.EntryType.daily)
+            Edit();
+        }
+
+        private void Edit()
+        {
+            if (tabControl1.SelectedIndex == 1)
             {
                 using (CurrentTaskDescription currentTaskDescription = new CurrentTaskDescription(JournalTask.EntryMode.edit, taskId, 0))
                 {
@@ -617,8 +622,8 @@ namespace BulletJournal
                     currentTaskDescription.ShowDialog();
                 }
             }
-            
-            if (entryType == JournalTask.EntryType.monthly)
+
+            if (tabControl1.SelectedIndex == 2)
             {
                 using (MonthlyTaskDescription monthlyTaskDescription = new MonthlyTaskDescription(JournalTask.EntryMode.edit, taskId, 0))
                 {
@@ -627,7 +632,7 @@ namespace BulletJournal
                 }
             }
 
-            if (entryType == JournalTask.EntryType.future)
+            if (tabControl1.SelectedIndex == 3)
             {
                 using (FutureTaskDescription futureTaskDescription = new FutureTaskDescription(JournalTask.EntryMode.edit, taskId, 0))
                 {
@@ -636,10 +641,10 @@ namespace BulletJournal
                 }
             }
 
-            if (entryType == JournalTask.EntryType.notes)
+            if (tabControl1.SelectedIndex == 4)
             {
-                
-                using (NotesDescription notesDescription = new NotesDescription( JournalTask.EntryMode.edit, taskId, 0))
+
+                using (NotesDescription notesDescription = new NotesDescription(JournalTask.EntryMode.edit, taskId, 0))
                 {
                     notesDescription.OnNotesSaved += OnSave;
                     notesDescription.ShowDialog();
@@ -797,14 +802,31 @@ namespace BulletJournal
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (tabControl1.SelectedIndex == 0)
+            {
+                txt_habitSearch.Focus();
+            }
             if (tabControl1.SelectedIndex == 1)
+            {
+                taskId = JournalTask.TabChangeHandler(dataGrid_dailyTask);
                 txt_dailySearch.Focus();
+            }
             if (tabControl1.SelectedIndex == 2)
+            {
+                taskId = JournalTask.TabChangeHandler(dataGrid_monthly);
                 txt_monthlySearch.Focus();
+            }
             if (tabControl1.SelectedIndex == 3)
+            {
+                taskId = JournalTask.TabChangeHandler(dataGrid_futureLog); ;
                 txt_futureSearch.Focus();
+            }
             if (tabControl1.SelectedIndex == 4)
+            {
+                taskId = JournalTask.TabChangeHandler(dataGrid_notes);
                 txt_collectionSearch.Focus();
+            }
+
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -823,6 +845,8 @@ namespace BulletJournal
             {
                 switch (tabControl1.SelectedIndex)
                 {
+                    case 0: View_Habit();
+                        break;
                     case 1:  Add_Daily();
                         break;
                     case 2: Add_Monthly();
@@ -835,6 +859,22 @@ namespace BulletJournal
                         break;
                 }
 
+            }
+
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.E && taskId != 0)
+            {
+                Edit();
+
+            }
+        }
+
+        private void View_Habit()
+        {
+            using (HabitContent habitContent = new HabitContent())
+            {
+                habitContent.OnHabitRegistered += OnSave;
+                habitContent.ShowDialog();
             }
         }
 
@@ -995,11 +1035,7 @@ namespace BulletJournal
 
         private void btn_viewHabit_Click(object sender, EventArgs e)
         {
-            using (HabitContent habitContent = new HabitContent())
-            {
-                habitContent.OnHabitRegistered += OnSave;
-                habitContent.ShowDialog();
-            }
+            View_Habit();
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -1010,7 +1046,7 @@ namespace BulletJournal
         private void dataGrid_tracker_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             taskId = JournalTask.ContentClickHandler(dataGrid_tracker, e);
-
+            
             // MessageBox.Show(dataGrid_tracker.Columns[e.ColumnIndex].HeaderText);
             string headerText = dataGrid_tracker.Columns[e.ColumnIndex].HeaderText;
             DateTime dateTime = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, int.Parse(headerText));
@@ -1065,6 +1101,7 @@ namespace BulletJournal
             }
 
             CheckAllHabits();
+            
         }
 
 

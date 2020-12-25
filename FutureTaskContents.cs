@@ -153,6 +153,11 @@ namespace BulletJournal
             {
                 Add_FutureTask();
             }
+
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.E && selectedId != 0)
+            {
+                Edit();
+            }
         }
 
         private void dataGrid_content_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -167,13 +172,20 @@ namespace BulletJournal
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            Edit();
             
+        }
+
+        private void Edit()
+        {
+
             using (FutureTaskDescription notesDescription = new FutureTaskDescription(JournalTask.EntryMode.edit, selectedId, layer))
             {
                 notesDescription.OnFutureTaskSaved += OnFutureTaskSave;
                 notesDescription.ShowDialog();
             }
-            
+
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -309,6 +321,11 @@ namespace BulletJournal
             {
                 web.ShowDialog();
             }
+        }
+
+        private void dataGrid_content_SelectionChanged(object sender, EventArgs e)
+        {
+            selectedId = JournalTask.TabChangeHandler(dataGrid_content);
         }
     }
 }
