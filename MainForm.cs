@@ -834,6 +834,7 @@ namespace BulletJournal
             using (ControlPanel controlPanel = new ControlPanel())
             {
                 controlPanel.OnSettingsChanged += this.OnSave;
+                controlPanel.OnConnectionChanged += this.OnSave;
                 controlPanel.ShowDialog();
             }
         }

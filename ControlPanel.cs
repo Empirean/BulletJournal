@@ -8,6 +8,7 @@ namespace BulletJournal
 
         public delegate void EventHandler();
         public event EventHandler OnSettingsChanged;
+        public event EventHandler OnConnectionChanged;
 
 
         public ControlPanel()
@@ -109,10 +110,21 @@ namespace BulletJournal
             OnSettingsChange();
         }
 
+        private void ConnectionChanged()
+        {
+            OnConnectionChange();
+        }
+
         protected virtual void OnSettingsChange()
         {
             if (OnSettingsChanged != null)
                 OnSettingsChanged();
+        }
+
+        protected virtual void OnConnectionChange()
+        {
+            if (OnConnectionChanged != null)
+                OnConnectionChanged();
         }
 
         private void chk_futureDateChenged_CheckedChanged(object sender, EventArgs e)
@@ -143,8 +155,11 @@ namespace BulletJournal
         {
             using (ConnectionManager connection = new ConnectionManager())
             {
+                connection.OnConnectionChanged += ConnectionChanged;
                 connection.ShowDialog();
             }
         }
+
+
     }
 }

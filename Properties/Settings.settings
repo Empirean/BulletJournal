@@ -45,7 +45,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ConnectionString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Data Source=server; Initial Catalog=;Integrated Security=True</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

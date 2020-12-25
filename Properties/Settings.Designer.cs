@@ -193,7 +193,7 @@ namespace BulletJournal.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=server; Initial Catalog=;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));
