@@ -833,10 +833,16 @@ namespace BulletJournal
         {
             using (ControlPanel controlPanel = new ControlPanel())
             {
-                controlPanel.OnSettingsChanged += this.OnSave;
+                controlPanel.OnSettingsChanged += this.OnConnectionChange;
                 controlPanel.OnConnectionChanged += this.OnSave;
                 controlPanel.ShowDialog();
             }
+        }
+
+        private void OnConnectionChange()
+        {
+            db = new DBTools(Properties.Settings.Default.ConnectionString);
+            RefreshGrid();
         }
 
         private void MainForm_KeyUp(object sender, KeyEventArgs e)
