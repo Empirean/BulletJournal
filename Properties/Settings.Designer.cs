@@ -193,7 +193,8 @@ namespace BulletJournal.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-N2D7LJQ\\MSSQLSERVER01;Initial Catalog=C:\\USERS\\DELL\\SOURCE\\RE" +
+            "POS\\BULLETJOURNAL\\JOURNALDATABASE.MDF;Integrated Security=True;")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));
