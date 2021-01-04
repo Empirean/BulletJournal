@@ -183,5 +183,10 @@ namespace BulletJournal
         {
             selectedId = JournalTask.TabChangeHandler(dataGrid_content);
         }
+
+        private void txt_collectionSearch_TextChanged(object sender, System.EventArgs e)
+        {
+            Populate_Contents(id, layer);
+        }
     }
 }

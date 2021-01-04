@@ -69,6 +69,7 @@ namespace BulletJournal
             this.txt_collectionSearch.Name = "txt_collectionSearch";
             this.txt_collectionSearch.Size = new System.Drawing.Size(163, 22);
             this.txt_collectionSearch.TabIndex = 16;
+            this.txt_collectionSearch.TextChanged += new System.EventHandler(this.txt_collectionSearch_TextChanged);
             // 
             // lbl_title
             // 

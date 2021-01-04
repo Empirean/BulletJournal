@@ -1119,5 +1119,10 @@ namespace BulletJournal
                 web.ShowDialog();
             }
         }
+
+        private void txt_habitSearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshGrid();
+        }
     }
 }

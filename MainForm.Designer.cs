@@ -161,6 +161,7 @@
             this.txt_habitSearch.Name = "txt_habitSearch";
             this.txt_habitSearch.Size = new System.Drawing.Size(238, 22);
             this.txt_habitSearch.TabIndex = 11;
+            this.txt_habitSearch.TextChanged += new System.EventHandler(this.txt_habitSearch_TextChanged);
             // 
             // dataGrid_tracker
             // 
@@ -442,7 +443,7 @@
             // 
             this.btn_refresh.Name = "btn_refresh";
             this.btn_refresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.btn_refresh.Size = new System.Drawing.Size(224, 26);
+            this.btn_refresh.Size = new System.Drawing.Size(204, 26);
             this.btn_refresh.Text = "&Refresh";
             this.btn_refresh.Click += new System.EventHandler(this.btn_refresh_Click);
             // 
@@ -450,7 +451,7 @@
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(204, 26);
             this.toolStripMenuItem2.Text = "Control Panel";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -461,39 +462,39 @@
             this.monthlyTaskToolStripMenuItem2,
             this.futureLogToolStripMenuItem2});
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(224, 26);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(204, 26);
             this.toolStripMenuItem3.Text = "History";
             // 
             // dailyTaskToolStripMenuItem2
             // 
             this.dailyTaskToolStripMenuItem2.Name = "dailyTaskToolStripMenuItem2";
-            this.dailyTaskToolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
+            this.dailyTaskToolStripMenuItem2.Size = new System.Drawing.Size(177, 26);
             this.dailyTaskToolStripMenuItem2.Text = "Daily Task";
             this.dailyTaskToolStripMenuItem2.Click += new System.EventHandler(this.dailyTaskToolStripMenuItem2_Click);
             // 
             // monthlyTaskToolStripMenuItem2
             // 
             this.monthlyTaskToolStripMenuItem2.Name = "monthlyTaskToolStripMenuItem2";
-            this.monthlyTaskToolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
+            this.monthlyTaskToolStripMenuItem2.Size = new System.Drawing.Size(177, 26);
             this.monthlyTaskToolStripMenuItem2.Text = "Monthly Task";
             this.monthlyTaskToolStripMenuItem2.Click += new System.EventHandler(this.monthlyTaskToolStripMenuItem2_Click);
             // 
             // futureLogToolStripMenuItem2
             // 
             this.futureLogToolStripMenuItem2.Name = "futureLogToolStripMenuItem2";
-            this.futureLogToolStripMenuItem2.Size = new System.Drawing.Size(224, 26);
+            this.futureLogToolStripMenuItem2.Size = new System.Drawing.Size(177, 26);
             this.futureLogToolStripMenuItem2.Text = "Future Log";
             this.futureLogToolStripMenuItem2.Click += new System.EventHandler(this.futureLogToolStripMenuItem2_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
